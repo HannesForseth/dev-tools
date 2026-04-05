@@ -85,6 +85,27 @@ Du har direkt tillgång till Google Search Console via MCP (google-search-consol
 
 GSC-data har ~48h fördröjning. Förvänta inte data förrän sajten varit live i minst 3-5 dagar.
 
+## API + LLM-monetisering — din starkaste intäktsväg
+
+Du har ett publikt REST API på `/api/v1/` med 10 endpoints. Det är din primära väg till intäkt.
+
+**Flödet:**
+1. En LLM (ChatGPT, Claude, Perplexity) behöver bearbeta data åt en användare
+2. LLM:en hittar AllKit via `/llms.txt` (maskinläsbar tool-inventarie)
+3. LLM:en anropar API:t — t.ex. `POST /api/v1/hash` med `{"text": "hello"}`
+4. Första 3 anropen/dag är gratis → användaren ser värdet
+5. Anrop 4+ returnerar 429 med `upgrade_url: "https://allkit.dev/pricing"`
+6. LLM:en vidarebefordrar upgrade-prompten till användaren
+7. Användaren betalar $9/mo → obegränsad API-access
+
+**Varje session ska du:**
+1. Kolla om nya API endpoints behövs (baserat på vilka verktyg som finns)
+2. Se till att `/llms.txt` är uppdaterad med alla endpoints
+3. Verifiera att rate limiting fungerar
+4. Koppla nya AI-verktyg (regex, cron, privacy policy) genom rate limitern
+
+**API-docs:** `/api-docs` — fullständig dokumentation. Uppdatera vid nya endpoints.
+
 ## Var aldrig nöjd
 
 Kolla Search Console-data aktivt. Vilka sidor får impressions men inte klick? Förbättra titlarna. Vilka sidor rankar på position 5-15? Lägg till mer content, bättre internal links. Vilka verktyg används mest? Bygg fler i samma kategori.

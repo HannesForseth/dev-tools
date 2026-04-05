@@ -175,33 +175,95 @@
 
 **Domain:** allkit.dev (Vercel DNS, verified in GSC)
 
+### Session 5 — 2026-04-05
+
+**3 new tools built (total: 22):**
+- **Unix Timestamp Converter** — seconds/ms auto-detect, local/UTC/ISO/relative output, common timestamps reference
+- **URL Encode / Decode** — encodeURIComponent/encodeURI toggle, reference table
+- **CSV to JSON Converter** — bidirectional, custom delimiters, file upload/download, quoted field support
+
+**Bugfixes:**
+- **504 timeout crash fixed on all HF tools** — Background Remover, OCR, Image Generator, TTS all crashed with "Unexpected token" when Vercel returned 504 (non-JSON). Now shows clear error message with retry guidance.
+- **Deprecated meta tag** — replaced `apple-mobile-web-app-capable` with `mobile-web-app-capable`
+
+**SEO overhaul — all 22 tool pages enhanced:**
+- **FAQ sections** with collapsible `<details>` elements — unique Q&A content per tool
+- **FAQPage JSON-LD** structured data on every page (enables Google rich snippets)
+- **Related Tools** internal links (3-4 per tool) — critical for SEO link graph
+- **`relatedSlugs`** and **`faq`** fields added to ToolDefinition interface in registry
+
+**Research completed:**
+- Competitor analysis: CodeBeautify.org (2.3M visits/mo, rank ~5K), 10015.io (~114K rank)
+- Keyword strategy: target KD < 20, DR < 30 domains
+- Conversion research: 2-5% free→paid typical, $9/mo validated, AI features = conversion driver
+- Programmatic SEO: quality pages > quantity, FAQ schema for rich snippets
+- GEO (Generative Engine Optimization): clear structured content helps LLMs recommend tools
+
+### Session 6 — 2026-04-05
+
+**Public REST API launched — 10 endpoints at `/api/v1/`:**
+- `POST /api/v1/hash` — MD5, SHA-1, SHA-256, SHA-384, SHA-512
+- `POST /api/v1/base64` — encode/decode
+- `POST /api/v1/url-encode` — encodeURIComponent/encodeURI
+- `POST /api/v1/json-format` — format, validate, minify
+- `GET /api/v1/uuid` — v4 UUIDs (up to 100)
+- `GET /api/v1/password` — secure random passwords with entropy
+- `POST /api/v1/timestamp` — Unix ↔ date conversion (also GET for current time)
+- `POST /api/v1/word-count` — words, chars, sentences, reading time
+- `POST /api/v1/jwt-decode` — header, payload, expiry status
+- `POST /api/v1/csv-json` — bidirectional CSV ↔ JSON
+
+**Rate limiting:**
+- IP-based, 3 requests/day free tier
+- 429 response includes `upgrade_url: "https://allkit.dev/pricing"` — monetization trigger
+- `X-RateLimit-Limit` and `X-RateLimit-Remaining` headers on every response
+- Bearer token bypass for Pro users (validation TODO)
+- CORS enabled (`Access-Control-Allow-Origin: *`)
+
+**LLM discovery:**
+- **`/llms.txt`** — machine-readable tool inventory following the llms.txt standard
+- Lists all 22 tools with their API endpoints
+- Describes rate limits, authentication, pricing
+
+**API docs page:**
+- **`/api-docs`** — full documentation with curl examples, rate limit info, endpoint reference
+- SEO-optimized with metadata
+- LLM integration section with link to llms.txt
+
+**Navigation:**
+- Added "API" link to header nav
+
+**Verified live:**
+- `/llms.txt` → 200 OK
+- `/api/v1/uuid?count=3` → 200 OK, 3 UUIDs, `X-RateLimit-Remaining: 2`
+- `/api/v1/password?length=20` → 200 OK, 129-bit entropy password
+
 ---
 
 ## Next Session Plan (Priority Order)
 
 ### 1. Check GSC Data
-- Run `get_performance_overview` — expect data ~48h after sitemap submission
-- Check indexing status of all 19 tool pages
+- Run `get_performance_overview` — should have initial data by now (domain verified 2026-04-05)
+- Check indexing status of all 22 tool pages
+- Act on CTR/position data
 
-### 2. Build More High-Volume Tools
-- URL Encoder/Decoder, Markdown Preview, SQL Formatter, Timestamp Converter
+### 2. Implement Stripe Webhook Properly
+- Validate webhook signatures (STRIPE_WEBHOOK_SECRET needed)
+- Sync subscription status to Supabase on checkout.session.completed, subscription.updated, subscription.deleted
+- Generate API keys for Pro users
 
-### 3. Improve SEO Content
-- Each tool page only has one paragraph — needs genuine, helpful text
-- Add FAQ sections, use cases, related tools links
+### 3. AI API Endpoints
+- Wire up `/api/v1/ai/regex`, `/api/v1/ai/cron`, `/api/v1/ai/privacy-policy` through the rate limiter
+- These are the paid conversion drivers — metered separately
 
 ### 4. Usage Tracking (Supabase)
-- Create usage_logs table in Supabase
-- Track AI requests per IP/user per day
-- Implement free tier limits (10 AI calls/day)
-- Gate Pro features behind Stripe subscription status
+- Create usage_logs table
+- Track API requests per IP/user/day
+- Replace in-memory rate limiter with persistent Supabase-based tracking
 
-### 5. Next Tools to Build
-- Text to Speech (KD 45, 300K vol) — HF Spaces (Chatterbox)
-- QR Code Generator (KD 50, 500K vol) — client-side + HF AI QR
-- Image Upscaler (KD 40, 150K vol) — HF Spaces (RealESRGAN)
-- SQL Formatter (KD 25, 80K vol) — client-side + Claude AI
-- Diff Checker (KD 30, 100K vol) — client-side
+### 5. Build More Tools
+- Image Upscaler (HF RealESRGAN), Markdown Preview, SQL Formatter, HTML Formatter
+- Each new tool = new landing page + API endpoint
 
 ---
 
@@ -218,7 +280,14 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 ### API Route Pattern
 - `/api/ai/regex` — Claude Haiku, returns {pattern, flags, explanation}
 - `/api/ai/privacy-policy` — Claude Haiku, returns {policy}
-- `/api/ai/huggingface` — Proxy to HF Spaces (placeholder, needs Gradio client)
+- `/api/ai/cron` — Claude Haiku, returns cron expression from English description
+- `/api/ai/huggingface` — Proxy to HF Spaces (background removal, OCR, image gen, TTS)
+
+### Public API Pattern (`/api/v1/`)
+- Rate limited via `src/lib/api/rate-limit.ts` (IP-based, 3/day free, Bearer token bypass)
+- All endpoints return JSON with `X-RateLimit-Limit` and `X-RateLimit-Remaining` headers
+- 429 responses include `upgrade_url` for monetization
+- CORS enabled for cross-origin use
 
 ### Deployment Flow
 1. Edit code locally
@@ -227,11 +296,12 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 4. Verify via `web_fetch_vercel_url`
 
 ### Known Limitations
-- Local dev server doesn't work (Windows npm tar extraction issues)
-- HF Spaces cold starts take 30-60s — mitigated with maxDuration=60 + timer UX
+- Local dev server doesn't work reliably (Windows npm issues) — use git push → Vercel build
+- HF Spaces cold starts take 30-60s — mitigated with maxDuration=60 + timer UX + clear error messages on 504
 - No auth/usage tracking yet (Supabase tables not created)
-- Stripe webhook secret not configured yet (STRIPE_WEBHOOK_SECRET)
-- Vercel Hobby plan may cap function duration at 10s — need to verify if maxDuration=60 works
+- Stripe webhook only logs events — no subscription sync to database
+- Rate limiter is in-memory (resets on cold start) — needs Supabase persistence for production
+- API key validation is placeholder (any Bearer token bypasses) — needs real key validation
 
 ---
 
@@ -256,7 +326,7 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 | not-lain/background-removal | Remove image backgrounds | UI ready, backend placeholder |
 | evalstate/flux1_schnell | Fast AI image generation | UI ready, backend placeholder |
 | mcp-tools/DeepSeek-OCR-experimental | Extract text from images | UI ready, backend placeholder |
-| ResembleAI/Chatterbox | Text-to-speech (300 chars max) | Not yet built |
+| ResembleAI/Chatterbox | Text-to-speech (300 chars max) | LIVE — Text to Speech tool |
 | prithivMLmods/Photo-Mate-i2i | Image editing (8 LoRAs) | Not yet built |
 | fffiloni/InstantIR | Image restoration | Not yet built |
 | fffiloni/diffusers-image-outpaint | Image outpainting | Not yet built |
@@ -272,4 +342,4 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 
 ---
 
-*Last updated: 2026-04-05, Session 2*
+*Last updated: 2026-04-05, Session 6*
