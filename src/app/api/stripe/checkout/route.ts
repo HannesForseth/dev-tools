@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Stripe not configured" }, { status: 500 });
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://dev-tools-sand.vercel.app";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://allkit.dev";
 
     // Create Checkout Session via Stripe API
     const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

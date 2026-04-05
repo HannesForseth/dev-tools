@@ -25,7 +25,9 @@
       "mcp__9a83273e-28b3-40b3-97a6-e66d192c3fb9__create_price",
       "Bash(curl -s -X POST https://dev-tools-sand.vercel.app/api/ai/regex -H \"Content-Type: application/json\" -d '{\"\"\"\"prompt\"\"\"\":\"\"\"\"email addresses\"\"\"\"}')",
       "Bash(curl -s -X POST https://dev-tools-sand.vercel.app/api/ai/huggingface -H \"Content-Type: application/json\" -d '{\"\"\"\"space\"\"\"\":\"\"\"\"not-lain/background-removal\"\"\"\",\"\"\"\"params\"\"\"\":{}}')",
-      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__deploy_to_vercel"
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__deploy_to_vercel",
+      "Bash(curl -s -X POST https://dev-tools-sand.vercel.app/api/stripe/checkout -H \"Content-Type: application/json\" -d '{\"\"priceId\"\":\"\"price_1TImJ2Cjk5XbGNgtd2tXt2SH\"\"}')",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__check_domain_availability_and_price"
     ]
   }
 }

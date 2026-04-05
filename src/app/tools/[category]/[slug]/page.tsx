@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: tool.longDescription,
     keywords: tool.keywords,
     openGraph: {
-      title: `Free ${tool.name} Online | DevTools`,
+      title: `Free ${tool.name} Online | AllKit`,
       description: tool.description,
       type: "website",
     },

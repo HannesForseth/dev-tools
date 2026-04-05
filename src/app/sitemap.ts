@@ -2,7 +2,7 @@ import { tools } from "@/lib/tools/registry";
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://dev-tools-sand.vercel.app";
+  const baseUrl = "https://allkit.dev";
 
   const toolPages = tools.map((tool) => ({
     url: `${baseUrl}/tools/${tool.category}/${tool.slug}`,

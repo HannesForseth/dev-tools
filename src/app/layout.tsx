@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "DevTools — Free Developer & AI Tools Online",
-    template: "%s | DevTools",
+    default: "AllKit — Free Developer & AI Tools Online",
+    template: "%s | AllKit",
   },
   description:
     "Free online developer tools and AI-powered utilities. JSON formatter, regex tester, background remover, OCR, and more. No signup required.",
