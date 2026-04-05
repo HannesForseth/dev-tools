@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__b06e6c28-d431-41ee-9826-85c9d46fc1b8__dynamic_space",
+      "mcp__b06e6c28-d431-41ee-9826-85c9d46fc1b8__space_search",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --turbopack)",
+      "Bash(npm ls:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx next:*)",
+      "Bash(npm install:*)",
+      "Bash(ls D:/dev-tools/node_modules/next/*.json)",
+      "Bash(npx --yes rimraf node_modules)",
+      "Bash(cmd.exe /c \"rd /s /q node_modules\")",
+      "Bash(cmd.exe /c \"del package-lock.json\")",
+      "Bash(npm cache:*)",
+      "Bash(ls .git/*.lock)",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__list_teams",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__get_deployment_build_logs",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__web_fetch_vercel_url",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__get_access_to_vercel_url",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__get_deployment",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__list_deployments",
+      "mcp__9a83273e-28b3-40b3-97a6-e66d192c3fb9__get_stripe_account_info",
+      "mcp__9a83273e-28b3-40b3-97a6-e66d192c3fb9__create_product",
+      "mcp__9a83273e-28b3-40b3-97a6-e66d192c3fb9__create_price",
+      "Bash(curl -s -X POST https://dev-tools-sand.vercel.app/api/ai/regex -H \"Content-Type: application/json\" -d '{\"\"\"\"prompt\"\"\"\":\"\"\"\"email addresses\"\"\"\"}')",
+      "Bash(curl -s -X POST https://dev-tools-sand.vercel.app/api/ai/huggingface -H \"Content-Type: application/json\" -d '{\"\"\"\"space\"\"\"\":\"\"\"\"not-lain/background-removal\"\"\"\",\"\"\"\"params\"\"\"\":{}}')",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__deploy_to_vercel"
+    ]
+  }
+}
