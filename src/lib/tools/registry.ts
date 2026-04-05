@@ -90,9 +90,9 @@ export const tools: ToolDefinition[] = [
   },
   {
     slug: "background-remover",
-    name: "Background Remover",
-    description: "Remove image backgrounds instantly with AI. Free, no signup required.",
-    longDescription: "Upload any image and get a clean transparent PNG with the background removed. Powered by AI segmentation models. Works with photos, product images, portraits, and more. No signup needed.",
+    name: "Remove Background from Image",
+    description: "Remove image backgrounds instantly with AI. Get a transparent PNG in seconds, free.",
+    longDescription: "Upload any photo, product image, or portrait and get a clean transparent PNG with the background removed instantly. Powered by AI segmentation models that detect subjects with pixel-perfect accuracy. Works with complex backgrounds, hair, and semi-transparent objects. No signup needed, no watermarks.",
     category: "media",
     costTier: "huggingface",
     keywords: ["remove background", "background remover", "remove background from image free", "transparent background", "bg remover"],

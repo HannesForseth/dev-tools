@@ -74,9 +74,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const tool = getToolBySlug(slug);
   if (!tool) return {};
 
+  // Trim meta description to 155 chars for SERP display
+  const metaDesc = tool.longDescription.length > 155
+    ? tool.longDescription.slice(0, 152).replace(/\s+\S*$/, "") + "..."
+    : tool.longDescription;
+
   return {
     title: `Free ${tool.name} Online`,
-    description: tool.longDescription,
+    description: metaDesc,
     keywords: tool.keywords,
     openGraph: {
       title: `Free ${tool.name} Online | AllKit`,

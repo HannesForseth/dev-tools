@@ -86,6 +86,20 @@ export default function RootLayout({
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "AllKit",
+              url: "https://allkit.dev",
+              logo: "https://allkit.dev/icon.svg",
+              description:
+                "Free online developer tools and AI-powered utilities. No ads, no signup required.",
+            }),
+          }}
+        />
         <PostHogProvider>
           <Header />
           <main className="flex-1">{children}</main>
