@@ -11,6 +11,10 @@ import { BackgroundRemover } from "@/components/tools/background-remover";
 import { ImageToText } from "@/components/tools/image-to-text";
 import { PrivacyPolicyGenerator } from "@/components/tools/privacy-policy-generator";
 import { AiImageGenerator } from "@/components/tools/ai-image-generator";
+import { CronGenerator } from "@/components/tools/cron-generator";
+import { HashGenerator } from "@/components/tools/hash-generator";
+import { ColorPalette } from "@/components/tools/color-palette";
+import { LoremIpsum } from "@/components/tools/lorem-ipsum";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -21,6 +25,10 @@ const toolComponents: Record<string, React.ComponentType> = {
   "image-to-text": ImageToText,
   "privacy-policy-generator": PrivacyPolicyGenerator,
   "ai-image-generator": AiImageGenerator,
+  "cron-generator": CronGenerator,
+  "hash-generator": HashGenerator,
+  "color-palette": ColorPalette,
+  "lorem-ipsum": LoremIpsum,
 };
 
 type PageProps = {

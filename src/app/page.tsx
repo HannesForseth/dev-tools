@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { tools, categoryLabels, type ToolCategory } from "@/lib/tools/registry";
-import { Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles } from "lucide-react";
+import { Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Clock, Hash, Palette, Type } from "lucide-react";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles,
+  Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Clock, Hash, Palette, Type,
 };
 
 const categoryOrder: ToolCategory[] = ["dev", "media", "ai"];
@@ -26,6 +26,11 @@ function ToolCard({ tool }: { tool: typeof tools[number] }) {
             {tool.name}
           </h3>
         </div>
+        {tool.isNew && (
+          <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-success/10 text-success">
+            New
+          </span>
+        )}
         {tierBadge && (
           <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary">
             {tierBadge}

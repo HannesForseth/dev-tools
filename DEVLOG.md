@@ -81,28 +81,54 @@
 - docs/fas1-research-rapport.md — Complete research findings
 - docs/fas2-strategidokument.md — Strategy with Go decision, pricing, timeline, revenue projections
 
+### Session 2 — 2026-04-05
+
+**4 new tools built:**
+- **Cron Expression Generator** — Visual editor with 10 presets, human-readable descriptions, next-5-runs preview, AI builder via Claude Haiku (`/api/ai/cron`), syntax cheat sheet. Category: dev, costTier: claude.
+- **Hash Generator** — MD5, SHA-1, SHA-256, SHA-384, SHA-512. All client-side using Web Crypto API (MD5 via pure JS implementation). Auto-generates on input. Category: dev, costTier: free.
+- **Color Palette Generator** — Random palette with lock/regenerate, color picker, color harmony (complementary, analogous, triadic, split-complementary, shades). Shows HEX/RGB/HSL. Category: dev, costTier: free.
+- **Lorem Ipsum Generator** — Paragraphs/sentences/words mode, configurable count, optional classic "Lorem ipsum..." start, word count display. Category: dev, costTier: free.
+
+**HF Spaces proxy implemented:**
+- Replaced placeholder with real `@gradio/client` integration
+- Background Remover → `not-lain/background-removal` via `/predict`
+- Image to Text (OCR) → `mcp-tools/DeepSeek-OCR-experimental` via `/predict`
+- AI Image Generator → `evalstate/flux1_schnell` via `/infer`
+- Handles base64 data URL ↔ Blob conversion server-side
+- Fetches result images from HF Space URLs and converts to data URLs for client
+
+**New API route:**
+- `/api/ai/cron` — Claude Haiku, converts plain English schedule → cron expression
+
+**UI improvements:**
+- "New" badge (green) on homepage for newly added tools
+- Total tools: 12 (was 8)
+
+**Total tool count: 12**
+- Client-side (zero cost): JSON Formatter, UUID Generator, Base64, Hash Generator, Color Palette, Lorem Ipsum = 6
+- Claude API: Regex Tester + AI, Privacy Policy Generator, Cron Generator = 3
+- HF Spaces: Background Remover, Image to Text, AI Image Generator = 3
+
 ---
 
 ## Next Session Plan (Priority Order)
 
-### 1. Stripe Setup
+### 1. Stripe Setup (BLOCKED — need keys from Hannes)
 - Create Pro ($9/mo) and Business ($19/mo) products in Stripe
 - Implement Checkout Session API route
 - Implement webhook handler (subscription.created/deleted/updated)
 - Customer Portal for subscription management
-- Will need Stripe keys from Hannes → ask for STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET
+- **Need from Hannes:** STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET
 
-### 2. HF Spaces Backend Proxy
-- Install @gradio/client for server-side HF Space calls
-- Implement actual proxy in /api/ai/huggingface that calls HF Spaces
-- Make Background Remover, OCR, and AI Image Generator actually work
-- Add error handling, timeout, retry logic
-- Test all three tools end-to-end
+### 2. Test HF Spaces in Production
+- Verify Background Remover works end-to-end on Vercel
+- Verify OCR works end-to-end on Vercel
+- Verify AI Image Generator works end-to-end on Vercel
+- Fix any issues with @gradio/client in serverless environment (timeouts, cold starts)
 
-### 3. Verify Claude AI Routes
-- Test /api/ai/regex with a real request
-- Test /api/ai/privacy-policy with a real request
-- Verify ANTHROPIC_API_KEY is working in production
+### 3. Verify Claude AI Routes in Production
+- Test /api/ai/regex, /api/ai/privacy-policy, /api/ai/cron
+- Verify ANTHROPIC_API_KEY is working
 
 ### 4. Usage Tracking (Supabase)
 - Create usage_logs table in Supabase
@@ -110,12 +136,12 @@
 - Implement free tier limits (10 AI calls/day)
 - Gate Pro features behind Stripe subscription status
 
-### 5. Next Tools to Build (based on SEO research)
-- Cron Expression Generator (KD 25, 90K vol) — client-side + Claude AI
-- Hash Generator MD5/SHA (KD 20, 60K vol) — client-side
-- Color Palette Generator (KD 40, 200K vol) — client-side
+### 5. Next Tools to Build
 - Text to Speech (KD 45, 300K vol) — HF Spaces (Chatterbox)
 - QR Code Generator (KD 50, 500K vol) — client-side + HF AI QR
+- Image Upscaler (KD 40, 150K vol) — HF Spaces (RealESRGAN)
+- SQL Formatter (KD 25, 80K vol) — client-side + Claude AI
+- Diff Checker (KD 30, 100K vol) — client-side
 
 ---
 
@@ -186,4 +212,4 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 
 ---
 
-*Last updated: 2026-04-04, Session 1*
+*Last updated: 2026-04-05, Session 2*
