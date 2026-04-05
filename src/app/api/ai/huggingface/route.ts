@@ -5,6 +5,7 @@ const ALLOWED_SPACES: Record<string, boolean> = {
   "not-lain/background-removal": true,
   "mcp-tools/DeepSeek-OCR-experimental": true,
   "evalstate/flux1_schnell": true,
+  "ResembleAI/Chatterbox": true,
 };
 
 // Convert base64 data URL to Blob
@@ -43,6 +44,9 @@ export async function POST(req: NextRequest) {
     }
     if (space === "evalstate/flux1_schnell" && (!params?.prompt || typeof params.prompt !== "string")) {
       return NextResponse.json({ error: "Please enter a prompt" }, { status: 400 });
+    }
+    if (space === "ResembleAI/Chatterbox" && (!params?.text || typeof params.text !== "string")) {
+      return NextResponse.json({ error: "Please enter text to convert to speech" }, { status: 400 });
     }
 
     const client = await Client.connect(space);
@@ -97,6 +101,27 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ result: dataUrl });
       }
       return NextResponse.json({ error: "No result from image generator" }, { status: 500 });
+    }
+
+    // Text to Speech (Chatterbox)
+    if (space === "ResembleAI/Chatterbox") {
+      const result = await client.predict("/generate_tts_audio", {
+        text_input: params.text,
+        exaggeration_input: params.exaggeration ?? 0.5,
+        temperature_input: 0.8,
+        cfgw_input: 0.5,
+        seed_num_input: 0,
+      });
+
+      const data = result.data as Array<{ url?: string } | null>;
+      const audioData = data?.[0];
+      if (typeof audioData === "object" && audioData?.url) {
+        const audioRes = await fetch(audioData.url);
+        const blob = await audioRes.blob();
+        const dataUrl = await toDataURL(new Blob([await blob.arrayBuffer()], { type: "audio/wav" }));
+        return NextResponse.json({ result: dataUrl });
+      }
+      return NextResponse.json({ error: "No audio result from TTS" }, { status: 500 });
     }
 
     return NextResponse.json({ error: "Space not implemented" }, { status: 400 });

@@ -27,7 +27,10 @@ Do not include any other text, markdown, or code blocks. Just the raw JSON objec
     });
 
     const text = message.content[0].type === "text" ? message.content[0].text : "";
-    const parsed = JSON.parse(text);
+
+    // Strip markdown code blocks if present
+    const cleaned = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+    const parsed = JSON.parse(cleaned);
 
     return NextResponse.json({
       pattern: parsed.pattern,
@@ -36,6 +39,7 @@ Do not include any other text, markdown, or code blocks. Just the raw JSON objec
     });
   } catch (e) {
     console.error("Regex AI error:", e);
-    return NextResponse.json({ error: "Failed to generate regex" }, { status: 500 });
+    const message = e instanceof Error ? e.message : "Unknown error";
+    return NextResponse.json({ error: `Failed to generate regex: ${message}` }, { status: 500 });
   }
 }

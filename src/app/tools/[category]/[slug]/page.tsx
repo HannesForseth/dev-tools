@@ -15,6 +15,9 @@ import { CronGenerator } from "@/components/tools/cron-generator";
 import { HashGenerator } from "@/components/tools/hash-generator";
 import { ColorPalette } from "@/components/tools/color-palette";
 import { LoremIpsum } from "@/components/tools/lorem-ipsum";
+import { TextToSpeech } from "@/components/tools/text-to-speech";
+import { QrCodeGenerator } from "@/components/tools/qr-code-generator";
+import { DiffChecker } from "@/components/tools/diff-checker";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -29,6 +32,9 @@ const toolComponents: Record<string, React.ComponentType> = {
   "hash-generator": HashGenerator,
   "color-palette": ColorPalette,
   "lorem-ipsum": LoremIpsum,
+  "text-to-speech": TextToSpeech,
+  "qr-code-generator": QrCodeGenerator,
+  "diff-checker": DiffChecker,
 };
 
 type PageProps = {

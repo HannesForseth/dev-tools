@@ -27,7 +27,10 @@
       "Bash(curl -s -X POST https://dev-tools-sand.vercel.app/api/ai/huggingface -H \"Content-Type: application/json\" -d '{\"\"\"\"space\"\"\"\":\"\"\"\"not-lain/background-removal\"\"\"\",\"\"\"\"params\"\"\"\":{}}')",
       "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__deploy_to_vercel",
       "Bash(curl -s -X POST https://dev-tools-sand.vercel.app/api/stripe/checkout -H \"Content-Type: application/json\" -d '{\"\"priceId\"\":\"\"price_1TImJ2Cjk5XbGNgtd2tXt2SH\"\"}')",
-      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__check_domain_availability_and_price"
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__check_domain_availability_and_price",
+      "Bash(curl -s -X POST https://allkit.dev/api/ai/regex -H \"Content-Type: application/json\" -d '{\"\"\"\"prompt\"\"\"\":\"\"\"\"URLs starting with https\"\"\"\"}')",
+      "mcp__6bd825c4-136e-4578-a6d7-0596dda94a6f__get_runtime_logs",
+      "WebSearch"
     ]
   }
 }
