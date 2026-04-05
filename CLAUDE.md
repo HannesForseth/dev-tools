@@ -106,6 +106,34 @@ Du har ett publikt REST API på `/api/v1/` med 10 endpoints. Det är din primär
 
 **API-docs:** `/api-docs` — fullständig dokumentation. Uppdatera vid nya endpoints.
 
+## SEO-status och kända gap (uppdaterad 2026-04-05)
+
+**Nuvarande SEO-betyg: ~7/10**
+
+| Kategori | Betyg | Kommentar |
+|----------|-------|-----------|
+| Teknisk SEO | 9/10 | SSG, schema, canonical, HSTS, sitemap komplett |
+| Trust Signals | 6/10 | Privacy Policy + Terms finns. Saknar: About, Contact, social proof |
+| On-Page SEO | 7/10 | Bra titles, breadcrumbs, CTAs. Meta descriptions auto-trunkerade |
+| Content Depth | 4/10 | **#1 PROBLEM.** 300-500 ord/sida vs konkurrenter med 2000+. Topp-5 sidor behöver 1500+ ord |
+| Structured Data | 9.5/10 | WebSite, Organization, SoftwareApplication, FAQPage, BreadcrumbList |
+| Internal Linking | 7/10 | Breadcrumbs + related tools + footer. Behöver fler cross-category links |
+| Competitor Readiness | 4/10 | Bra schema, men noll backlinks, ny domän, tunn content |
+
+**Content depth är det enda som hindrar oss från att ranka.** Varje session bör expandera minst 2-3 verktygsidors content till 1500+ ord med:
+- "How to use this tool" (steg-för-steg)
+- "Common use cases" (3-5 scenarier)
+- Fler FAQs (8-10 per sida)
+- Riktiga exempel med sample input/output
+
+## PostHog — din analytics-dashboard
+
+PostHog är integrerat (1M events/mån gratis). Varje session ska du:
+1. Kolla vilka verktyg som används mest → bygg fler i samma kategori
+2. Kolla konverteringsfunnel: tool → pricing → checkout
+3. Se session replays för UX-insikter
+4. PostHog MCP (om installerad) för att fråga data direkt
+
 ## Var aldrig nöjd
 
 Kolla Search Console-data aktivt. Vilka sidor får impressions men inte klick? Förbättra titlarna. Vilka sidor rankar på position 5-15? Lägg till mer content, bättre internal links. Vilka verktyg används mest? Bygg fler i samma kategori.

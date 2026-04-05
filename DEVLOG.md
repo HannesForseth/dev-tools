@@ -238,32 +238,88 @@
 - `/api/v1/uuid?count=3` → 200 OK, 3 UUIDs, `X-RateLimit-Remaining: 2`
 - `/api/v1/password?length=20` → 200 OK, 129-bit entropy password
 
+### Session 7 — 2026-04-05
+
+**PostHog analytics integrated:**
+- `posthog-js` added as dependency
+- `PostHogProvider` client component wraps entire app in layout
+- Auto-captures: pageviews, page leaves, clicks (autocapture), session replay
+- Token set as `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` in Vercel env vars
+- Gives visibility into: which tools are used, traffic sources, user flows, conversion funnel
+
+**3 new tools built (total: 25):**
+- **Markdown Preview** — live editor with split/source/preview modes, copy HTML output, word/char/line count
+- **YAML to JSON Converter** — bidirectional YAML↔JSON, handles nested objects/arrays/comments
+- **HTML Entity Encoder/Decoder** — named + numeric entities, reference table of common entities
+
+**MCP research completed:**
+- Identified PostHog MCP, DataForSEO MCP, Atlas Social MCP, Firecrawl MCP as high-value integrations
+- PostHog: 1M events/mån gratis — installed
+- DataForSEO: $1 free credit, pay-as-you-go keyword research — recommended for next session
+- Social MCP: for distribution when ready
+
+### Session 8 — 2026-04-05
+
+**Frontend UX analysis completed (automated agent):**
+- Analyzed all 10 key pages for UX, SEO, conversion issues
+- Identified critical gaps: thin content, zero conversion path, missing trust pages, broken breadcrumbs
+
+**Critical SEO fixes deployed:**
+- **Privacy Policy page** (`/privacy-policy`) — covers GDPR, CCPA, cookies, third-party services, data retention
+- **Terms of Service page** (`/terms`) — acceptable use, payments/refunds, liability, data processing
+- **Sitemap expanded** — added /pricing, /api-docs, /privacy-policy, /terms (4 pages were missing!)
+- **Background Remover renamed** — "Background Remover" → "Remove Background from Image" to match search intent (1M+ monthly searches for "remove background from image")
+- **Meta descriptions auto-truncated** — all 25 were 200-340 chars, now capped at 155 chars for SERP display
+- **Footer overhauled** — 4-column layout with Tools, Popular, Product, Legal sections + privacy messaging
+- **Organization JSON-LD** added to layout for knowledge panel eligibility
+- **Breadcrumbs fixed** — `<span>` → clickable `<Link>` elements (Home > Category > Tool)
+- **Pro upgrade CTA** on every tool page — contextual (API for free tools, "Upgrade to Pro" for AI tools)
+- **Homepage overhaul** — dynamic tool count, value proposition badges (Private/Instant/Offline/AI), quick-link pills, Pro CTA section, 200+ words SEO content
+- **Tool page content expanded** — "What is X?" section with why-AllKit value props, API cross-link
+- **Pricing page metadata fixed** — OG tags + canonical URL (was inheriting homepage tags)
+- **llms.txt fixed** — broken /api link → /api-docs
+
+**SEO audit scorecard (post-fixes):**
+- Technical SEO: 8/10 → 9/10 (sitemap complete, Organization schema, trust pages)
+- Trust Signals: 2/10 → 6/10 (Privacy Policy, Terms, footer links)
+- On-Page SEO: 5/10 → 7/10 (breadcrumbs, CTAs, meta descriptions, content expansion)
+- Content Depth: 3/10 → 4/10 (improved but still needs 1500+ words per top tool page)
+- Structured Data: 9/10 → 9.5/10 (added Organization, all pages covered)
+- Overall: 5.5/10 → ~7/10
+
 ---
 
 ## Next Session Plan (Priority Order)
 
 ### 1. Check GSC Data
-- Run `get_performance_overview` — should have initial data by now (domain verified 2026-04-05)
-- Check indexing status of all 22 tool pages
-- Act on CTR/position data
+- Run `get_performance_overview` — domain verified 2026-04-05, expect initial data in 3-5 days
+- Check indexing status of all 25 tool pages + new pages
+- Submit updated sitemap if needed
 
-### 2. Implement Stripe Webhook Properly
+### 2. Content Depth on Top 5 Pages
+- JSON Formatter, QR Code Generator, Password Generator, Background Remover, Base64
+- Target: 1,500+ words per page with how-to guides, use cases, technical explanations, 8-10 FAQs
+- This is the #1 remaining SEO gap (content depth 4/10)
+
+### 3. Build 5 Low-Competition Tools
+- SQL Formatter, Text Case Converter, JSON to TypeScript, HTML Minifier, Robots.txt Generator
+- Each = new landing page + potential API endpoint
+- Focus on KD < 20 keywords
+
+### 4. Implement Stripe Webhook Properly
 - Validate webhook signatures (STRIPE_WEBHOOK_SECRET needed)
-- Sync subscription status to Supabase on checkout.session.completed, subscription.updated, subscription.deleted
+- Sync subscription status to Supabase
 - Generate API keys for Pro users
 
-### 3. AI API Endpoints
-- Wire up `/api/v1/ai/regex`, `/api/v1/ai/cron`, `/api/v1/ai/privacy-policy` through the rate limiter
-- These are the paid conversion drivers — metered separately
+### 5. AI API Endpoints Through Rate Limiter
+- Wire up `/api/v1/ai/regex`, `/api/v1/ai/cron`, `/api/v1/ai/privacy-policy`
+- These are the paid conversion drivers
 
-### 4. Usage Tracking (Supabase)
-- Create usage_logs table
-- Track API requests per IP/user/day
-- Replace in-memory rate limiter with persistent Supabase-based tracking
-
-### 5. Build More Tools
-- Image Upscaler (HF RealESRGAN), Markdown Preview, SQL Formatter, HTML Formatter
-- Each new tool = new landing page + API endpoint
+### 6. DataForSEO MCP Integration
+- Get API credentials from Hannes
+- Use KEYWORDS_DATA for search volume lookup on all tool keywords
+- Use DATAFORSEO_LABS for keyword difficulty scores
+- Build data-driven tool prioritization list
 
 ---
 
@@ -323,9 +379,9 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 
 | Space | Function | Status |
 |-------|----------|--------|
-| not-lain/background-removal | Remove image backgrounds | UI ready, backend placeholder |
-| evalstate/flux1_schnell | Fast AI image generation | UI ready, backend placeholder |
-| mcp-tools/DeepSeek-OCR-experimental | Extract text from images | UI ready, backend placeholder |
+| not-lain/background-removal | Remove image backgrounds | LIVE — Remove Background from Image |
+| evalstate/flux1_schnell | Fast AI image generation | LIVE — AI Image Generator |
+| mcp-tools/DeepSeek-OCR-experimental | Extract text from images | LIVE — Image to Text (OCR) |
 | ResembleAI/Chatterbox | Text-to-speech (300 chars max) | LIVE — Text to Speech tool |
 | prithivMLmods/Photo-Mate-i2i | Image editing (8 LoRAs) | Not yet built |
 | fffiloni/InstantIR | Image restoration | Not yet built |
@@ -342,4 +398,4 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 
 ---
 
-*Last updated: 2026-04-05, Session 6*
+*Last updated: 2026-04-05, Session 8*
