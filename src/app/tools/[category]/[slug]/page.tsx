@@ -18,6 +18,10 @@ import { LoremIpsum } from "@/components/tools/lorem-ipsum";
 import { TextToSpeech } from "@/components/tools/text-to-speech";
 import { QrCodeGenerator } from "@/components/tools/qr-code-generator";
 import { DiffChecker } from "@/components/tools/diff-checker";
+import { PasswordGenerator } from "@/components/tools/password-generator";
+import { WordCounter } from "@/components/tools/word-counter";
+import { ImageCompressor } from "@/components/tools/image-compressor";
+import { JwtDecoder } from "@/components/tools/jwt-decoder";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -35,6 +39,10 @@ const toolComponents: Record<string, React.ComponentType> = {
   "text-to-speech": TextToSpeech,
   "qr-code-generator": QrCodeGenerator,
   "diff-checker": DiffChecker,
+  "password-generator": PasswordGenerator,
+  "word-counter": WordCounter,
+  "image-compressor": ImageCompressor,
+  "jwt-decoder": JwtDecoder,
 };
 
 type PageProps = {

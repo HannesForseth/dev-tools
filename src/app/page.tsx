@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { tools, categoryLabels, type ToolCategory } from "@/lib/tools/registry";
-import { Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Clock, Hash, Palette, Type, Volume2, QrCode, GitCompareArrows } from "lucide-react";
+import { Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Clock, Hash, Palette, Type, Volume2, QrCode, GitCompareArrows, KeyRound, FileText, ImageDown, ShieldCheck } from "lucide-react";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Clock, Hash, Palette, Type, Volume2, QrCode, GitCompareArrows,
+  Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Clock, Hash, Palette, Type, Volume2, QrCode, GitCompareArrows, KeyRound, FileText, ImageDown, ShieldCheck,
 };
 
 const categoryOrder: ToolCategory[] = ["dev", "media", "ai"];
