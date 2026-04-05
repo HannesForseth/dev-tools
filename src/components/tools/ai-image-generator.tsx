@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Download, Loader2, Sparkles } from "lucide-react";
 
 export function AiImageGenerator() {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadingTime, setLoadingTime] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const generate = async () => {
     if (!prompt.trim()) return;
     setLoading(true);
+    setLoadingTime(0);
     setError(null);
+    timerRef.current = setInterval(() => setLoadingTime((t) => t + 1), 1000);
     try {
       const res = await fetch("/api/ai/huggingface", {
         method: "POST",
@@ -29,6 +33,7 @@ export function AiImageGenerator() {
       setError(e instanceof Error ? e.message : "Failed to generate image. Please try again.");
     } finally {
       setLoading(false);
+      if (timerRef.current) clearInterval(timerRef.current);
     }
   };
 
@@ -61,8 +66,14 @@ export function AiImageGenerator() {
         className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors"
       >
         {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
-        {loading ? "Generating..." : "Generate Image"}
+        {loading ? `Generating... ${loadingTime}s` : "Generate Image"}
       </button>
+
+      {loading && loadingTime > 5 && (
+        <p className="text-xs text-muted-foreground animate-pulse">
+          AI model is warming up — this can take up to 60 seconds on first use.
+        </p>
+      )}
 
       {/* Result */}
       {(result || loading) && (

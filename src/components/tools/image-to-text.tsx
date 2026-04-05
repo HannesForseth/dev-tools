@@ -7,10 +7,12 @@ export function ImageToText() {
   const [image, setImage] = useState<string | null>(null);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingTime, setLoadingTime] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const handleFile = (file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -27,7 +29,9 @@ export function ImageToText() {
   const extractText = async () => {
     if (!image) return;
     setLoading(true);
+    setLoadingTime(0);
     setError(null);
+    timerRef.current = setInterval(() => setLoadingTime((t) => t + 1), 1000);
     try {
       const res = await fetch("/api/ai/huggingface", {
         method: "POST",
@@ -44,6 +48,7 @@ export function ImageToText() {
       setError(e instanceof Error ? e.message : "Failed to extract text. Please try again.");
     } finally {
       setLoading(false);
+      if (timerRef.current) clearInterval(timerRef.current);
     }
   };
 
@@ -88,7 +93,7 @@ export function ImageToText() {
               className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors"
             >
               {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ScanText className="h-3.5 w-3.5" />}
-              {loading ? "Extracting..." : "Extract Text"}
+              {loading ? `Extracting... ${loadingTime}s` : "Extract Text"}
             </button>
             <button
               onClick={() => { setImage(null); setText(""); setError(null); }}
@@ -97,6 +102,12 @@ export function ImageToText() {
               New image
             </button>
           </div>
+
+          {loading && loadingTime > 5 && (
+            <p className="text-xs text-muted-foreground animate-pulse">
+              AI model is warming up — this can take up to 60 seconds on first use.
+            </p>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

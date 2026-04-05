@@ -19,13 +19,13 @@
 
 ## Key URLs & Credentials
 
-- **Production:** https://dev-tools-sand.vercel.app
+- **Production:** https://allkit.dev (also: dev-tools-sand.vercel.app)
 - **GitHub:** https://github.com/HannesForseth/dev-tools
 - **Vercel project:** prj_kFLN36Wpc4saEX4qqNddxxPkggHn
 - **Vercel team:** team_vSjDCBUKuPr7OQvCDVH69kPu
 - **Supabase project:** starimrzglxcgxiklfzw (https://supabase.com/dashboard/project/starimrzglxcgxiklfzw)
 - **Claude API key:** Configured in Vercel env vars as ANTHROPIC_API_KEY
-- **Stripe:** NOT YET CONFIGURED — next priority
+- **Stripe:** Configured (STRIPE_SECRET_KEY in Vercel env). Pro: prod_UHKyudQL4KDr9o, Business: prod_UHKy5LQ1goBal4
 
 ## Working Principles
 
@@ -133,6 +133,63 @@
 - Added input validation (base64 check for images, prompt check for generation)
 - **NEEDS REAL-WORLD TESTING:** Upload actual images via the UI to verify end-to-end
 
+### Session 3 — 2026-04-05 (continued)
+
+**3 new tools built (total: 15):**
+- **Text to Speech** — HF Chatterbox TTS, expressiveness slider, WAV download
+- **QR Code Generator** — client-side via qrserver.com API, color customization, PNG download
+- **Diff Checker** — LCS-based line diff, add/delete highlighting, unified diff copy
+
+**Fixes:**
+- Claude AI regex/cron routes: strip markdown code blocks from response before JSON.parse
+- HF proxy: added Chatterbox TTS support + input validation
+
+### Session 4 — 2026-04-05
+
+**4 new tools built (total: 19):**
+- **Password Generator** — crypto-secure (Web Crypto API), strength meter, entropy display, batch 1-10, crack time estimate
+- **Word Counter** — real-time stats, keyword density, reading/speaking time, top keywords
+- **Image Compressor** — client-side Canvas API, quality slider, format conversion (JPEG/WebP/PNG), batch support
+- **JWT Decoder** — color-coded parts, claim explanations, expiration status, validation warnings
+
+**Complete branding overhaul:**
+- Branded SVG favicon (indigo→violet gradient "A") — replaces generic wrench
+- Apple Touch Icon (180x180 PNG via next/og)
+- Dynamic Open Graph images: site-level + per-tool (1200x630)
+- JSON-LD structured data: WebSite schema on layout, SoftwareApplication + BreadcrumbList on every tool page
+- Web manifest (PWA-ready) with theme color #6366f1
+- Twitter card: summary_large_image on all pages
+- Canonical URLs on all tool pages
+- metadataBase set to https://allkit.dev
+- Header logo updated to branded gradient icon
+
+**Google Search Console:**
+- Domain `sc-domain:allkit.dev` verified via DNS TXT record
+- Sitemap `https://allkit.dev/sitemap.xml` submitted
+- GSC MCP connected — workflow added to CLAUDE.md
+
+**HF Spaces fix:**
+- `maxDuration = 60` on API route (was defaulting to 10s, causing 504 timeouts on cold starts)
+- Timer + warm-up message on all 4 HF-powered tools (Background Remover, OCR, Image Generator, TTS)
+- Spaces verified alive: `not-lain/background-removal` (2780 likes), `mcp-tools/DeepSeek-OCR-experimental` (2 likes)
+
+**Domain:** allkit.dev (Vercel DNS, verified in GSC)
+
+---
+
+## Next Session Plan (Priority Order)
+
+### 1. Check GSC Data
+- Run `get_performance_overview` — expect data ~48h after sitemap submission
+- Check indexing status of all 19 tool pages
+
+### 2. Build More High-Volume Tools
+- URL Encoder/Decoder, Markdown Preview, SQL Formatter, Timestamp Converter
+
+### 3. Improve SEO Content
+- Each tool page only has one paragraph — needs genuine, helpful text
+- Add FAQ sections, use cases, related tools links
+
 ### 4. Usage Tracking (Supabase)
 - Create usage_logs table in Supabase
 - Track AI requests per IP/user per day
@@ -171,10 +228,10 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 
 ### Known Limitations
 - Local dev server doesn't work (Windows npm tar extraction issues)
-- HF Spaces proxy is a placeholder — needs @gradio/client implementation
-- No auth/usage tracking yet
-- No Stripe integration yet
-- Production URL has Vercel authentication on some routes (deployment-specific URLs)
+- HF Spaces cold starts take 30-60s — mitigated with maxDuration=60 + timer UX
+- No auth/usage tracking yet (Supabase tables not created)
+- Stripe webhook secret not configured yet (STRIPE_WEBHOOK_SECRET)
+- Vercel Hobby plan may cap function duration at 10s — need to verify if maxDuration=60 works
 
 ---
 

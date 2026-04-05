@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Client, handle_file } from "@gradio/client";
 
+// Allow up to 60 seconds for HF Spaces cold starts
+export const maxDuration = 60;
+
 const ALLOWED_SPACES: Record<string, boolean> = {
   "not-lain/background-removal": true,
   "mcp-tools/DeepSeek-OCR-experimental": true,

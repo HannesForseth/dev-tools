@@ -7,9 +7,11 @@ export function BackgroundRemover() {
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadingTime, setLoadingTime] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const handleFile = (file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -30,7 +32,9 @@ export function BackgroundRemover() {
   const removeBackground = async () => {
     if (!image) return;
     setLoading(true);
+    setLoadingTime(0);
     setError(null);
+    timerRef.current = setInterval(() => setLoadingTime((t) => t + 1), 1000);
     try {
       const res = await fetch("/api/ai/huggingface", {
         method: "POST",
@@ -47,6 +51,7 @@ export function BackgroundRemover() {
       setError(e instanceof Error ? e.message : "Failed to remove background. Please try again.");
     } finally {
       setLoading(false);
+      if (timerRef.current) clearInterval(timerRef.current);
     }
   };
 
@@ -94,7 +99,7 @@ export function BackgroundRemover() {
               className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors"
             >
               {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ImageMinus className="h-3.5 w-3.5" />}
-              {loading ? "Processing..." : "Remove Background"}
+              {loading ? `Processing... ${loadingTime}s` : "Remove Background"}
             </button>
             {result && (
               <button
@@ -112,6 +117,12 @@ export function BackgroundRemover() {
               New image
             </button>
           </div>
+
+          {loading && loadingTime > 5 && (
+            <p className="text-xs text-muted-foreground animate-pulse">
+              AI model is warming up — this can take up to 60 seconds on first use.
+            </p>
+          )}
 
           {/* Image comparison */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

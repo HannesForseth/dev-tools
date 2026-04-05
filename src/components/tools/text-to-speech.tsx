@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Download, Loader2, Volume2 } from "lucide-react";
 
 export function TextToSpeech() {
   const [text, setText] = useState("");
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadingTime, setLoadingTime] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [exaggeration, setExaggeration] = useState(0.5);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const generate = async () => {
     if (!text.trim()) return;
@@ -17,8 +19,10 @@ export function TextToSpeech() {
       return;
     }
     setLoading(true);
+    setLoadingTime(0);
     setError(null);
     setAudioUrl(null);
+    timerRef.current = setInterval(() => setLoadingTime((t) => t + 1), 1000);
     try {
       const res = await fetch("/api/ai/huggingface", {
         method: "POST",
@@ -35,6 +39,7 @@ export function TextToSpeech() {
       setError(e instanceof Error ? e.message : "Failed to generate speech. Please try again.");
     } finally {
       setLoading(false);
+      if (timerRef.current) clearInterval(timerRef.current);
     }
   };
 
@@ -84,8 +89,13 @@ export function TextToSpeech() {
           className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors"
         >
           {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Volume2 className="h-3.5 w-3.5" />}
-          {loading ? "Generating..." : "Generate Speech"}
+          {loading ? `Generating... ${loadingTime}s` : "Generate Speech"}
         </button>
+        {loading && loadingTime > 5 && (
+          <p className="text-xs text-muted-foreground animate-pulse self-center">
+            AI model is warming up — this can take up to 60 seconds on first use.
+          </p>
+        )}
         {audioUrl && (
           <button
             onClick={downloadAudio}
