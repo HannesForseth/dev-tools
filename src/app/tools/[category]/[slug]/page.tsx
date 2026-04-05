@@ -69,6 +69,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `Free ${tool.name} Online | AllKit`,
       description: tool.description,
       type: "website",
+      url: `https://allkit.dev/tools/${tool.category}/${tool.slug}`,
+      siteName: "AllKit",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Free ${tool.name} Online | AllKit`,
+      description: tool.description,
+    },
+    alternates: {
+      canonical: `https://allkit.dev/tools/${tool.category}/${tool.slug}`,
     },
   };
 }
@@ -86,8 +96,57 @@ export default async function ToolPage({ params }: PageProps) {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: tool.name,
+    description: tool.longDescription,
+    url: `https://allkit.dev/tools/${tool.category}/${tool.slug}`,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://allkit.dev",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: categoryLabels[tool.category as ToolCategory],
+        item: `https://allkit.dev/tools/${tool.category}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: tool.name,
+        item: `https://allkit.dev/tools/${tool.category}/${tool.slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-muted-foreground">
         <span>Tools</span>

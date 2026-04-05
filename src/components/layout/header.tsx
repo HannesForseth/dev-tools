@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Moon, Sun, Menu, X, Wrench } from "lucide-react";
+import { Moon, Sun, Menu, X } from "lucide-react";
 
 export function Header() {
   const [dark, setDark] = useState(true);
@@ -26,7 +26,9 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
-          <Wrench className="h-5 w-5 text-primary" />
+          <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white text-sm font-extrabold">
+            A
+          </div>
           <span>AllKit</span>
         </Link>
 
