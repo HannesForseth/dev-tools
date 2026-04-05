@@ -113,22 +113,25 @@
 
 ## Next Session Plan (Priority Order)
 
-### 1. Stripe Setup (BLOCKED — need keys from Hannes)
-- Create Pro ($9/mo) and Business ($19/mo) products in Stripe
-- Implement Checkout Session API route
-- Implement webhook handler (subscription.created/deleted/updated)
-- Customer Portal for subscription management
-- **Need from Hannes:** STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET
+### 1. ~~Stripe Setup~~ DONE (Session 2b — 2026-04-05)
+- Created products in Stripe live mode via MCP:
+  - DevTools Pro: prod_UHKyudQL4KDr9o
+  - DevTools Business: prod_UHKy5LQ1goBal4
+- Created 4 prices: Pro $9/mo, Pro $79/yr, Business $19/mo, Business $149/yr
+- Built pricing page at /pricing with annual/monthly toggle, FAQ
+- Built Stripe Checkout API route (/api/stripe/checkout)
+- Built webhook handler (/api/stripe/webhook)
+- Pricing link added to header navigation
+- **STILL NEEDS:** STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET in Vercel env vars from Hannes
 
-### 2. Test HF Spaces in Production
-- Verify Background Remover works end-to-end on Vercel
-- Verify OCR works end-to-end on Vercel
-- Verify AI Image Generator works end-to-end on Vercel
-- Fix any issues with @gradio/client in serverless environment (timeouts, cold starts)
+### 2. ~~Verify Claude AI Routes~~ DONE (Session 2b)
+- Tested /api/ai/regex live → WORKING (generated email regex correctly)
+- ANTHROPIC_API_KEY is configured and working in production
 
-### 3. Verify Claude AI Routes in Production
-- Test /api/ai/regex, /api/ai/privacy-policy, /api/ai/cron
-- Verify ANTHROPIC_API_KEY is working
+### 3. ~~HF Spaces Proxy~~ VERIFIED (Session 2b)
+- Proxy endpoint responds correctly, rejects invalid input gracefully
+- Added input validation (base64 check for images, prompt check for generation)
+- **NEEDS REAL-WORLD TESTING:** Upload actual images via the UI to verify end-to-end
 
 ### 4. Usage Tracking (Supabase)
 - Create usage_logs table in Supabase
