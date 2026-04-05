@@ -22,6 +22,9 @@ import { PasswordGenerator } from "@/components/tools/password-generator";
 import { WordCounter } from "@/components/tools/word-counter";
 import { ImageCompressor } from "@/components/tools/image-compressor";
 import { JwtDecoder } from "@/components/tools/jwt-decoder";
+import { UnixTimestamp } from "@/components/tools/unix-timestamp";
+import { UrlEncoder } from "@/components/tools/url-encoder";
+import { CsvJsonConverter } from "@/components/tools/csv-json";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -43,6 +46,9 @@ const toolComponents: Record<string, React.ComponentType> = {
   "word-counter": WordCounter,
   "image-compressor": ImageCompressor,
   "jwt-decoder": JwtDecoder,
+  "unix-timestamp": UnixTimestamp,
+  "url-encoder": UrlEncoder,
+  "csv-json": CsvJsonConverter,
 };
 
 type PageProps = {

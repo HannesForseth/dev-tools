@@ -44,6 +44,11 @@ export function BackgroundRemover() {
           params: { image },
         }),
       });
+      if (!res.ok) {
+        if (res.status === 504) throw new Error("The AI model is taking too long to start. Please wait a minute and try again.");
+        const text = await res.text();
+        try { const j = JSON.parse(text); throw new Error(j.error || `Server error (${res.status})`); } catch (e) { if (e instanceof SyntaxError) throw new Error(`Server error (${res.status}). Please try again.`); throw e; }
+      }
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setResult(data.result);
