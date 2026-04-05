@@ -4,6 +4,15 @@ import { PricingCards } from "@/components/pricing/pricing-cards";
 export const metadata: Metadata = {
   title: "Pricing",
   description: "Choose your plan. Free forever, or upgrade to Pro for unlimited AI tools, HD output, and API access.",
+  openGraph: {
+    title: "Pricing | AllKit",
+    description: "Simple, transparent pricing. Free forever, or upgrade to Pro for $9/mo.",
+    url: "https://allkit.dev/pricing",
+    siteName: "AllKit",
+  },
+  alternates: {
+    canonical: "https://allkit.dev/pricing",
+  },
 };
 
 export default function PricingPage() {

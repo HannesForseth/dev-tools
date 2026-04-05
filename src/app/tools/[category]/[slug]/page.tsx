@@ -183,28 +183,85 @@ export default async function ToolPage({ params }: PageProps) {
         />
       )}
 
-      {/* Breadcrumb */}
+      {/* Breadcrumb — clickable links */}
       <nav className="mb-6 text-sm text-muted-foreground">
-        <span>Tools</span>
+        <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
         <span className="mx-2">/</span>
-        <span>{categoryLabels[tool.category as ToolCategory]}</span>
+        <Link href={`/tools/${tool.category}`} className="hover:text-foreground transition-colors">
+          {categoryLabels[tool.category as ToolCategory]}
+        </Link>
         <span className="mx-2">/</span>
         <span className="text-foreground">{tool.name}</span>
       </nav>
 
-      {/* Title */}
+      {/* Title + privacy badge */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">{tool.name}</h1>
         <p className="text-muted-foreground">{tool.description}</p>
+        <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
+          {tool.costTier === "free" && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 text-green-600 px-2.5 py-1 font-medium">
+              100% Client-Side — Your data never leaves your browser
+            </span>
+          )}
+          <span>Free — No signup required</span>
+        </div>
       </div>
 
       {/* Tool */}
       <ToolComponent />
 
+      {/* Pro upgrade CTA */}
+      {tool.costTier === "free" && (
+        <div className="mt-8 rounded-lg border border-primary/20 bg-primary/5 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-medium">Need API access to {tool.name}?</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Integrate this tool into your workflow with our REST API. 3 free requests/day, unlimited with Pro.
+            </p>
+          </div>
+          <Link
+            href="/pricing"
+            className="shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            View API Plans
+          </Link>
+        </div>
+      )}
+      {(tool.costTier === "claude" || tool.costTier === "huggingface") && (
+        <div className="mt-8 rounded-lg border border-primary/20 bg-primary/5 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-medium">Unlock unlimited AI requests</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Free users get 3 AI requests per day. Upgrade to Pro for unlimited access, HD output, and API access.
+            </p>
+          </div>
+          <Link
+            href="/pricing"
+            className="shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            Upgrade to Pro — $9/mo
+          </Link>
+        </div>
+      )}
+
       {/* SEO content */}
       <section className="mt-12 prose prose-zinc dark:prose-invert max-w-none">
-        <h2>About {tool.name}</h2>
+        <h2>What is {tool.name}?</h2>
         <p>{tool.longDescription}</p>
+        <p>
+          AllKit&apos;s {tool.name} is completely free with no signup required.
+          {tool.costTier === "free"
+            ? " All processing happens directly in your browser — your data is never sent to any server, making it safe for sensitive information."
+            : " Powered by state-of-the-art AI models, it delivers professional-quality results in seconds."}
+        </p>
+        <h3>Why use AllKit?</h3>
+        <ul>
+          <li><strong>No ads, no distractions</strong> — a clean interface that lets you focus on the task</li>
+          <li><strong>Privacy-first</strong> — {tool.costTier === "free" ? "100% client-side processing, nothing is uploaded" : "minimal data processing, results delivered instantly"}</li>
+          <li><strong>Free forever</strong> — core tools are free with no usage limits</li>
+          <li><strong>API available</strong> — integrate into your workflow via our <Link href="/api-docs" className="text-primary">REST API</Link></li>
+        </ul>
       </section>
 
       {/* FAQ */}

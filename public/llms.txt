@@ -41,5 +41,5 @@ AllKit offers a REST API at `https://allkit.dev/api/v1/` for programmatic tool a
 
 - Free: All browser tools unlimited. API: 3 requests/day.
 - Pro ($9/month): Unlimited API access, unlimited AI tools, HD media output.
-- Docs: https://allkit.dev/api
+- Docs: https://allkit.dev/api-docs
 - Pricing: https://allkit.dev/pricing
