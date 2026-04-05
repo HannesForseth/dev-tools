@@ -1,0 +1,45 @@
+# AllKit — Free Developer & AI Tools
+
+> AllKit (https://allkit.dev) provides free online developer tools and AI-powered utilities. All tools work in the browser with no signup required. API access is available for programmatic use.
+
+## API
+
+AllKit offers a REST API at `https://allkit.dev/api/v1/` for programmatic tool access.
+
+- Base URL: `https://allkit.dev/api/v1`
+- Format: JSON request and response
+- Rate limit: 3 requests/day per IP (free), unlimited with API key ($9/mo Pro plan)
+- Authentication: Optional `Authorization: Bearer <api_key>` header for Pro users
+
+## Available Tools
+
+### Developer Tools (client-side, free)
+
+- JSON Formatter & Validator: Format, validate, and beautify JSON. `POST /api/v1/json-format`
+- Base64 Encode/Decode: Convert text to/from Base64. `POST /api/v1/base64`
+- URL Encode/Decode: Encode and decode URLs and query strings. `POST /api/v1/url-encode`
+- Hash Generator: Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512 hashes. `POST /api/v1/hash`
+- UUID Generator: Generate cryptographically secure v4 UUIDs. `GET /api/v1/uuid`
+- Unix Timestamp Converter: Convert between timestamps and dates. `POST /api/v1/timestamp`
+- CSV to JSON Converter: Convert between CSV and JSON formats. `POST /api/v1/csv-json`
+- QR Code Generator: Generate QR codes from text or URLs. `POST /api/v1/qr-code`
+- Password Generator: Generate secure random passwords. `GET /api/v1/password`
+- Word Counter: Count words, characters, sentences. `POST /api/v1/word-count`
+- JWT Decoder: Decode and inspect JSON Web Tokens. `POST /api/v1/jwt-decode`
+
+### AI-Powered Tools (requires API, metered)
+
+- Regex Builder: Describe a pattern in English, get a working regex. `POST /api/v1/ai/regex`
+- Cron Expression Generator: Describe a schedule in English, get a cron expression. `POST /api/v1/ai/cron`
+- Privacy Policy Generator: Generate a privacy policy for your app. `POST /api/v1/ai/privacy-policy`
+- Background Remover: Remove image backgrounds with AI. `POST /api/v1/ai/remove-background`
+- Image to Text (OCR): Extract text from images. `POST /api/v1/ai/ocr`
+- AI Image Generator: Generate images from text prompts. `POST /api/v1/ai/generate-image`
+- Text to Speech: Convert text to natural speech audio. `POST /api/v1/ai/tts`
+
+## Pricing
+
+- Free: All browser tools unlimited. API: 3 requests/day.
+- Pro ($9/month): Unlimited API access, unlimited AI tools, HD media output.
+- Docs: https://allkit.dev/api
+- Pricing: https://allkit.dev/pricing
