@@ -35,6 +35,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid space" }, { status: 400 });
     }
 
+    // Validate image input for image-based spaces
+    if (["not-lain/background-removal", "mcp-tools/DeepSeek-OCR-experimental"].includes(space)) {
+      if (!params?.image || typeof params.image !== "string" || !params.image.startsWith("data:")) {
+        return NextResponse.json({ error: "Please upload an image first" }, { status: 400 });
+      }
+    }
+    if (space === "evalstate/flux1_schnell" && (!params?.prompt || typeof params.prompt !== "string")) {
+      return NextResponse.json({ error: "Please enter a prompt" }, { status: 400 });
+    }
+
     const client = await Client.connect(space);
 
     // Background Removal
