@@ -1,6 +1,11 @@
 export type ToolCategory = "dev" | "media" | "ai";
 export type CostTier = "free" | "huggingface" | "claude";
 
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
 export interface ToolDefinition {
   slug: string;
   name: string;
@@ -12,6 +17,8 @@ export interface ToolDefinition {
   icon: string; // Lucide icon name
   isNew?: boolean;
   isPro?: boolean;
+  relatedSlugs?: string[];
+  faq?: FAQ[];
 }
 
 // Central registry — add a tool by adding an entry here + creating the component
@@ -25,6 +32,13 @@ export const tools: ToolDefinition[] = [
     costTier: "free",
     keywords: ["json formatter", "json validator", "json beautifier", "json formatter online", "format json"],
     icon: "Braces",
+    relatedSlugs: ["csv-json", "jwt-decoder", "base64", "regex-tester"],
+    faq: [
+      { question: "What is JSON?", answer: "JSON (JavaScript Object Notation) is a lightweight data format used to exchange data between servers and web applications. It's human-readable and easy for machines to parse." },
+      { question: "Why does my JSON fail validation?", answer: "Common issues include trailing commas after the last item in an array or object, single quotes instead of double quotes, unquoted keys, and missing commas between elements." },
+      { question: "Is my data safe?", answer: "Yes. All formatting and validation happens entirely in your browser. Your JSON is never sent to any server." },
+      { question: "Can I minify JSON here?", answer: "Yes. After formatting, use the minify option to remove all whitespace and produce compact JSON suitable for production use." },
+    ],
   },
   {
     slug: "uuid-generator",
@@ -35,6 +49,12 @@ export const tools: ToolDefinition[] = [
     costTier: "free",
     keywords: ["uuid generator", "guid generator", "uuid v4", "random uuid", "unique id generator"],
     icon: "Fingerprint",
+    relatedSlugs: ["hash-generator", "password-generator", "json-formatter"],
+    faq: [
+      { question: "What is a UUID?", answer: "A UUID (Universally Unique Identifier) is a 128-bit identifier that is guaranteed to be unique across space and time. The v4 variant uses random numbers, making collisions practically impossible." },
+      { question: "What's the difference between UUID and GUID?", answer: "They're the same thing. UUID is the official standard name (RFC 4122), while GUID (Globally Unique Identifier) is Microsoft's term for the same concept." },
+      { question: "Are UUIDs truly unique?", answer: "For practical purposes, yes. The probability of generating two identical v4 UUIDs is approximately 1 in 5.3 × 10^36. You'd need to generate 1 billion UUIDs per second for 85 years to have a 50% chance of a collision." },
+    ],
   },
   {
     slug: "base64",
@@ -45,6 +65,12 @@ export const tools: ToolDefinition[] = [
     costTier: "free",
     keywords: ["base64 decode", "base64 encode", "base64 decoder", "base64 encoder", "base64 decode online"],
     icon: "Binary",
+    relatedSlugs: ["url-encoder", "hash-generator", "jwt-decoder", "json-formatter"],
+    faq: [
+      { question: "What is Base64 encoding?", answer: "Base64 is a binary-to-text encoding scheme that converts binary data into ASCII characters. It's commonly used to embed images in HTML/CSS, encode email attachments, and transmit data in URLs or JSON." },
+      { question: "Why is Base64 encoded data about 33% larger?", answer: "Base64 uses 6 bits per character instead of 8, so every 3 bytes of input become 4 bytes of output. This 4/3 ratio means the encoded data is always about 33% larger than the original." },
+      { question: "Is Base64 encryption?", answer: "No. Base64 is an encoding, not encryption. Anyone can decode Base64 — it provides no security. Use it for safe data transport, not for hiding sensitive information." },
+    ],
   },
   {
     slug: "regex-tester",
@@ -55,6 +81,12 @@ export const tools: ToolDefinition[] = [
     costTier: "claude",
     keywords: ["regex tester", "regex tester online", "regular expression tester", "regex builder", "regex generator"],
     icon: "Regex",
+    relatedSlugs: ["json-formatter", "diff-checker", "cron-generator"],
+    faq: [
+      { question: "What are regular expressions?", answer: "Regular expressions (regex) are patterns used to match character combinations in strings. They're essential for validation, search-and-replace, and data extraction in programming." },
+      { question: "How does the AI regex builder work?", answer: "Describe what you want to match in plain English — like 'email addresses' or 'dates in MM/DD/YYYY format' — and AI generates a tested regex pattern with an explanation of each part." },
+      { question: "Which regex flavors are supported?", answer: "The tester uses JavaScript's built-in regex engine, which supports most common features including lookahead, lookbehind, named groups, and Unicode properties." },
+    ],
   },
   {
     slug: "background-remover",
@@ -65,6 +97,13 @@ export const tools: ToolDefinition[] = [
     costTier: "huggingface",
     keywords: ["remove background", "background remover", "remove background from image free", "transparent background", "bg remover"],
     icon: "ImageMinus",
+    relatedSlugs: ["image-compressor", "ai-image-generator", "image-to-text"],
+    faq: [
+      { question: "How does the background remover work?", answer: "It uses an AI segmentation model that identifies the foreground subject and removes everything else. The result is a transparent PNG you can use anywhere." },
+      { question: "What image formats are supported?", answer: "You can upload PNG, JPEG, and WebP images up to 10MB. The output is always a transparent PNG." },
+      { question: "Is it really free?", answer: "Yes. The AI model runs on Hugging Face Spaces at no cost. No signup, no watermarks, no hidden fees." },
+      { question: "Why does it take a while sometimes?", answer: "The AI model may need 30-60 seconds to 'warm up' if it hasn't been used recently. Subsequent uses are much faster." },
+    ],
   },
   {
     slug: "image-to-text",
@@ -75,6 +114,12 @@ export const tools: ToolDefinition[] = [
     costTier: "huggingface",
     keywords: ["image to text", "ocr online", "image to text converter", "extract text from image", "screenshot to text"],
     icon: "ScanText",
+    relatedSlugs: ["background-remover", "word-counter", "ai-image-generator"],
+    faq: [
+      { question: "What is OCR?", answer: "OCR (Optical Character Recognition) is a technology that reads text from images. Our AI-powered OCR goes beyond traditional methods — it understands layouts, tables, and even handwriting." },
+      { question: "Can it read handwriting?", answer: "Yes. The AI model can recognize handwritten text, though accuracy depends on legibility. Printed text gives the best results." },
+      { question: "What output format do I get?", answer: "The extracted text is returned as clean Markdown, preserving headings, lists, and table structures from the original image." },
+    ],
   },
   {
     slug: "privacy-policy-generator",
@@ -85,6 +130,12 @@ export const tools: ToolDefinition[] = [
     costTier: "claude",
     keywords: ["privacy policy generator", "privacy policy generator free", "generate privacy policy", "privacy policy template"],
     icon: "Shield",
+    relatedSlugs: ["word-counter", "lorem-ipsum", "regex-tester"],
+    faq: [
+      { question: "Is the generated privacy policy legally binding?", answer: "The AI generates a professionally worded policy based on best practices and common legal frameworks (GDPR, CCPA). However, you should have a lawyer review it before publishing for your specific jurisdiction." },
+      { question: "What regulations does it cover?", answer: "The generated policy addresses GDPR (EU), CCPA (California), cookie consent, data collection practices, third-party services, children's privacy (COPPA), and data retention policies." },
+      { question: "Can I customize the output?", answer: "Yes. The AI tailors the policy to your specific app or website based on what you describe — the technologies you use, data you collect, and services you integrate." },
+    ],
   },
   {
     slug: "ai-image-generator",
@@ -95,6 +146,12 @@ export const tools: ToolDefinition[] = [
     costTier: "huggingface",
     keywords: ["ai image generator", "ai image generator free", "text to image", "ai art generator", "image generator"],
     icon: "Sparkles",
+    relatedSlugs: ["background-remover", "image-compressor", "text-to-speech"],
+    faq: [
+      { question: "What AI model is used?", answer: "AllKit uses FLUX.1 Schnell, a fast diffusion model optimized for high-quality image generation. It generates 1024×1024 images in about 4 inference steps." },
+      { question: "Can I use generated images commercially?", answer: "FLUX.1 Schnell is released under the Apache 2.0 license, which permits commercial use. However, always check the latest license terms for your specific use case." },
+      { question: "How do I get better results?", answer: "Be specific in your prompts. Instead of 'a dog', try 'a golden retriever sitting in a sunlit meadow, professional photography, shallow depth of field'. Adding style cues and details improves output quality significantly." },
+    ],
   },
   {
     slug: "cron-generator",
@@ -106,6 +163,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["cron expression generator", "crontab generator", "cron builder", "cron schedule", "crontab guru"],
     icon: "Clock",
     isNew: true,
+    relatedSlugs: ["unix-timestamp", "regex-tester", "json-formatter"],
+    faq: [
+      { question: "What is a cron expression?", answer: "A cron expression is a string of 5 fields (minute, hour, day of month, month, day of week) that defines a schedule for running automated tasks. For example, '0 9 * * 1' means 'every Monday at 9:00 AM'." },
+      { question: "How does the AI builder work?", answer: "Describe your schedule in plain English — like 'every weekday at 8am' or 'first Sunday of each month at midnight' — and AI generates the correct cron expression with an explanation." },
+      { question: "What cron format is supported?", answer: "Standard 5-field cron format used by crontab on Linux/macOS, as well as most CI/CD platforms, cloud schedulers, and task runners." },
+    ],
   },
   {
     slug: "hash-generator",
@@ -117,6 +180,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["hash generator", "md5 hash generator", "sha256 hash", "sha1 hash online", "hash generator online"],
     icon: "Hash",
     isNew: true,
+    relatedSlugs: ["password-generator", "base64", "uuid-generator"],
+    faq: [
+      { question: "What is a hash?", answer: "A cryptographic hash is a fixed-size string generated from input data. The same input always produces the same hash, but you cannot reverse a hash back to the original data. Hashes are used for password storage, file integrity checks, and digital signatures." },
+      { question: "Which hash algorithm should I use?", answer: "Use SHA-256 for most purposes — it's secure and widely supported. Avoid MD5 and SHA-1 for security-critical applications as they have known vulnerabilities. SHA-512 offers the highest security margin." },
+      { question: "Is MD5 still safe to use?", answer: "MD5 is broken for security purposes — collisions can be generated in seconds. It's still fine for non-security uses like checksums or cache keys, but never use it for passwords or digital signatures." },
+    ],
   },
   {
     slug: "color-palette",
@@ -128,6 +197,11 @@ export const tools: ToolDefinition[] = [
     keywords: ["color palette generator", "color scheme generator", "color palette", "color generator", "coolors alternative"],
     icon: "Palette",
     isNew: true,
+    relatedSlugs: ["lorem-ipsum", "qr-code-generator", "json-formatter"],
+    faq: [
+      { question: "What are color harmonies?", answer: "Color harmonies are combinations of colors based on their positions on the color wheel. Complementary colors are opposite each other, analogous are adjacent, and triadic are evenly spaced. These rules help create visually pleasing palettes." },
+      { question: "What's the difference between HEX, RGB, and HSL?", answer: "HEX (#FF5733) is a compact format used in CSS. RGB (255, 87, 51) defines colors by red, green, blue values. HSL (14°, 100%, 60%) uses hue, saturation, lightness — often more intuitive for picking colors." },
+    ],
   },
   {
     slug: "lorem-ipsum",
@@ -139,6 +213,11 @@ export const tools: ToolDefinition[] = [
     keywords: ["lorem ipsum generator", "lorem ipsum", "placeholder text generator", "dummy text generator", "lipsum"],
     icon: "Type",
     isNew: true,
+    relatedSlugs: ["word-counter", "color-palette", "diff-checker"],
+    faq: [
+      { question: "What is Lorem Ipsum?", answer: "Lorem Ipsum is placeholder text used in design and publishing since the 1500s. It comes from a scrambled passage of Cicero's 'De Finibus Bonorum et Malorum' (45 BC). It's used because it has a natural letter distribution that resembles readable English." },
+      { question: "Why use Lorem Ipsum instead of real text?", answer: "Placeholder text prevents reviewers from focusing on content instead of design. Lorem ipsum has no meaningful content, so it keeps attention on layout, typography, and visual hierarchy." },
+    ],
   },
   {
     slug: "text-to-speech",
@@ -150,6 +229,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["text to speech", "tts online", "text to speech online free", "ai voice generator", "text to audio"],
     icon: "Volume2",
     isNew: true,
+    relatedSlugs: ["ai-image-generator", "word-counter", "image-to-text"],
+    faq: [
+      { question: "What AI model is used for TTS?", answer: "AllKit uses ChatterboxTTS by Resemble AI — a state-of-the-art model that produces natural, expressive speech with controllable tone and emotion." },
+      { question: "What audio format is the output?", answer: "The generated speech is downloaded as a WAV file, which is a high-quality uncompressed audio format compatible with virtually all audio players and editors." },
+      { question: "Can I adjust the voice style?", answer: "Yes. You can control expressiveness (how animated the speech sounds) and temperature (how creative/varied the pronunciation is). Lower values are more neutral, higher values more dramatic." },
+    ],
   },
   {
     slug: "qr-code-generator",
@@ -161,6 +246,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["qr code generator", "qr code generator free", "create qr code", "qr code maker", "free qr code"],
     icon: "QrCode",
     isNew: true,
+    relatedSlugs: ["url-encoder", "password-generator", "uuid-generator"],
+    faq: [
+      { question: "What can I put in a QR code?", answer: "URLs, plain text, email addresses, phone numbers, WiFi credentials, vCard contacts, and more. The QR standard can encode up to 4,296 alphanumeric characters." },
+      { question: "What size should my QR code be?", answer: "For print, use at least 2×2 cm (0.8×0.8 inches) at 300 DPI. For screens, 200×200 pixels is usually sufficient. The more data encoded, the denser the pattern and the larger the QR code needs to be for reliable scanning." },
+      { question: "Do QR codes expire?", answer: "Static QR codes (like the ones generated here) never expire — the data is encoded directly in the pattern. Dynamic QR codes that redirect through a URL service can expire if the service shuts down." },
+    ],
   },
   {
     slug: "diff-checker",
@@ -172,6 +263,11 @@ export const tools: ToolDefinition[] = [
     keywords: ["diff checker", "diff checker online", "text compare", "code diff", "compare text online"],
     icon: "GitCompareArrows",
     isNew: true,
+    relatedSlugs: ["json-formatter", "word-counter", "regex-tester"],
+    faq: [
+      { question: "What is a diff?", answer: "A diff shows the differences between two pieces of text. Lines that were added appear in green, removed lines in red, and unchanged lines stay neutral. It's the same concept used in Git version control." },
+      { question: "Can I compare code files?", answer: "Yes. The diff checker works with any plain text — code, config files, prose, CSV data, or any text format. It supports both line-by-line and word-by-word comparison modes." },
+    ],
   },
   {
     slug: "password-generator",
@@ -183,6 +279,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["password generator", "random password generator", "strong password generator", "secure password generator", "password generator online"],
     icon: "KeyRound",
     isNew: true,
+    relatedSlugs: ["hash-generator", "uuid-generator", "base64"],
+    faq: [
+      { question: "How long should my password be?", answer: "At least 16 characters for important accounts. Each additional character exponentially increases the time needed to crack it. A 20-character password with mixed character types is effectively unbreakable with current technology." },
+      { question: "Are these passwords truly random?", answer: "Yes. We use the Web Crypto API (crypto.getRandomValues), which provides cryptographically secure random numbers. This is the same source of randomness used for TLS/SSL encryption." },
+      { question: "Is it safe to generate passwords online?", answer: "Yes, because everything happens in your browser. No passwords are sent to any server, stored anywhere, or logged. You can verify this by disconnecting from the internet — the tool still works." },
+    ],
   },
   {
     slug: "word-counter",
@@ -194,6 +296,11 @@ export const tools: ToolDefinition[] = [
     keywords: ["word counter", "character counter", "word count online", "letter counter", "word counter online"],
     icon: "FileText",
     isNew: true,
+    relatedSlugs: ["lorem-ipsum", "diff-checker", "csv-json"],
+    faq: [
+      { question: "How is reading time calculated?", answer: "Reading time is based on the average adult reading speed of 200-250 words per minute. Speaking time uses 130-150 words per minute. These are averages — technical content takes longer, familiar topics faster." },
+      { question: "What is keyword density?", answer: "Keyword density is how often a word appears as a percentage of total words. SEO professionals use it to ensure natural keyword usage — generally 1-3% is recommended. Higher density may appear spammy to search engines." },
+    ],
   },
   {
     slug: "image-compressor",
@@ -205,6 +312,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["image compressor", "compress image online", "image compressor online", "reduce image size", "compress jpg online"],
     icon: "ImageDown",
     isNew: true,
+    relatedSlugs: ["background-remover", "ai-image-generator", "qr-code-generator"],
+    faq: [
+      { question: "Will compressing reduce image quality?", answer: "Slightly, but often imperceptibly. At 80% quality, JPEG images look virtually identical to the original while being 60-80% smaller. WebP format achieves even better compression at the same quality level." },
+      { question: "Which format should I use?", answer: "WebP offers the best size-to-quality ratio and is supported by all modern browsers. Use JPEG for photos if you need maximum compatibility. Use PNG only when you need transparency." },
+      { question: "Are my images uploaded anywhere?", answer: "No. All compression happens in your browser using the HTML5 Canvas API. Your images never leave your device — you can even use this tool offline." },
+    ],
   },
   {
     slug: "jwt-decoder",
@@ -216,6 +329,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["jwt decoder", "jwt decode", "jwt.io", "json web token decoder", "jwt token decoder"],
     icon: "ShieldCheck",
     isNew: true,
+    relatedSlugs: ["json-formatter", "base64", "hash-generator"],
+    faq: [
+      { question: "What is a JWT?", answer: "A JSON Web Token (JWT) is a compact, URL-safe token format used for authentication and information exchange. It contains three parts: a header (algorithm info), payload (claims/data), and signature (verification)." },
+      { question: "Is it safe to paste my JWT here?", answer: "Yes. Decoding happens entirely in your browser — the token is never sent to any server. However, note that JWTs are only encoded (Base64), not encrypted — anyone with the token can read its contents." },
+      { question: "Can this tool verify JWT signatures?", answer: "This tool decodes and displays JWT contents but does not verify signatures, as that requires the secret key or public key used to sign the token. It will flag expired tokens and show all claims." },
+    ],
   },
   {
     slug: "unix-timestamp",
@@ -227,6 +346,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["unix timestamp converter", "epoch converter", "timestamp to date", "unix time converter", "epoch to date"],
     icon: "Clock",
     isNew: true,
+    relatedSlugs: ["cron-generator", "json-formatter", "uuid-generator"],
+    faq: [
+      { question: "What is a Unix timestamp?", answer: "A Unix timestamp (also called epoch time) is the number of seconds that have elapsed since January 1, 1970, 00:00:00 UTC. It's used universally in programming to represent dates and times as a single number." },
+      { question: "What is the Year 2038 problem?", answer: "32-bit systems store Unix timestamps as signed 32-bit integers, which max out at 2,147,483,647 (January 19, 2038, 03:14:07 UTC). After this, the value overflows. Most modern systems use 64-bit timestamps, which last until the year 292 billion." },
+      { question: "Seconds or milliseconds?", answer: "Unix timestamps in seconds have 10 digits (e.g., 1700000000). JavaScript and Java typically use milliseconds (13 digits, e.g., 1700000000000). This tool auto-detects the format." },
+    ],
   },
   {
     slug: "url-encoder",
@@ -238,6 +363,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["url encoder", "url decoder", "url encode online", "url decode online", "percent encoding"],
     icon: "Link",
     isNew: true,
+    relatedSlugs: ["base64", "json-formatter", "qr-code-generator"],
+    faq: [
+      { question: "Why do URLs need encoding?", answer: "URLs can only contain a limited set of ASCII characters. Special characters like spaces, &, =, and non-ASCII characters must be percent-encoded (e.g., space becomes %20) to be safely transmitted in URLs." },
+      { question: "What's the difference between encodeURI and encodeURIComponent?", answer: "encodeURI preserves URL-structural characters like :, /, ?, # — use it for complete URLs. encodeURIComponent encodes everything except letters and digits — use it for query parameter values." },
+      { question: "What is percent encoding?", answer: "Percent encoding (also called URL encoding) replaces unsafe characters with a % followed by their hexadecimal ASCII value. For example, a space becomes %20, & becomes %26." },
+    ],
   },
   {
     slug: "csv-json",
@@ -249,6 +380,12 @@ export const tools: ToolDefinition[] = [
     keywords: ["csv to json", "json to csv", "csv to json converter", "convert csv to json online", "json to csv converter"],
     icon: "FileSpreadsheet",
     isNew: true,
+    relatedSlugs: ["json-formatter", "diff-checker", "word-counter"],
+    faq: [
+      { question: "What delimiter should I use?", answer: "Comma is the standard for CSV files. Use semicolon if your data contains commas (common in European locales). Tab-separated is great for data copied from spreadsheets. Pipe is used in some legacy systems." },
+      { question: "Can it handle quoted fields?", answer: "Yes. The parser correctly handles fields wrapped in double quotes, including fields that contain commas, newlines, or escaped quotes within the quoted value." },
+      { question: "Is there a file size limit?", answer: "There's no hard limit since processing happens in your browser, but very large files (>50MB) may cause your browser to slow down. For typical CSV files (thousands of rows), it works instantly." },
+    ],
   },
 ];
 

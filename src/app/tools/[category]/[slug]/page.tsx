@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { tools, getToolBySlug, categoryLabels, type ToolCategory } from "@/lib/tools/registry";
 
@@ -117,6 +118,23 @@ export default async function ToolPage({ params }: PageProps) {
     },
   };
 
+  const faqLd = tool.faq?.length ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: tool.faq.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.answer,
+      },
+    })),
+  } : null;
+
+  const relatedTools = (tool.relatedSlugs || [])
+    .map((s) => getToolBySlug(s))
+    .filter(Boolean);
+
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -152,6 +170,12 @@ export default async function ToolPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
+      {faqLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
 
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-muted-foreground">
@@ -176,6 +200,43 @@ export default async function ToolPage({ params }: PageProps) {
         <h2>About {tool.name}</h2>
         <p>{tool.longDescription}</p>
       </section>
+
+      {/* FAQ */}
+      {tool.faq && tool.faq.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            {tool.faq.map((f, i) => (
+              <details key={i} className="group rounded-lg border border-border">
+                <summary className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium hover:bg-muted/50 transition-colors">
+                  {f.question}
+                  <span className="ml-2 text-muted-foreground transition-transform group-open:rotate-180">▾</span>
+                </summary>
+                <p className="px-4 pb-4 text-sm text-muted-foreground">{f.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Related tools */}
+      {relatedTools.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-xl font-semibold mb-4">Related Tools</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {relatedTools.map((rt) => rt && (
+              <Link
+                key={rt.slug}
+                href={`/tools/${rt.category}/${rt.slug}`}
+                className="rounded-lg border border-border p-4 hover:bg-muted/50 transition-colors"
+              >
+                <h3 className="text-sm font-medium mb-1">{rt.name}</h3>
+                <p className="text-xs text-muted-foreground line-clamp-2">{rt.description}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
