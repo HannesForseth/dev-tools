@@ -516,11 +516,11 @@ export function JwtDecoder() {
                 <span className="text-xs text-muted-foreground">(Hex)</span>
               </div>
               <div className="flex items-center gap-2">
-                {decoded.header.alg && (
+                {decoded.header.alg ? (
                   <span className="text-xs font-medium text-muted-foreground bg-muted rounded-md px-2 py-0.5">
                     {String(decoded.header.alg)}
                   </span>
-                )}
+                ) : null}
                 <CopyButton text={decoded.signature} label="Copy" />
               </div>
             </div>
