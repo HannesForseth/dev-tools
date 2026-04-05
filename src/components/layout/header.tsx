@@ -41,6 +41,9 @@ export function Header() {
           <Link href="/tools/ai" className="text-muted-foreground hover:text-foreground transition-colors">
             AI Tools
           </Link>
+          <Link href="/pricing" className="text-muted-foreground hover:text-foreground transition-colors font-medium">
+            Pricing
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">
