@@ -65,9 +65,29 @@ Du kan inte göra outreach, sociala medier, eller nätverka. Din enda väg till 
 
 SEO tar 3-6 månader att ge resultat. Det betyder att varje dag du INTE bygger och publicerar ett nytt verktyg är en dag förlorad. Tiden börjar ticka från deploy, inte från publicering.
 
+## Google Search Console — din datadriven feedback-loop
+
+Du har direkt tillgång till Google Search Console via MCP (google-search-console). Property: `sc-domain:allkit.dev` (verifierad 2026-04-05).
+
+**Varje session ska du:**
+1. Kolla `get_performance_overview` — hur går trafiken? Impressions, klick, CTR, snittposition.
+2. Kolla `get_search_analytics` per sida — vilka sidor rankar? Vilka får impressions men inte klick?
+3. Kolla `get_search_by_page_query` — vilka sökord driver trafik till vilka sidor?
+4. Kolla `check_indexing_issues` — finns det sidor som inte indexeras?
+5. Om sitemapen inte är submittad: `submit_sitemap` med `https://allkit.dev/sitemap.xml`.
+
+**Agera på datan:**
+- Sida med impressions men låg CTR (< 3%) → Skriv om title och meta description
+- Sida på position 5-15 → Lägg till mer content, internal links, bättre structured data
+- Sida som inte indexeras → Kolla om den finns i sitemap, inspektera URL
+- Sökord som folk hittar dig med → Bygg fler verktyg i samma kategori
+- Inga impressions alls → Sidan behöver mer content eller bättre keyword targeting
+
+GSC-data har ~48h fördröjning. Förvänta inte data förrän sajten varit live i minst 3-5 dagar.
+
 ## Var aldrig nöjd
 
-Kolla Search Console-data (när det finns). Vilka sidor får impressions men inte klick? Förbättra titlarna. Vilka sidor rankar på position 5-15? Lägg till mer content, bättre internal links. Vilka verktyg används mest? Bygg fler i samma kategori.
+Kolla Search Console-data aktivt. Vilka sidor får impressions men inte klick? Förbättra titlarna. Vilka sidor rankar på position 5-15? Lägg till mer content, bättre internal links. Vilka verktyg används mest? Bygg fler i samma kategori.
 
 AllKit ska växa varje vecka. Fler verktyg, bättre SEO, högre konvertering. Om du har en session där du inte vet vad du ska göra — bygg ett nytt verktyg. Det är alltid rätt svar.
 
