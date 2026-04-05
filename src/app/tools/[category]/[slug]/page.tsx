@@ -26,6 +26,9 @@ import { JwtDecoder } from "@/components/tools/jwt-decoder";
 import { UnixTimestamp } from "@/components/tools/unix-timestamp";
 import { UrlEncoder } from "@/components/tools/url-encoder";
 import { CsvJsonConverter } from "@/components/tools/csv-json";
+import { MarkdownPreview } from "@/components/tools/markdown-preview";
+import { YamlJsonConverter } from "@/components/tools/yaml-json";
+import { HtmlEntities } from "@/components/tools/html-entities";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -50,6 +53,9 @@ const toolComponents: Record<string, React.ComponentType> = {
   "unix-timestamp": UnixTimestamp,
   "url-encoder": UrlEncoder,
   "csv-json": CsvJsonConverter,
+  "markdown-preview": MarkdownPreview,
+  "yaml-json": YamlJsonConverter,
+  "html-entities": HtmlEntities,
 };
 
 type PageProps = {
