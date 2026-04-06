@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { checkRateLimit, rateLimitResponse, apiResponse } from "@/lib/api/rate-limit";
+import { checkRateLimit, rateLimitResponse, unauthorizedResponse, apiResponse } from "@/lib/api/rate-limit";
 
 function parseCsvLine(line: string, delimiter: string): string[] {
   const result: string[] = [];
@@ -22,8 +22,8 @@ function parseCsvLine(line: string, delimiter: string): string[] {
 }
 
 export async function POST(req: NextRequest) {
-  const rl = checkRateLimit(req);
-  if (!rl.allowed) return rateLimitResponse();
+  const rl = await checkRateLimit(req);
+  if (!rl.allowed) return "unauthorized" in rl ? unauthorizedResponse() : rateLimitResponse();
 
   try {
     const body = await req.json();

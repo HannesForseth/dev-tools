@@ -1,10 +1,10 @@
 import { NextRequest } from "next/server";
 import { randomUUID } from "crypto";
-import { checkRateLimit, rateLimitResponse, apiResponse } from "@/lib/api/rate-limit";
+import { checkRateLimit, rateLimitResponse, unauthorizedResponse, apiResponse } from "@/lib/api/rate-limit";
 
 export async function GET(req: NextRequest) {
-  const rl = checkRateLimit(req);
-  if (!rl.allowed) return rateLimitResponse();
+  const rl = await checkRateLimit(req);
+  if (!rl.allowed) return "unauthorized" in rl ? unauthorizedResponse() : rateLimitResponse();
 
   const count = Math.min(
     parseInt(req.nextUrl.searchParams.get("count") || "1", 10) || 1,

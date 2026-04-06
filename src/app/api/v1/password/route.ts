@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { randomBytes } from "crypto";
-import { checkRateLimit, rateLimitResponse, apiResponse } from "@/lib/api/rate-limit";
+import { checkRateLimit, rateLimitResponse, unauthorizedResponse, apiResponse } from "@/lib/api/rate-limit";
 
 const CHARSETS = {
   lowercase: "abcdefghijklmnopqrstuvwxyz",
@@ -10,8 +10,8 @@ const CHARSETS = {
 };
 
 export async function GET(req: NextRequest) {
-  const rl = checkRateLimit(req);
-  if (!rl.allowed) return rateLimitResponse();
+  const rl = await checkRateLimit(req);
+  if (!rl.allowed) return "unauthorized" in rl ? unauthorizedResponse() : rateLimitResponse();
 
   const params = req.nextUrl.searchParams;
   const length = Math.min(Math.max(parseInt(params.get("length") || "16", 10) || 16, 4), 128);

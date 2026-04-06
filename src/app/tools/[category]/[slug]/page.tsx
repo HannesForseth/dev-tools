@@ -29,6 +29,8 @@ import { CsvJsonConverter } from "@/components/tools/csv-json";
 import { MarkdownPreview } from "@/components/tools/markdown-preview";
 import { YamlJsonConverter } from "@/components/tools/yaml-json";
 import { HtmlEntities } from "@/components/tools/html-entities";
+import { CssMinifier } from "@/components/tools/css-minifier";
+import { ImageResizer } from "@/components/tools/image-resizer";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -56,6 +58,8 @@ const toolComponents: Record<string, React.ComponentType> = {
   "markdown-preview": MarkdownPreview,
   "yaml-json": YamlJsonConverter,
   "html-entities": HtmlEntities,
+  "css-minifier": CssMinifier,
+  "image-resizer": ImageResizer,
 };
 
 type PageProps = {
@@ -253,13 +257,20 @@ export default async function ToolPage({ params }: PageProps) {
       {/* SEO content */}
       <section className="mt-12 prose prose-zinc dark:prose-invert max-w-none">
         <h2>What is {tool.name}?</h2>
-        <p>{tool.longDescription}</p>
-        <p>
-          AllKit&apos;s {tool.name} is completely free with no signup required.
-          {tool.costTier === "free"
-            ? " All processing happens directly in your browser — your data is never sent to any server, making it safe for sensitive information."
-            : " Powered by state-of-the-art AI models, it delivers professional-quality results in seconds."}
-        </p>
+        {tool.detailedDescription ? (
+          tool.detailedDescription.map((p, i) => <p key={i}>{p}</p>)
+        ) : (
+          <>
+            <p>{tool.longDescription}</p>
+            <p>
+              AllKit&apos;s {tool.name} is completely free with no signup required.
+              {tool.costTier === "free"
+                ? " All processing happens directly in your browser — your data is never sent to any server, making it safe for sensitive information."
+                : " Powered by state-of-the-art AI models, it delivers professional-quality results in seconds."}
+            </p>
+          </>
+        )}
+
         <h3>Why use AllKit?</h3>
         <ul>
           <li><strong>No ads, no distractions</strong> — a clean interface that lets you focus on the task</li>
@@ -267,6 +278,41 @@ export default async function ToolPage({ params }: PageProps) {
           <li><strong>Free forever</strong> — core tools are free with no usage limits</li>
           <li><strong>API available</strong> — integrate into your workflow via our <Link href="/api-docs" className="text-primary">REST API</Link></li>
         </ul>
+
+        {/* How to Use section */}
+        {tool.howToUse && tool.howToUse.length > 0 && (
+          <>
+            <h2>How to Use {tool.name}</h2>
+            <ol>
+              {tool.howToUse.map((step, i) => (
+                <li key={i}>{step}</li>
+              ))}
+            </ol>
+          </>
+        )}
+
+        {/* Common Use Cases section */}
+        {tool.useCases && tool.useCases.length > 0 && (
+          <>
+            <h2>Common Use Cases</h2>
+            {tool.useCases.map((uc, i) => (
+              <div key={i}>
+                <h3>{uc.title}</h3>
+                <p>{uc.description}</p>
+              </div>
+            ))}
+          </>
+        )}
+
+        {/* Technical Details section */}
+        {tool.technicalDetails && tool.technicalDetails.length > 0 && (
+          <>
+            <h2>Technical Details</h2>
+            {tool.technicalDetails.map((detail, i) => (
+              <p key={i}>{detail}</p>
+            ))}
+          </>
+        )}
       </section>
 
       {/* FAQ */}

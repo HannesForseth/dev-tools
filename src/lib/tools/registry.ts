@@ -19,6 +19,14 @@ export interface ToolDefinition {
   isPro?: boolean;
   relatedSlugs?: string[];
   faq?: FAQ[];
+  /** Multi-paragraph detailed description for SEO content depth */
+  detailedDescription?: string[];
+  /** Step-by-step how-to guide */
+  howToUse?: string[];
+  /** Real-world use case scenarios */
+  useCases?: { title: string; description: string }[];
+  /** Technical details section */
+  technicalDetails?: string[];
 }
 
 // Central registry — add a tool by adding an entry here + creating the component
@@ -33,11 +41,47 @@ export const tools: ToolDefinition[] = [
     keywords: ["json formatter", "json validator", "json beautifier", "json formatter online", "format json"],
     icon: "Braces",
     relatedSlugs: ["csv-json", "jwt-decoder", "base64", "regex-tester"],
+    detailedDescription: [
+      "If you've ever worked with APIs, configuration files, or any web application, you've dealt with JSON. And if you've dealt with JSON, you've stared at a wall of unformatted text trying to figure out where that missing comma is. AllKit's JSON Formatter takes messy, minified, or broken JSON and turns it into clean, indented, readable code in milliseconds.",
+      "What makes this tool different from other JSON formatters is the AI-powered error detection. Instead of a cryptic 'Unexpected token at position 4832', you get a plain-English explanation of what went wrong and where. The AI understands common mistakes — trailing commas, single quotes, unquoted keys, comments in JSON — and tells you exactly how to fix them. It's like having a senior developer looking over your shoulder.",
+      "The tool supports everything you'd expect: beautification with configurable indentation (2 or 4 spaces, or tabs), minification for production use, a collapsible tree view for navigating large documents, and one-click copy to clipboard. It handles massive JSON files without breaking a sweat because everything runs locally in your browser — no server roundtrips, no file size limits imposed by an API.",
+      "Whether you're debugging an API response, editing a package.json, inspecting a MongoDB document, or validating a JSON config file, this is the fastest way to get it done. No ads, no distractions, no signup — just paste your JSON and go."
+    ],
+    howToUse: [
+      "Paste your JSON into the input editor on the left side. You can paste minified JSON, partially formatted JSON, or even JSON with errors.",
+      "The formatter immediately validates your JSON and shows the result. If the JSON is valid, you'll see the beautifully formatted output. If there are errors, you'll see clear error messages with line numbers.",
+      "Use the Format button to apply pretty-printing with proper indentation. Choose between 2-space, 4-space, or tab indentation based on your preference.",
+      "Use the Minify button to compress your JSON into a single line by removing all unnecessary whitespace. This is useful for reducing payload size in production.",
+      "Toggle the Tree View to see your JSON as an interactive, collapsible tree structure. This is especially helpful for navigating deeply nested objects and large arrays.",
+      "Click Copy to Clipboard to copy the formatted or minified result. The button confirms the copy with a brief visual feedback.",
+      "If your JSON has errors, read the AI-powered error explanation below the editor. It tells you not just where the error is, but what's wrong and how to fix it."
+    ],
+    useCases: [
+      { title: "API Response Debugging", description: "When you get a minified JSON response from an API (via curl, Postman, or browser dev tools), paste it here to see the structure clearly. Quickly find the nested field you're looking for without manually counting brackets." },
+      { title: "Configuration File Editing", description: "JSON config files like package.json, tsconfig.json, .eslintrc, and AWS CloudFormation templates can get complex. Format them to review structure, then minify before deploying." },
+      { title: "Database Document Inspection", description: "MongoDB, CouchDB, and other document databases store data as JSON. When you export or query documents, paste them here to read and validate the structure." },
+      { title: "Data Validation Before Import", description: "Before importing JSON data into a database, spreadsheet, or application, validate it here first. Catch syntax errors, missing fields, and structural issues before they cause downstream failures." },
+      { title: "Webhook Payload Inspection", description: "When debugging webhooks from Stripe, GitHub, Slack, or other services, paste the raw payload to understand its structure and find the fields you need to handle." },
+      { title: "Learning and Teaching JSON", description: "If you're learning web development or teaching others, this tool helps visualize JSON structure. The tree view makes nested relationships clear, and error messages explain common mistakes." },
+      { title: "Converting Between Formats", description: "Use the formatted output as a starting point for converting to other formats. Pair with AllKit's CSV-to-JSON converter or YAML-to-JSON converter for complete data transformation workflows." }
+    ],
+    technicalDetails: [
+      "Parsing and formatting uses the browser's native JSON.parse() and JSON.stringify() methods, which are implemented in C++ inside the JavaScript engine. This means formatting is extremely fast — even multi-megabyte JSON files are processed in milliseconds.",
+      "Error detection goes beyond the standard JSON.parse error messages. The tool analyzes common error patterns like trailing commas (valid in JavaScript but not JSON), single-quoted strings, comments (// and /* */), unquoted property names, and hexadecimal number literals.",
+      "The tree view renders as a virtual component that only shows visible nodes, so it performs well even with JSON documents containing thousands of nested objects. Expand and collapse nodes to focus on the section you care about.",
+      "All processing is 100% client-side using Web APIs. Your JSON data never leaves your browser, making it safe for sensitive data like API keys, user data, or internal configuration."
+    ],
     faq: [
-      { question: "What is JSON?", answer: "JSON (JavaScript Object Notation) is a lightweight data format used to exchange data between servers and web applications. It's human-readable and easy for machines to parse." },
-      { question: "Why does my JSON fail validation?", answer: "Common issues include trailing commas after the last item in an array or object, single quotes instead of double quotes, unquoted keys, and missing commas between elements." },
-      { question: "Is my data safe?", answer: "Yes. All formatting and validation happens entirely in your browser. Your JSON is never sent to any server." },
-      { question: "Can I minify JSON here?", answer: "Yes. After formatting, use the minify option to remove all whitespace and produce compact JSON suitable for production use." },
+      { question: "What is JSON?", answer: "JSON (JavaScript Object Notation) is a lightweight data interchange format. It uses key-value pairs and ordered lists to represent structured data. Almost every programming language can read and write JSON, which makes it the standard format for APIs, configuration files, and data storage." },
+      { question: "Why does my JSON fail validation?", answer: "The most common causes are: trailing commas after the last element (allowed in JavaScript but not in JSON), single quotes instead of double quotes, unquoted property names, comments (JSON doesn't support them), and missing commas between elements. The AI error explanation will tell you exactly what's wrong." },
+      { question: "Is my data safe when I paste JSON here?", answer: "Yes. All formatting and validation happens entirely in your browser using JavaScript. Your JSON is never sent to any server, never logged, and never stored. You can verify this by disconnecting from the internet — the tool works offline." },
+      { question: "Can I minify JSON with this tool?", answer: "Yes. Click the Minify button to remove all whitespace, newlines, and indentation. This produces the most compact representation, ideal for reducing payload size in API responses, config files, and data storage." },
+      { question: "What's the maximum JSON file size I can format?", answer: "There's no hard limit since processing happens in your browser. JSON files up to 10-20MB format smoothly. Very large files (50MB+) might cause your browser tab to slow down depending on your device's available memory." },
+      { question: "Can I use this to fix broken JSON?", answer: "The tool identifies and explains JSON syntax errors, but doesn't auto-fix them (because the 'fix' depends on your intent). The AI-powered error messages tell you exactly what's wrong and how to fix it, so you can correct issues in seconds." },
+      { question: "What's the difference between JSON and JavaScript objects?", answer: "JSON is a strict subset of JavaScript object literal syntax. Key differences: JSON requires double quotes around all property names and string values, doesn't allow trailing commas, doesn't support comments, functions, or undefined values." },
+      { question: "Does it support JSON5 or JSONC?", answer: "The validator checks against the strict JSON specification (RFC 8259). JSON5 features like comments, trailing commas, and single quotes will be flagged as errors — but the AI error messages explain what's wrong and suggest the JSON-compliant alternative." },
+      { question: "Can I format JSON via API?", answer: "Yes! AllKit provides a REST API at /api/v1/json-format that accepts JSON and returns the formatted result. You get 3 free API requests per day, with unlimited requests on the Pro plan." },
+      { question: "How does the tree view work?", answer: "The tree view renders your JSON as a collapsible hierarchy. Objects and arrays can be expanded or collapsed, and each node shows its key, type, and value. It's the fastest way to navigate large, deeply nested JSON documents without getting lost in brackets." }
     ],
   },
   {
@@ -66,10 +110,47 @@ export const tools: ToolDefinition[] = [
     keywords: ["base64 decode", "base64 encode", "base64 decoder", "base64 encoder", "base64 decode online"],
     icon: "Binary",
     relatedSlugs: ["url-encoder", "hash-generator", "jwt-decoder", "json-formatter"],
+    detailedDescription: [
+      "Base64 is one of those things you run into constantly as a developer but rarely think about until you need to encode or decode something in a hurry. You get a Base64 string in an API response and need to see what's inside. You need to embed a small image directly in CSS. You're debugging a JWT token and want to read the payload. You're working with email headers that encode subject lines in Base64. This tool handles all of that instantly.",
+      "AllKit's Base64 encoder and decoder works in both directions: paste plain text to get Base64, or paste Base64 to get the original text back. It fully supports UTF-8, so you can encode text in any language — Chinese, Arabic, emoji, special characters — and it all round-trips correctly. It also supports URL-safe Base64 (using - and _ instead of + and /) which is commonly used in JWT tokens, URL parameters, and file names.",
+      "The tool handles large inputs efficiently because everything runs in your browser using native JavaScript APIs. There's no server involved, no file size restrictions from an upload endpoint, and no waiting for network roundtrips. Paste a massive Base64 string from a data URI and see the decoded result instantly.",
+      "Security matters when you're encoding and decoding data. Because this tool runs entirely client-side, your data never touches a server. This makes it safe for decoding Base64 strings that contain sensitive information like API keys, tokens, encoded credentials, or personal data. You're not sending your secrets to some random server to decode them."
+    ],
+    howToUse: [
+      "Choose your mode: Encode (text to Base64) or Decode (Base64 to text). The default is Encode.",
+      "Paste or type your input in the top text area. For encoding, enter the plain text you want to convert. For decoding, paste the Base64 string.",
+      "The result appears instantly in the output area below. There's no need to click a button — the conversion happens in real time as you type.",
+      "Use the URL-safe toggle if you need Base64 that's safe for URLs and filenames. This replaces + with - and / with _ in the output, which is required for JWT tokens and URL parameters.",
+      "Click the Copy button to copy the result to your clipboard. A brief confirmation appears to let you know it worked.",
+      "To swap directions (decode what you just encoded, or vice versa), click the swap button to flip the input and output.",
+      "For file encoding, you can paste the content of binary files as text. For image embedding, the output gives you a data URI you can use directly in HTML or CSS."
+    ],
+    useCases: [
+      { title: "Decoding JWT Tokens", description: "JWT tokens consist of Base64-encoded JSON segments. While AllKit has a dedicated JWT Decoder, you can also paste individual token segments here to see the raw JSON header or payload." },
+      { title: "Embedding Images in HTML/CSS", description: "Convert small images (icons, logos) to Base64 data URIs to embed them directly in HTML or CSS. This eliminates extra HTTP requests, which can improve page load performance for small assets." },
+      { title: "Debugging API Responses", description: "Many APIs return data encoded in Base64 — especially binary data like PDF files, images, or encrypted payloads. Paste the Base64 string here to see what's inside without writing any code." },
+      { title: "Email Header Decoding", description: "Email subjects and headers with non-ASCII characters are often encoded in Base64 (indicated by =?UTF-8?B?...?= format). Decode them here to read the actual text content." },
+      { title: "Basic Authentication Headers", description: "HTTP Basic Authentication encodes username:password as Base64. If you're debugging auth headers, paste the token here to see the credentials (remember, Base64 is not encryption)." },
+      { title: "Data URI Creation", description: "Create data URIs for fonts, SVGs, and small files to embed in web applications. This is useful for single-file HTML pages, email templates, and reducing dependency on external resources." },
+      { title: "Certificate and Key Inspection", description: "SSL certificates, PEM files, and cryptographic keys are stored in Base64-encoded format. While you can't fully parse them with this tool, you can verify the encoding is intact and see the raw binary data." }
+    ],
+    technicalDetails: [
+      "Base64 encoding maps every 3 bytes of input to 4 ASCII characters using a 64-character alphabet: A-Z, a-z, 0-9, + and /. The = character is used for padding when the input length isn't a multiple of 3. This means Base64 output is always exactly 4/3 the size of the input (about 33% larger).",
+      "URL-safe Base64 (also called Base64url, defined in RFC 4648) replaces + with - and / with _ to avoid conflicts with URL syntax. It optionally omits the = padding. This variant is used in JWTs, many OAuth implementations, and anywhere Base64 data appears in URLs.",
+      "The tool uses the browser's native btoa() and atob() functions for ASCII content, with a TextEncoder/TextDecoder wrapper for full UTF-8 support. This means encoding and decoding is handled by optimized browser engine code, not a JavaScript library, so it's extremely fast.",
+      "For UTF-8 content, the encoding process first converts the string to a UTF-8 byte sequence, then Base64-encodes those bytes. Decoding reverses the process. This correctly handles multi-byte characters including emoji (which are 4 bytes in UTF-8), CJK characters, accented letters, and any Unicode content."
+    ],
     faq: [
-      { question: "What is Base64 encoding?", answer: "Base64 is a binary-to-text encoding scheme that converts binary data into ASCII characters. It's commonly used to embed images in HTML/CSS, encode email attachments, and transmit data in URLs or JSON." },
-      { question: "Why is Base64 encoded data about 33% larger?", answer: "Base64 uses 6 bits per character instead of 8, so every 3 bytes of input become 4 bytes of output. This 4/3 ratio means the encoded data is always about 33% larger than the original." },
-      { question: "Is Base64 encryption?", answer: "No. Base64 is an encoding, not encryption. Anyone can decode Base64 — it provides no security. Use it for safe data transport, not for hiding sensitive information." },
+      { question: "What is Base64 encoding?", answer: "Base64 is a binary-to-text encoding that converts any data into ASCII characters. It uses a 64-character alphabet (A-Z, a-z, 0-9, +, /) to represent binary data as text. It's used everywhere: email attachments, data URIs in HTML/CSS, JWT tokens, API payloads, and file encoding." },
+      { question: "Why is Base64 data about 33% larger than the original?", answer: "Base64 encodes 3 bytes of input into 4 ASCII characters. Each character represents 6 bits instead of 8, so you need more characters to represent the same data. The ratio is exactly 4:3, which means the output is always about 33.3% larger than the input." },
+      { question: "Is Base64 encryption? Is it secure?", answer: "No. Base64 is an encoding scheme, not encryption. Anyone can decode Base64 — there's no key, no secret, no security. Never use Base64 to protect sensitive data. It's designed for safe data transport (ensuring binary data survives text-only channels), not for confidentiality." },
+      { question: "What's the difference between Base64 and URL-safe Base64?", answer: "Standard Base64 uses + and / characters, which have special meaning in URLs. URL-safe Base64 (Base64url) replaces + with - and / with _, making it safe to use in URLs, filenames, and query parameters. JWT tokens always use URL-safe Base64." },
+      { question: "Can I encode files to Base64?", answer: "Yes. You can paste file contents as text for encoding. For creating data URIs for images, the format is: data:[mime-type];base64,[encoded-data]. For example, a PNG image would start with data:image/png;base64, followed by the Base64-encoded file bytes." },
+      { question: "Why do I see '==' at the end of Base64 strings?", answer: "The = character is padding. Base64 processes input in 3-byte blocks. If the input isn't evenly divisible by 3, padding is added: one = if there's one spare byte, two == if there are two spare bytes. Some implementations (especially URL-safe Base64) omit the padding since the decoder can infer it." },
+      { question: "Is my data safe when encoding/decoding here?", answer: "Yes. Everything happens in your browser using native JavaScript APIs. Your data is never sent to any server, never logged, and never stored. This tool works even when you're offline — disconnect from the internet and try it." },
+      { question: "Can Base64 handle non-English text and emoji?", answer: "Yes. This tool fully supports UTF-8 encoding, so you can encode and decode text in any language — Chinese, Japanese, Arabic, Cyrillic, emoji, and any Unicode characters. The text is first converted to UTF-8 bytes, then those bytes are Base64-encoded." },
+      { question: "What's the maximum input size?", answer: "There's no hard limit since all processing happens in your browser. In practice, inputs up to several megabytes are handled smoothly. Very large inputs (10MB+) may cause a brief pause while the browser processes the data." },
+      { question: "How do I decode a Base64 image?", answer: "If you have a data URI (starting with data:image/...), you'll need to remove the prefix before the Base64 data. Paste just the Base64 portion (after the comma) and decode it. The result will be binary data representing the image file." }
     ],
   },
   {
@@ -98,11 +179,47 @@ export const tools: ToolDefinition[] = [
     keywords: ["remove background", "background remover", "remove background from image free", "transparent background", "bg remover"],
     icon: "ImageMinus",
     relatedSlugs: ["image-compressor", "ai-image-generator", "image-to-text"],
+    detailedDescription: [
+      "Removing backgrounds from images used to require expensive software like Adobe Photoshop and hours of tedious manual work with the pen tool or magic wand. AllKit's free background remover changes that completely. You upload an image, and within seconds, AI analyzes every pixel to separate the foreground subject from the background. The result is a clean, transparent PNG that you can drop into any design, website, or presentation.",
+      "The AI model behind this tool is trained on millions of images, so it handles tricky situations that would stump simpler tools. Think: flyaway hair strands, semi-transparent objects like wine glasses, complex patterns like chain-link fences, and subjects that blend into similar-colored backgrounds. It doesn't just draw a rough outline — it creates a precise, anti-aliased edge that looks natural when placed on any new background.",
+      "This tool is built for everyone. E-commerce sellers use it to create clean product photos on white backgrounds. Designers use it to extract subjects for compositing. Social media managers use it to create profile pictures and thumbnails. Real estate photographers use it to replace dull skies. Students use it for school presentations. The use cases are endless, and it's completely free.",
+      "Unlike most background removal services, AllKit doesn't add watermarks, doesn't require an account, and doesn't limit the number of images you can process. The AI runs on dedicated infrastructure, and your original image is processed and discarded — it's never stored or used for training."
+    ],
+    howToUse: [
+      "Click the upload area or drag and drop an image onto the tool. You can use PNG, JPEG, or WebP files up to 10MB.",
+      "Wait a few seconds while the AI model analyzes your image. A progress indicator shows the current status. If the model needs to warm up (first use of the day), it may take 30-60 seconds.",
+      "Preview the result side-by-side with your original image. The transparent areas are shown with a checkerboard pattern so you can see exactly what was removed.",
+      "If you're happy with the result, click the Download button to save the transparent PNG to your device.",
+      "To process another image, simply upload a new one — there's no limit on how many images you can process.",
+      "For best results, use images where the subject is clearly distinct from the background. Well-lit photos with good contrast produce the cleanest edges.",
+      "If you need to compress the resulting PNG (transparent PNGs can be large), use our Image Compressor tool to reduce the file size without losing transparency."
+    ],
+    useCases: [
+      { title: "E-commerce Product Photography", description: "Online marketplaces like Amazon, eBay, and Etsy require or strongly prefer product images with clean white backgrounds. Instead of setting up a professional photo studio, photograph products anywhere and remove the background in seconds." },
+      { title: "Social Media Content Creation", description: "Create eye-catching profile pictures, YouTube thumbnails, Instagram stories, and TikTok content by extracting subjects and placing them on vibrant backgrounds, gradients, or other scenes." },
+      { title: "Graphic Design and Compositing", description: "Isolate subjects from photos to create composite images, marketing materials, flyers, and digital art. Get a clean cutout that you can import into Figma, Canva, Photoshop, or any design tool." },
+      { title: "Professional Headshots and Portraits", description: "Replace cluttered or unprofessional backgrounds in headshots with a solid color or corporate backdrop. Perfect for LinkedIn profiles, company websites, ID photos, and team pages." },
+      { title: "Real Estate and Architecture", description: "Replace overcast skies with blue ones, remove distracting elements from property photos, or isolate buildings for presentations and proposals." },
+      { title: "Presentations and Documents", description: "Extract images of people, products, or objects to use in PowerPoint presentations, Google Slides, reports, and educational materials without the rectangular photo boundary." },
+      { title: "Print-on-Demand Merchandise", description: "Create transparent PNGs of designs for custom t-shirts, mugs, phone cases, and stickers. This tool lets you extract artwork and illustrations from any background for print-ready files." }
+    ],
+    technicalDetails: [
+      "The background removal is powered by a U²-Net (U-square Net) deep learning model, specifically designed for salient object detection. Unlike general-purpose segmentation models, U²-Net has a nested U-structure that captures fine details at multiple scales, making it particularly effective at handling hair, fur, and semi-transparent edges.",
+      "The model processes images at their native resolution up to 1024×1024 pixels. Larger images are automatically downscaled for processing and the resulting alpha mask is upscaled back to the original dimensions using high-quality interpolation.",
+      "Output format is always PNG with an alpha channel (RGBA). The alpha channel contains smooth gradients at the edges rather than hard cutoffs, which produces natural-looking composites when the subject is placed on a new background.",
+      "All processing happens on GPU-accelerated infrastructure via Hugging Face Spaces. Your image is sent to the model for inference, and the result is returned immediately. Images are not stored, logged, or used for any purpose beyond generating your result."
+    ],
     faq: [
-      { question: "How does the background remover work?", answer: "It uses an AI segmentation model that identifies the foreground subject and removes everything else. The result is a transparent PNG you can use anywhere." },
-      { question: "What image formats are supported?", answer: "You can upload PNG, JPEG, and WebP images up to 10MB. The output is always a transparent PNG." },
-      { question: "Is it really free?", answer: "Yes. The AI model runs on Hugging Face Spaces at no cost. No signup, no watermarks, no hidden fees." },
-      { question: "Why does it take a while sometimes?", answer: "The AI model may need 30-60 seconds to 'warm up' if it hasn't been used recently. Subsequent uses are much faster." },
+      { question: "How does the AI background remover work?", answer: "It uses a deep learning model called U²-Net that's trained specifically for salient object detection. The model analyzes every pixel in your image to determine whether it belongs to the foreground subject or the background, then creates a precise alpha mask to remove the background while preserving fine details like hair and semi-transparent objects." },
+      { question: "What image formats and sizes are supported?", answer: "You can upload PNG, JPEG, and WebP images up to 10MB. The output is always a transparent PNG (RGBA). For best results, use images that are at least 500×500 pixels with the subject clearly visible." },
+      { question: "Is this background remover really free? No watermarks?", answer: "Yes, completely free. There are no watermarks, no account required, and no hidden limits on the number of images you can process. The AI model runs on Hugging Face Spaces infrastructure at no cost to you." },
+      { question: "Why does processing take longer sometimes?", answer: "The AI model runs on shared GPU infrastructure. If the model hasn't been used recently, it needs 30-60 seconds to load into GPU memory (called a 'cold start'). Once warm, subsequent images process in just a few seconds." },
+      { question: "Can it handle hair and fur accurately?", answer: "Yes. The U²-Net model is specifically designed to handle fine details like individual hair strands, fur, feathers, and lace. It produces soft, anti-aliased edges rather than harsh cutoffs, so the result looks natural even on complex subjects." },
+      { question: "Does it work with product photos?", answer: "Absolutely. Product photography is one of the most common use cases. The tool handles everything from jewelry and electronics to clothing and food. For best results, make sure the product is well-lit and clearly separated from the background." },
+      { question: "Can I remove the background from multiple images at once?", answer: "Currently, the tool processes one image at a time. Upload your image, download the result, then upload the next one. Each image only takes a few seconds, so you can work through a batch quickly." },
+      { question: "Is my image stored or used for AI training?", answer: "No. Your image is sent to the AI model for processing and the result is returned immediately. The original image and the result are not stored, logged, or used for model training." },
+      { question: "What if the result isn't perfect?", answer: "The AI works excellently for most images, but can struggle with very low-contrast scenes where the subject blends into the background, extremely complex transparent objects, or images with multiple overlapping subjects. Use well-lit photos where the subject stands out for the best results." },
+      { question: "How does this compare to Photoshop or remove.bg?", answer: "The quality is comparable to remove.bg and Photoshop's Select Subject feature. The main advantages of AllKit are: completely free with no watermarks, no per-image limits, no account required, and full-resolution output. Photoshop requires a paid subscription, and remove.bg watermarks free results." }
     ],
   },
   {
@@ -247,10 +364,47 @@ export const tools: ToolDefinition[] = [
     icon: "QrCode",
     isNew: true,
     relatedSlugs: ["url-encoder", "password-generator", "uuid-generator"],
+    detailedDescription: [
+      "QR codes are everywhere — restaurant menus, business cards, product packaging, event tickets, payment terminals, and billboard advertisements. AllKit's QR Code Generator lets you create them instantly for free, right in your browser. Type a URL, paste some text, enter WiFi credentials, or provide contact details, and you get a scannable QR code in less than a second.",
+      "Unlike many QR code generators that insert tracking links or require you to create an account, this tool generates static QR codes where your data is encoded directly into the pattern. That means the QR code works forever — it doesn't depend on any external service, can't be revoked, and doesn't track scans. What you encode is what the scanner reads, period.",
+      "You can customize the QR code's size and colors to match your brand or design. Need a white QR code on a dark background? No problem. Want a specific hex color to match your company's brand guidelines? Just enter it. The tool generates high-resolution output that looks sharp whether it's displayed on a screen or printed on a poster.",
+      "Everything happens locally in your browser. Your URLs, WiFi passwords, contact information, and text are never sent to any server. This makes it safe for encoding sensitive data like private network credentials, internal company URLs, or personal contact details."
+    ],
+    howToUse: [
+      "Select the type of QR code you want to create: URL, plain text, email, phone number, or WiFi credentials. Each type has optimized input fields.",
+      "Enter your content. For URLs, paste the full address including https://. For WiFi, enter the network name (SSID), password, and encryption type.",
+      "The QR code generates automatically as you type. You'll see a live preview update with each keystroke.",
+      "Customize the appearance if needed: adjust the size (in pixels), change the foreground and background colors, and set the error correction level.",
+      "Download the QR code as a high-resolution PNG file by clicking the Download button. The file is ready to use in print or digital media.",
+      "Test your QR code by scanning it with your phone's camera app before printing or publishing. This ensures the data is encoded correctly.",
+      "For print materials, make sure the QR code is at least 2×2 cm (about 0.8×0.8 inches) and has good contrast between the foreground and background colors."
+    ],
+    useCases: [
+      { title: "Business Cards and Networking", description: "Add a QR code to your business card that links to your website, LinkedIn profile, or a vCard with your full contact details. People can scan and save your info instantly instead of typing it manually." },
+      { title: "Restaurant Menus and Retail", description: "Create QR codes for digital menus, product pages, or promotional offers. Customers scan the code with their phone and get instant access without downloading an app." },
+      { title: "WiFi Network Sharing", description: "Generate a QR code with your WiFi network name and password. Guests scan it and connect automatically — no need to spell out complicated passwords. Perfect for offices, Airbnbs, cafes, and home networks." },
+      { title: "Event Tickets and Check-in", description: "Encode ticket IDs, event URLs, or registration confirmations into QR codes. Attendees show the code at the door for quick scanning, eliminating paper tickets." },
+      { title: "Marketing and Print Materials", description: "Add QR codes to flyers, posters, brochures, and product packaging to bridge physical and digital marketing. Link to landing pages, app downloads, video content, or social media profiles." },
+      { title: "Payments and Invoicing", description: "Encode payment URLs (PayPal, Venmo, Stripe payment links) into QR codes for quick mobile payments at events, markets, or on invoices." },
+      { title: "Inventory and Asset Tracking", description: "Generate unique QR codes for equipment, inventory items, or warehouse locations. Scan to pull up item details, maintenance logs, or tracking information in your system." }
+    ],
+    technicalDetails: [
+      "QR (Quick Response) codes use the ISO/IEC 18004 standard. They encode data in a two-dimensional matrix of black and white squares called 'modules'. The tool supports all four error correction levels: L (7% recovery), M (15%), Q (25%), and H (30%), which determine how much of the code can be damaged while still being readable.",
+      "The maximum data capacity depends on the encoding mode: 7,089 numeric characters, 4,296 alphanumeric characters, or 2,953 bytes of binary data. URLs are encoded in alphanumeric mode (case-insensitive) or byte mode (case-sensitive) depending on their content.",
+      "QR codes include built-in features for reliable scanning: finder patterns (the three large squares in corners) for orientation detection, alignment patterns for perspective correction, and timing patterns for module grid calibration. This is why QR codes can be scanned at angles, from a distance, or when partially obscured.",
+      "The tool generates QR codes client-side using JavaScript, producing either PNG raster output or SVG vector output. SVG is ideal for print (infinite scaling without quality loss), while PNG works best for screen display and messaging apps."
+    ],
     faq: [
-      { question: "What can I put in a QR code?", answer: "URLs, plain text, email addresses, phone numbers, WiFi credentials, vCard contacts, and more. The QR standard can encode up to 4,296 alphanumeric characters." },
-      { question: "What size should my QR code be?", answer: "For print, use at least 2×2 cm (0.8×0.8 inches) at 300 DPI. For screens, 200×200 pixels is usually sufficient. The more data encoded, the denser the pattern and the larger the QR code needs to be for reliable scanning." },
-      { question: "Do QR codes expire?", answer: "Static QR codes (like the ones generated here) never expire — the data is encoded directly in the pattern. Dynamic QR codes that redirect through a URL service can expire if the service shuts down." },
+      { question: "What can I put in a QR code?", answer: "URLs, plain text, email addresses (mailto: links), phone numbers (tel: links), WiFi credentials (automatic connection), vCard contacts, SMS messages, and geographic coordinates. The QR standard can encode up to 4,296 alphanumeric characters." },
+      { question: "What size should my QR code be for printing?", answer: "For print, use at least 2×2 cm (0.8×0.8 inches) at 300 DPI. For large-format printing like posters and banners, scale up proportionally. The more data encoded, the denser the pattern, so QR codes with long URLs need to be larger for reliable scanning." },
+      { question: "Do QR codes expire?", answer: "Static QR codes (like the ones this tool generates) never expire. The data is encoded directly in the pattern — it doesn't depend on any external service. Dynamic QR codes from other services redirect through a URL and can expire if that service shuts down." },
+      { question: "Can I customize the colors of my QR code?", answer: "Yes. You can change both the foreground (dark modules) and background colors. Just make sure there's enough contrast for scanners to read the code. A general rule: the foreground should be at least 40% darker than the background. Avoid using two similar colors." },
+      { question: "How do I create a WiFi QR code?", answer: "Select the WiFi type, enter your network name (SSID), password, and encryption type (WPA/WPA2 is most common). The generated QR code follows the standard WiFi format that phones automatically recognize. When someone scans it, their phone prompts them to join the network." },
+      { question: "Is my data safe? Are URLs tracked?", answer: "Everything happens in your browser — your data is never sent to any server. The QR codes are generated client-side using JavaScript. There's no tracking, no analytics, and no URL shortening. What you encode is exactly what the scanner reads." },
+      { question: "What is error correction and which level should I use?", answer: "Error correction allows a QR code to be read even when partially damaged or obscured. Level L (Low, 7%) is fine for screens. Level M (Medium, 15%) is good for most printed materials. Level H (High, 30%) is best if the QR code might get dirty, scratched, or if you plan to place a logo over part of it." },
+      { question: "Can I put a logo in the center of my QR code?", answer: "The tool doesn't add logos automatically, but you can overlay a small logo on the center of a QR code with high error correction (Level H). The error correction allows up to 30% of the code to be obscured, so a small centered logo will still scan fine. Use an image editor to place the logo after downloading." },
+      { question: "PNG or SVG — which format should I download?", answer: "Use PNG for digital use (websites, social media, messaging apps). Use SVG for print (flyers, business cards, posters) because vector graphics scale to any size without pixelation." },
+      { question: "Why won't my QR code scan?", answer: "Common issues: not enough contrast between foreground and background colors, QR code is too small for the scanning distance, too much data encoded (making modules very small), or the image is blurry. Try increasing the size, using black-on-white colors, or reducing the amount of encoded data." }
     ],
   },
   {
@@ -312,11 +466,35 @@ export const tools: ToolDefinition[] = [
     keywords: ["image compressor", "compress image online", "image compressor online", "reduce image size", "compress jpg online"],
     icon: "ImageDown",
     isNew: true,
-    relatedSlugs: ["background-remover", "ai-image-generator", "qr-code-generator"],
+    relatedSlugs: ["background-remover", "ai-image-generator", "image-resizer", "qr-code-generator"],
     faq: [
       { question: "Will compressing reduce image quality?", answer: "Slightly, but often imperceptibly. At 80% quality, JPEG images look virtually identical to the original while being 60-80% smaller. WebP format achieves even better compression at the same quality level." },
       { question: "Which format should I use?", answer: "WebP offers the best size-to-quality ratio and is supported by all modern browsers. Use JPEG for photos if you need maximum compatibility. Use PNG only when you need transparency." },
       { question: "Are my images uploaded anywhere?", answer: "No. All compression happens in your browser using the HTML5 Canvas API. Your images never leave your device — you can even use this tool offline." },
+    ],
+  },
+  {
+    slug: "image-resizer",
+    name: "Image Resizer",
+    description: "Resize images online for free. Set exact dimensions, use social media presets, and download as PNG or JPEG — all in your browser.",
+    longDescription: "Resize any image to exact pixel dimensions instantly and for free. Upload a photo, set your target width and height (with optional aspect ratio lock), or pick from ready-made presets for Instagram, Twitter, Facebook, LinkedIn, YouTube thumbnails, and common screen resolutions. Choose output format (PNG or JPEG with adjustable quality), preview the result in real-time, and download — all processing happens client-side using the Canvas API so your images never leave your device. Supports batch resizing of multiple images at once.",
+    category: "media",
+    costTier: "free",
+    keywords: ["image resizer", "resize image online", "photo resizer", "resize image", "image resizer online free", "resize photo online", "picture resizer"],
+    icon: "Scaling",
+    isNew: true,
+    relatedSlugs: ["image-compressor", "background-remover", "ai-image-generator"],
+    faq: [
+      { question: "How do I resize an image online?", answer: "Upload your image by dragging it into the tool or clicking to browse. Enter your desired width and height in pixels, or choose a preset size (like 1080x1080 for Instagram). Click 'Resize All' and then download the result. The entire process takes seconds and happens in your browser." },
+      { question: "Will resizing reduce image quality?", answer: "Resizing to smaller dimensions generally preserves quality well. When enlarging images (upscaling), some softness may appear because the browser interpolates new pixels. For JPEG output, you can control quality with the slider — 85-95% is recommended for a good balance of quality and file size." },
+      { question: "What image formats are supported?", answer: "You can upload JPEG, PNG, and WebP images up to 50MB each. For output, choose between PNG (lossless, best for graphics and screenshots) or JPEG (smaller file size, best for photos). PNG preserves transparency while JPEG does not." },
+      { question: "Can I resize multiple images at once?", answer: "Yes. Upload as many images as you want — either drag them all in at once or add more with the 'Add' button. All images will be resized to the same target dimensions when you click 'Resize All'. You can then download each individually or download all at once." },
+      { question: "What is aspect ratio lock?", answer: "When aspect ratio lock is enabled (the default), changing the width automatically adjusts the height to maintain the original proportions, and vice versa. This prevents your image from looking stretched or squished. Toggle it off if you need exact non-proportional dimensions." },
+      { question: "What are the best image sizes for social media?", answer: "Instagram post: 1080x1080, Instagram story: 1080x1920, Twitter/X post: 1200x675, Facebook post: 1200x630, LinkedIn post: 1200x627, YouTube thumbnail: 1280x720. All of these are available as one-click presets in the tool." },
+      { question: "Is there a file size limit?", answer: "Each image can be up to 50MB. There is no limit on the number of images you can resize in a single session. Since all processing happens in your browser, the only constraint is your device's available memory." },
+      { question: "Are my images uploaded to a server?", answer: "No. AllKit's Image Resizer is 100% client-side. Your images are processed entirely in your browser using the HTML5 Canvas API. Nothing is uploaded, stored, or transmitted. You can even use the tool offline after the page loads." },
+      { question: "Can I resize an image to exact pixel dimensions?", answer: "Yes. Enter the exact width and height you need in pixels. If you want to maintain the aspect ratio, keep the lock toggle on and only change one dimension — the other will adjust automatically. Toggle the lock off to set both dimensions independently." },
+      { question: "What is the difference between resizing and compressing?", answer: "Resizing changes the pixel dimensions of an image (e.g., from 4000x3000 to 1920x1080). Compressing reduces file size without changing dimensions by adjusting encoding quality. Often you want both — resize to your target dimensions and then choose a reasonable JPEG quality. AllKit offers both an Image Resizer and a dedicated Image Compressor." },
     ],
   },
   {
@@ -419,6 +597,30 @@ export const tools: ToolDefinition[] = [
       { question: "What is YAML?", answer: "YAML (YAML Ain't Markup Language) is a human-readable data serialization format. It's commonly used for configuration files (Docker Compose, Kubernetes, GitHub Actions, CI/CD pipelines). Unlike JSON, YAML uses indentation instead of braces and supports comments." },
       { question: "When should I use YAML vs JSON?", answer: "Use YAML for configuration files that humans edit frequently — it's more readable and supports comments. Use JSON for data exchange between systems, API responses, and when you need strict parsing. JSON is a subset of YAML, so any valid JSON is also valid YAML." },
       { question: "Does it handle complex YAML?", answer: "It handles the most common YAML features: nested objects, arrays, strings, numbers, booleans, null, inline arrays, and comments. Advanced features like anchors, aliases, and multi-document streams are not yet supported." },
+    ],
+  },
+  {
+    slug: "css-minifier",
+    name: "CSS Minifier & Beautifier",
+    description: "Minify CSS to reduce file size or beautify it for readability. Free online CSS formatter and compressor.",
+    longDescription: "Minify your CSS to dramatically reduce file size and speed up page load times, or beautify minified CSS into clean, readable code. This free online CSS minifier removes comments, collapses whitespace, shortens hex colors (#ffffff to #fff), eliminates unnecessary semicolons, and optimizes zero values. The beautifier properly indents nested rules, @media queries, and @keyframes. Handles CSS variables, complex selectors, and all modern CSS features. See real-time size comparison with percentage saved. All processing happens 100% client-side — your CSS never leaves your browser.",
+    category: "dev",
+    costTier: "free",
+    keywords: ["css minifier", "css beautifier", "minify css online", "css formatter", "css compressor", "css minify", "compress css online", "css prettifier"],
+    icon: "Paintbrush",
+    isNew: true,
+    relatedSlugs: ["json-formatter", "html-entities", "diff-checker", "markdown-preview"],
+    faq: [
+      { question: "What is CSS minification?", answer: "CSS minification is the process of removing unnecessary characters from CSS code without changing its functionality. This includes whitespace, comments, unnecessary semicolons, and shortening values like hex colors. Minified CSS loads faster because the browser downloads a smaller file." },
+      { question: "How much can CSS minification reduce file size?", answer: "Typical CSS minification reduces file size by 20-50%, depending on how the original CSS was written. Files with many comments and generous whitespace see the largest reductions. Even a 30% reduction significantly improves page load speed, especially on mobile networks." },
+      { question: "Does minification change how my CSS works?", answer: "No. Minification only removes characters that have no effect on how the browser interprets your styles. The visual output of your website remains identical. It is a safe, lossless optimization used by virtually every production website." },
+      { question: "What is CSS beautification?", answer: "CSS beautification (also called formatting or prettifying) is the opposite of minification. It takes compact or minified CSS and adds proper indentation, line breaks, and spacing to make the code human-readable. Useful when you need to read or edit minified production CSS." },
+      { question: "Should I minify CSS for production?", answer: "Yes, absolutely. Minifying CSS is a standard web performance best practice. Smaller CSS files mean faster downloads, quicker rendering, and better Core Web Vitals scores. Most build tools (Webpack, Vite, Next.js) do this automatically, but this tool is useful for quick one-off minification." },
+      { question: "Is my CSS data safe?", answer: "Yes. All minification and beautification happens entirely in your browser using JavaScript. Your CSS code is never sent to any server, never stored, and never logged. You can verify this by disconnecting from the internet — the tool still works." },
+      { question: "Does this handle @media queries and @keyframes?", answer: "Yes. The minifier and beautifier correctly handle @media queries, @keyframes animations, CSS variables (custom properties), nested selectors, and all standard CSS at-rules. Complex selectors and combinators are preserved correctly." },
+      { question: "What CSS optimizations does the minifier perform?", answer: "The minifier removes comments, collapses whitespace, removes spaces around selectors and properties, shortens 6-digit hex colors to 3-digit when possible (#ffffff to #fff), removes trailing semicolons before closing braces, converts 0px/0em/0rem to plain 0, and removes leading zeros from decimal values (0.5 to .5)." },
+      { question: "Can I use this for SCSS or LESS?", answer: "This tool is designed for standard CSS. While it may work partially with SCSS or LESS syntax, the variable syntax ($var, @var) and nested rules in preprocessors may not be handled correctly. Compile your SCSS/LESS to CSS first, then minify the output." },
+      { question: "How does CSS file size affect website performance?", answer: "CSS is a render-blocking resource — the browser cannot display the page until all CSS is downloaded and parsed. Larger CSS files delay the First Contentful Paint (FCP) and Largest Contentful Paint (LCP), two key Core Web Vitals metrics. Minifying CSS directly improves these scores." },
     ],
   },
   {
