@@ -55,3 +55,13 @@ body {
 * {
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
+
+/* Sidebar slide-in animation */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

@@ -1,54 +1,7 @@
 import Link from "next/link";
-import { tools, categoryLabels, type ToolCategory } from "@/lib/tools/registry";
-import {
-  Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles,
-  Clock, Hash, Palette, Type, Volume2, QrCode, GitCompareArrows, KeyRound,
-  FileText, ImageDown, ShieldCheck, Link as LinkIcon, FileSpreadsheet,
-  FileCode, FileJson, Code, Paintbrush, Zap, Lock, Globe, Search,
-} from "lucide-react";
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles,
-  Clock, Hash, Palette, Type, Volume2, QrCode, GitCompareArrows, KeyRound,
-  FileText, ImageDown, ShieldCheck, Link: LinkIcon, FileSpreadsheet,
-  FileCode, FileJson, Code, Paintbrush,
-};
-
-const categoryOrder: ToolCategory[] = ["dev", "media", "ai"];
-
-function ToolCard({ tool }: { tool: typeof tools[number] }) {
-  const Icon = iconMap[tool.icon];
-  const tierBadge = tool.costTier === "claude" || tool.costTier === "huggingface" ? "AI" : null;
-
-  return (
-    <Link
-      href={`/tools/${tool.category}/${tool.slug}`}
-      className="group relative flex flex-col gap-3 rounded-xl border border-border bg-card p-5 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all"
-    >
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          {Icon && <Icon className="h-5 w-5" />}
-        </div>
-        <div className="flex-1">
-          <h3 className="font-medium text-card-foreground group-hover:text-primary transition-colors">
-            {tool.name}
-          </h3>
-        </div>
-        {tool.isNew && (
-          <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-success/10 text-success">
-            New
-          </span>
-        )}
-        {tierBadge && (
-          <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary">
-            {tierBadge}
-          </span>
-        )}
-      </div>
-      <p className="text-sm text-muted-foreground leading-relaxed">{tool.description}</p>
-    </Link>
-  );
-}
+import { tools } from "@/lib/tools/registry";
+import { Lock, Zap, Globe, Sparkles } from "lucide-react";
+import { ToolGrid } from "@/components/home/tool-grid";
 
 export default function Home() {
   const toolCount = tools.length;
@@ -56,7 +9,7 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
       {/* Hero */}
-      <section className="mb-16 text-center">
+      <section className="mb-10 text-center">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
           {toolCount} Free Developer & AI Tools
         </h1>
@@ -84,37 +37,10 @@ export default function Home() {
             <span>AI-Powered</span>
           </div>
         </div>
-
-        {/* Quick links */}
-        <div className="flex flex-wrap justify-center gap-2">
-          <Link href="/tools/dev/json-formatter" className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-muted transition-colors">JSON Formatter</Link>
-          <Link href="/tools/media/background-remover" className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-muted transition-colors">Background Remover</Link>
-          <Link href="/tools/dev/base64" className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-muted transition-colors">Base64 Decode</Link>
-          <Link href="/tools/dev/hash-generator" className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-muted transition-colors">Hash Generator</Link>
-          <Link href="/tools/media/ai-image-generator" className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-muted transition-colors">AI Image Generator</Link>
-        </div>
       </section>
 
-      {/* Tool categories */}
-      {categoryOrder.map((cat) => {
-        const catTools = tools.filter((t) => t.category === cat);
-        if (catTools.length === 0) return null;
-        return (
-          <section key={cat} className="mb-12">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold">{categoryLabels[cat]}</h2>
-              <Link href={`/tools/${cat}`} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                View all &rarr;
-              </Link>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {catTools.map((tool) => (
-                <ToolCard key={tool.slug} tool={tool} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+      {/* Search + Filter + Tool Grid (Client Component) */}
+      <ToolGrid />
 
       {/* Pro CTA */}
       <section className="mt-8 mb-12 rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
