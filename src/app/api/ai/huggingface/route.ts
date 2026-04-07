@@ -10,6 +10,8 @@ const ALLOWED_SPACES: Record<string, boolean> = {
   "mcp-tools/DeepSeek-OCR-experimental": true,
   "evalstate/flux1_schnell": true,
   "ResembleAI/Chatterbox": true,
+  "felixrosberg/face-swap": true,
+  "finegrain/finegrain-image-enhancer": true,
 };
 
 // Background removal spaces in priority order (fallback chain)
@@ -47,7 +49,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Validate image input for image-based spaces
-    if (["not-lain/background-removal", "mcp-tools/DeepSeek-OCR-experimental"].includes(space)) {
+    if (["not-lain/background-removal", "briaai/BRIA-RMBG-2.0", "mcp-tools/DeepSeek-OCR-experimental", "finegrain/finegrain-image-enhancer"].includes(space)) {
       if (!params?.image || typeof params.image !== "string" || !params.image.startsWith("data:")) {
         return NextResponse.json({ error: "Please upload an image first" }, { status: 400 });
       }
@@ -57,6 +59,14 @@ export async function POST(req: NextRequest) {
     }
     if (space === "ResembleAI/Chatterbox" && (!params?.text || typeof params.text !== "string")) {
       return NextResponse.json({ error: "Please enter text to convert to speech" }, { status: 400 });
+    }
+    if (space === "felixrosberg/face-swap") {
+      if (!params?.target || typeof params.target !== "string" || !params.target.startsWith("data:")) {
+        return NextResponse.json({ error: "Please upload a target image (the face to change)" }, { status: 400 });
+      }
+      if (!params?.source || typeof params.source !== "string" || !params.source.startsWith("data:")) {
+        return NextResponse.json({ error: "Please upload a source image (the face to use)" }, { status: 400 });
+      }
     }
 
     const client = await Client.connect(space);
@@ -151,6 +161,59 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ result: dataUrl });
       }
       return NextResponse.json({ error: "No audio result from TTS" }, { status: 500 });
+    }
+
+    // Face Swap
+    if (space === "felixrosberg/face-swap") {
+      const targetBlob = dataURLToBlob(params.target);
+      const sourceBlob = dataURLToBlob(params.source);
+
+      const result = await client.predict("/run_inference", {
+        target: handle_file(targetBlob),
+        source: handle_file(sourceBlob),
+        slider: 100,
+        adv_slider: 100,
+        settings: [],
+      });
+
+      const data = result.data as Array<{ url?: string; path?: string }>;
+      if (data?.[0]?.url) {
+        const imageRes = await fetch(data[0].url);
+        const blob = await imageRes.blob();
+        const dataUrl = await toDataURL(blob);
+        return NextResponse.json({ result: dataUrl });
+      }
+      return NextResponse.json({ error: "No result from face swap" }, { status: 500 });
+    }
+
+    // Image Upscaling (Finegrain Image Enhancer)
+    if (space === "finegrain/finegrain-image-enhancer") {
+      const imageBlob = dataURLToBlob(params.image);
+
+      const result = await client.predict("/process", {
+        input_image: handle_file(imageBlob),
+        prompt: "",
+        negative_prompt: "",
+        seed: 42,
+        upscale_factor: 2,
+        controlnet_scale: 0.6,
+        controlnet_decay: 1.0,
+        condition_scale: 6,
+        tile_width: 112,
+        tile_height: 144,
+        denoise_strength: 0.35,
+        num_inference_steps: 18,
+        solver: "DDIM",
+      });
+
+      const data = result.data as Array<{ url?: string; path?: string }>;
+      if (data?.[0]?.url) {
+        const imageRes = await fetch(data[0].url);
+        const blob = await imageRes.blob();
+        const dataUrl = await toDataURL(blob);
+        return NextResponse.json({ result: dataUrl });
+      }
+      return NextResponse.json({ error: "No result from image upscaler" }, { status: 500 });
     }
 
     return NextResponse.json({ error: "Space not implemented" }, { status: 400 });

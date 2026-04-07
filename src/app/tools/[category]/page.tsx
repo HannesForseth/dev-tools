@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { tools, categoryLabels, type ToolCategory } from "@/lib/tools/registry";
-import { Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Paintbrush } from "lucide-react";
+import { Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Paintbrush, ImageUpscale, Repeat, Scaling } from "lucide-react";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Paintbrush,
+  Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles, Paintbrush, ImageUpscale, Repeat, Scaling,
 };
 
 const validCategories: ToolCategory[] = ["dev", "media", "ai"];

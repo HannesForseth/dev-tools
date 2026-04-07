@@ -39,6 +39,20 @@ export default function TermsPage() {
         <li>Use the API to build a competing service</li>
       </ul>
 
+      <h2>4a. AI-Generated Content & Face Swap Policy</h2>
+      <p>
+        Certain tools on AllKit use AI to generate or modify images, including but not limited to
+        face swapping, image generation, and image editing. By using these tools, you agree to the following:
+      </p>
+      <ul>
+        <li><strong>Consent:</strong> You must have explicit consent from all identifiable individuals whose likeness appears in any image you upload or generate. You are solely responsible for obtaining this consent.</li>
+        <li><strong>Prohibited uses:</strong> You may not use AI tools to create content that is deceptive, defamatory, harassing, sexually explicit without consent, fraudulent, or intended to impersonate any person for malicious purposes.</li>
+        <li><strong>Non-consensual intimate imagery:</strong> Creating non-consensual intimate or sexual imagery of any person is strictly prohibited and may constitute a criminal offense in many jurisdictions.</li>
+        <li><strong>Your responsibility:</strong> You are solely and fully responsible for all content you create using AllKit&apos;s tools. AllKit acts as a neutral tool provider and does not review, approve, or endorse any user-generated content.</li>
+        <li><strong>Enforcement:</strong> We reserve the right to revoke access to any user who violates this policy without notice or refund.</li>
+        <li><strong>Reporting abuse:</strong> If you believe someone has used AllKit to create harmful content of you, contact us at support@allkit.dev and we will investigate.</li>
+      </ul>
+
       <h2>5. Data Processing</h2>
       <p>
         Client-side tools process data entirely in your browser. AI-powered tools send data to third-party

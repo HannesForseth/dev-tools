@@ -31,6 +31,8 @@ import { YamlJsonConverter } from "@/components/tools/yaml-json";
 import { HtmlEntities } from "@/components/tools/html-entities";
 import { CssMinifier } from "@/components/tools/css-minifier";
 import { ImageResizer } from "@/components/tools/image-resizer";
+import { ImageUpscaler } from "@/components/tools/image-upscaler";
+import { FaceSwap } from "@/components/tools/face-swap";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -60,6 +62,8 @@ const toolComponents: Record<string, React.ComponentType> = {
   "html-entities": HtmlEntities,
   "css-minifier": CssMinifier,
   "image-resizer": ImageResizer,
+  "image-upscaler": ImageUpscaler,
+  "face-swap": FaceSwap,
 };
 
 type PageProps = {
