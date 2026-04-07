@@ -13,14 +13,14 @@ import {
   Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles,
   Clock, Hash, Palette, Type, Volume2, QrCode, GitCompareArrows, KeyRound,
   FileText, ImageDown, ShieldCheck, Link as LinkIcon, FileSpreadsheet,
-  FileCode, FileJson, Code, Paintbrush, ImageUpscale, Repeat, Scaling,
+  FileCode, FileJson, Code, Paintbrush, ImageUpscale, Repeat, Scaling, AudioLines, Mic, Video, Film,
 } from "lucide-react";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Braces, Binary, Fingerprint, Regex, ImageMinus, ScanText, Shield, Sparkles,
   Clock, Hash, Palette, Type, Volume2, QrCode, GitCompareArrows, KeyRound,
   FileText, ImageDown, ShieldCheck, Link: LinkIcon, FileSpreadsheet,
-  FileCode, FileJson, Code, Paintbrush, ImageUpscale, Repeat, Scaling,
+  FileCode, FileJson, Code, Paintbrush, ImageUpscale, Repeat, Scaling, AudioLines, Mic, Video, Film,
 };
 
 const categoryOrder: ToolCategory[] = ["dev", "media", "ai"];

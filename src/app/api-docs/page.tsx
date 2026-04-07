@@ -82,6 +82,100 @@ const endpoints = [
   },
 ];
 
+const aiEndpoints = [
+  {
+    method: "POST",
+    path: "/api/v1/ai/remove-background",
+    description: "Remove image backgrounds with AI. Returns transparent PNG as base64 data URL.",
+    body: '{ "image": "data:image/png;base64,..." }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/ocr",
+    description: "Extract text from images using AI OCR (DeepSeek).",
+    body: '{ "image": "data:image/png;base64,..." }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/generate-image",
+    description: "Generate images from text prompts using FLUX.1 Schnell.",
+    body: '{ "prompt": "a sunset over mountains" }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/tts",
+    description: "Convert text to natural speech audio. Returns WAV as base64 data URL.",
+    body: '{ "text": "Hello world" }',
+    optional: "exaggeration: 0.5 (0-1, voice expressiveness)",
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/upscale",
+    description: "Upscale and enhance images with AI. Returns higher-resolution image.",
+    body: '{ "image": "data:image/png;base64,..." }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/face-swap",
+    description: "Swap faces between two photos. Requires consent for all people in photos.",
+    body: '{ "target": "data:image/png;base64,...", "source": "data:image/png;base64,..." }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/speech-to-text",
+    description: "Transcribe or translate audio to text using Whisper AI.",
+    body: '{ "audio": "data:audio/wav;base64,..." }',
+    optional: 'task: "transcribe" (default) | "translate" (to English)',
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/voice-clone",
+    description: "Clone a voice from a reference audio sample and generate speech.",
+    body: '{ "text": "Hello world", "audio": "data:audio/wav;base64,..." }',
+    optional: "audio: 5-15 second voice sample recommended",
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/live-portrait",
+    description: "Animate a portrait photo using a driving video. Returns MP4 video.",
+    body: '{ "image": "data:image/png;base64,...", "video": "data:video/mp4;base64,..." }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/image-to-video",
+    description: "Generate a video from a still image and motion prompt.",
+    body: '{ "image": "data:image/png;base64,...", "prompt": "clouds moving slowly" }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/regex",
+    description: "Describe a pattern in English, get a working regex with explanation.",
+    body: '{ "description": "match email addresses" }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/cron",
+    description: "Describe a schedule in English, get a cron expression.",
+    body: '{ "description": "every Monday at 9am" }',
+    optional: null,
+  },
+  {
+    method: "POST",
+    path: "/api/v1/ai/privacy-policy",
+    description: "Generate a privacy policy for your app or website.",
+    body: '{ "appName": "MyApp", "dataCollected": ["email", "name"] }',
+    optional: null,
+  },
+];
+
 export default function ApiDocsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
@@ -146,6 +240,39 @@ export default function ApiDocsPage() {
                 <span className={`px-2 py-0.5 rounded text-xs font-bold ${
                   ep.method === "GET" ? "bg-green-500/20 text-green-600" : "bg-blue-500/20 text-blue-600"
                 }`}>
+                  {ep.method}
+                </span>
+                <code className="text-sm font-mono">{ep.path}</code>
+              </div>
+              <div className="px-4 py-3 space-y-2">
+                <p className="text-sm">{ep.description}</p>
+                {ep.body && (
+                  <div>
+                    <span className="text-xs text-muted-foreground">Body:</span>
+                    <pre className="mt-1 rounded bg-muted/50 px-3 py-2 text-xs font-mono overflow-x-auto">{ep.body}</pre>
+                  </div>
+                )}
+                {ep.optional && (
+                  <p className="text-xs text-muted-foreground">Options: {ep.optional}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* AI Endpoints */}
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-2">AI Endpoints</h2>
+        <p className="text-sm text-muted-foreground mb-6">
+          AI-powered tools for image, audio, and text processing. Image and audio inputs should be sent as base64 data URLs.
+          These endpoints are ideal for LLM tool-use — let your AI agent process media on behalf of users.
+        </p>
+        <div className="space-y-6">
+          {aiEndpoints.map((ep) => (
+            <div key={ep.path} className="rounded-lg border border-border overflow-hidden">
+              <div className="flex items-center gap-3 px-4 py-3 bg-muted/30">
+                <span className="px-2 py-0.5 rounded text-xs font-bold bg-purple-500/20 text-purple-600">
                   {ep.method}
                 </span>
                 <code className="text-sm font-mono">{ep.path}</code>

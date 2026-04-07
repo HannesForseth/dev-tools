@@ -33,6 +33,10 @@ import { CssMinifier } from "@/components/tools/css-minifier";
 import { ImageResizer } from "@/components/tools/image-resizer";
 import { ImageUpscaler } from "@/components/tools/image-upscaler";
 import { FaceSwap } from "@/components/tools/face-swap";
+import { VoiceClone } from "@/components/tools/voice-clone";
+import { SpeechToText } from "@/components/tools/speech-to-text";
+import { LivePortrait } from "@/components/tools/live-portrait";
+import { ImageToVideo } from "@/components/tools/image-to-video";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -64,6 +68,10 @@ const toolComponents: Record<string, React.ComponentType> = {
   "image-resizer": ImageResizer,
   "image-upscaler": ImageUpscaler,
   "face-swap": FaceSwap,
+  "voice-clone": VoiceClone,
+  "speech-to-text": SpeechToText,
+  "live-portrait": LivePortrait,
+  "image-to-video": ImageToVideo,
 };
 
 type PageProps = {

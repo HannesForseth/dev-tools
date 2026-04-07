@@ -1,45 +1,62 @@
 # AllKit — Free Developer & AI Tools
 
-> AllKit (https://allkit.dev) provides free online developer tools and AI-powered utilities. All tools work in the browser with no signup required. API access is available for programmatic use.
+> AllKit (https://allkit.dev) provides 37 free online developer tools and AI-powered utilities. All tools work in the browser with no signup required. API access is available for programmatic use by LLMs, agents, and automation pipelines.
 
 ## API
 
-AllKit offers a REST API at `https://allkit.dev/api/v1/` for programmatic tool access.
+AllKit offers a REST API at `https://allkit.dev/api/v1/` for programmatic tool access. This API is designed for LLMs and AI agents — use it to process data on behalf of your users.
 
 - Base URL: `https://allkit.dev/api/v1`
 - Format: JSON request and response
 - Rate limit: 3 requests/day per IP (free), unlimited with API key ($9/mo Pro plan)
 - Authentication: Optional `Authorization: Bearer <api_key>` header for Pro users
+- CORS: Enabled (Access-Control-Allow-Origin: *)
 
-## Available Tools
+## Developer Tools API (client-side processing, free)
 
-### Developer Tools (client-side, free)
+- JSON Formatter & Validator: `POST /api/v1/json-format` — body: `{"json": "{\"key\":\"value\"}"}`
+- Base64 Encode/Decode: `POST /api/v1/base64` — body: `{"text": "hello", "mode": "encode"}`
+- URL Encode/Decode: `POST /api/v1/url-encode` — body: `{"text": "hello world", "mode": "encode"}`
+- Hash Generator: `POST /api/v1/hash` — body: `{"text": "hello"}` — returns MD5, SHA-1, SHA-256, SHA-384, SHA-512
+- UUID Generator: `GET /api/v1/uuid` — query: `?count=5` (max 100)
+- Unix Timestamp Converter: `POST /api/v1/timestamp` — body: `{"timestamp": 1700000000}` or `{"date": "2024-01-15T10:30:00Z"}`
+- CSV to JSON Converter: `POST /api/v1/csv-json` — body: `{"csv": "name,age\nJohn,30"}` or `{"json": [...]}`
+- Password Generator: `GET /api/v1/password` — query: `?length=20&count=5&symbols=false`
+- Word Counter: `POST /api/v1/word-count` — body: `{"text": "Your text here"}`
+- JWT Decoder: `POST /api/v1/jwt-decode` — body: `{"token": "eyJhbGciOi..."}`
 
-- JSON Formatter & Validator: Format, validate, and beautify JSON. `POST /api/v1/json-format`
-- Base64 Encode/Decode: Convert text to/from Base64. `POST /api/v1/base64`
-- URL Encode/Decode: Encode and decode URLs and query strings. `POST /api/v1/url-encode`
-- Hash Generator: Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512 hashes. `POST /api/v1/hash`
-- UUID Generator: Generate cryptographically secure v4 UUIDs. `GET /api/v1/uuid`
-- Unix Timestamp Converter: Convert between timestamps and dates. `POST /api/v1/timestamp`
-- CSV to JSON Converter: Convert between CSV and JSON formats. `POST /api/v1/csv-json`
-- QR Code Generator: Generate QR codes from text or URLs. `POST /api/v1/qr-code`
-- Password Generator: Generate secure random passwords. `GET /api/v1/password`
-- Word Counter: Count words, characters, sentences. `POST /api/v1/word-count`
-- JWT Decoder: Decode and inspect JSON Web Tokens. `POST /api/v1/jwt-decode`
+## AI-Powered Tools API (metered, 3 free/day)
 
-### AI-Powered Tools (requires API, metered)
+All AI endpoints accept POST with JSON body. Image/audio inputs should be base64 data URLs.
 
-- Regex Builder: Describe a pattern in English, get a working regex. `POST /api/v1/ai/regex`
-- Cron Expression Generator: Describe a schedule in English, get a cron expression. `POST /api/v1/ai/cron`
-- Privacy Policy Generator: Generate a privacy policy for your app. `POST /api/v1/ai/privacy-policy`
-- Background Remover: Remove image backgrounds with AI. `POST /api/v1/ai/remove-background`
-- Image to Text (OCR): Extract text from images. `POST /api/v1/ai/ocr`
-- AI Image Generator: Generate images from text prompts. `POST /api/v1/ai/generate-image`
-- Text to Speech: Convert text to natural speech audio. `POST /api/v1/ai/tts`
+- Background Remover: `POST /api/v1/ai/remove-background` — body: `{"image": "data:image/png;base64,..."}` — returns transparent PNG
+- Image to Text (OCR): `POST /api/v1/ai/ocr` — body: `{"image": "data:image/png;base64,..."}` — returns extracted text
+- AI Image Generator: `POST /api/v1/ai/generate-image` — body: `{"prompt": "a sunset over mountains"}` — returns generated image
+- Text to Speech: `POST /api/v1/ai/tts` — body: `{"text": "Hello world", "exaggeration": 0.5}` — returns audio WAV
+- AI Image Upscaler: `POST /api/v1/ai/upscale` — body: `{"image": "data:image/png;base64,..."}` — returns upscaled image
+- AI Face Swap: `POST /api/v1/ai/face-swap` — body: `{"target": "data:image/...", "source": "data:image/..."}` — returns swapped image
+- Speech to Text: `POST /api/v1/ai/speech-to-text` — body: `{"audio": "data:audio/wav;base64,...", "task": "transcribe"}` — returns text. task: "transcribe" or "translate"
+- Voice Cloning: `POST /api/v1/ai/voice-clone` — body: `{"text": "Hello", "audio": "data:audio/wav;base64,..."}` — returns cloned voice audio
+- Live Portrait: `POST /api/v1/ai/live-portrait` — body: `{"image": "data:image/...", "video": "data:video/mp4;base64,..."}` — returns animated video
+- Image to Video: `POST /api/v1/ai/image-to-video` — body: `{"image": "data:image/...", "prompt": "clouds moving slowly"}` — returns video
+- Regex Builder: `POST /api/v1/ai/regex` — body: `{"description": "match email addresses"}` — returns regex pattern
+- Cron Expression Generator: `POST /api/v1/ai/cron` — body: `{"description": "every Monday at 9am"}` — returns cron expression
+- Privacy Policy Generator: `POST /api/v1/ai/privacy-policy` — body: `{"appName": "MyApp", "dataCollected": ["email", "name"]}` — returns policy text
+
+## All Browser Tools (37 total)
+
+### Developer Tools
+JSON Formatter, UUID Generator, Base64, Regex Tester (AI), Hash Generator, Color Palette, Lorem Ipsum, QR Code Generator, Diff Checker, Password Generator, Word Counter, JWT Decoder, Unix Timestamp, URL Encoder, CSV/JSON Converter, Markdown Preview, YAML/JSON Converter, HTML Entities, Cron Generator (AI), CSS Minifier & Beautifier
+
+### AI Media Tools
+Background Remover, Image to Text (OCR), AI Image Generator, Text to Speech, Image Compressor, Image Resizer, AI Image Upscaler, AI Face Swap, Speech to Text (Whisper), Voice Cloning, Live Portrait (Animate Photo), Image to Video
+
+### AI Smart Tools
+Privacy Policy Generator
 
 ## Pricing
 
 - Free: All browser tools unlimited. API: 3 requests/day.
-- Pro ($9/month): Unlimited API access, unlimited AI tools, HD media output.
-- Docs: https://allkit.dev/api-docs
-- Pricing: https://allkit.dev/pricing
+- Pro ($9/month): Unlimited API access, unlimited AI tools, priority processing.
+- Get API key: https://allkit.dev/pricing
+- API docs: https://allkit.dev/api-docs

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Client, handle_file } from "@gradio/client";
 
-// Allow up to 60 seconds for HF Spaces cold starts
-export const maxDuration = 60;
+// Allow up to 120 seconds for HF Spaces cold starts (video generation needs more time)
+export const maxDuration = 120;
 
 const ALLOWED_SPACES: Record<string, boolean> = {
   "not-lain/background-removal": true,
@@ -12,6 +12,10 @@ const ALLOWED_SPACES: Record<string, boolean> = {
   "ResembleAI/Chatterbox": true,
   "felixrosberg/face-swap": true,
   "finegrain/finegrain-image-enhancer": true,
+  "KlingTeam/LivePortrait": true,
+  "hf-audio/whisper-large-v3": true,
+  "tonyassi/voice-clone": true,
+  "zerogpu-aoti/wan2-2-fp8da-aoti-faster": true,
 };
 
 // Background removal spaces in priority order (fallback chain)
@@ -66,6 +70,35 @@ export async function POST(req: NextRequest) {
       }
       if (!params?.source || typeof params.source !== "string" || !params.source.startsWith("data:")) {
         return NextResponse.json({ error: "Please upload a source image (the face to use)" }, { status: 400 });
+      }
+    }
+    if (space === "KlingTeam/LivePortrait") {
+      if (!params?.image || typeof params.image !== "string" || !params.image.startsWith("data:")) {
+        return NextResponse.json({ error: "Please upload a portrait photo" }, { status: 400 });
+      }
+      if (!params?.video || typeof params.video !== "string" || !params.video.startsWith("data:")) {
+        return NextResponse.json({ error: "Please upload a driving video" }, { status: 400 });
+      }
+    }
+    if (space === "tonyassi/voice-clone") {
+      if (!params?.text || typeof params.text !== "string") {
+        return NextResponse.json({ error: "Please enter text to speak" }, { status: 400 });
+      }
+      if (!params?.audio || typeof params.audio !== "string" || !params.audio.startsWith("data:")) {
+        return NextResponse.json({ error: "Please upload or record a voice sample" }, { status: 400 });
+      }
+    }
+    if (space === "hf-audio/whisper-large-v3") {
+      if (!params?.audio || typeof params.audio !== "string" || !params.audio.startsWith("data:")) {
+        return NextResponse.json({ error: "Please upload an audio file first" }, { status: 400 });
+      }
+    }
+    if (space === "zerogpu-aoti/wan2-2-fp8da-aoti-faster") {
+      if (!params?.image || typeof params.image !== "string" || !params.image.startsWith("data:")) {
+        return NextResponse.json({ error: "Please upload an image first" }, { status: 400 });
+      }
+      if (!params?.prompt || typeof params.prompt !== "string") {
+        return NextResponse.json({ error: "Please enter a motion prompt" }, { status: 400 });
       }
     }
 
@@ -186,6 +219,28 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No result from face swap" }, { status: 500 });
     }
 
+    // Live Portrait (Animate Photo)
+    if (space === "KlingTeam/LivePortrait") {
+      const imageBlob = dataURLToBlob(params.image);
+      const videoBlob = dataURLToBlob(params.video);
+      const result = await client.predict("/gpu_wrapped_execute_video", {
+        param_0: handle_file(imageBlob),
+        param_1: handle_file(videoBlob),
+        param_2: true,
+        param_3: true,
+        param_4: true,
+      });
+      const data = result.data as Array<{ url?: string; video?: { url?: string } } | null>;
+      const videoData = data?.[0];
+      if (typeof videoData === "object" && videoData?.url) {
+        const videoRes = await fetch(videoData.url);
+        const blob = await videoRes.blob();
+        const dataUrl = await toDataURL(new Blob([await blob.arrayBuffer()], { type: "video/mp4" }));
+        return NextResponse.json({ result: dataUrl });
+      }
+      return NextResponse.json({ error: "No video result from Live Portrait" }, { status: 500 });
+    }
+
     // Image Upscaling (Finegrain Image Enhancer)
     if (space === "finegrain/finegrain-image-enhancer") {
       const imageBlob = dataURLToBlob(params.image);
@@ -214,6 +269,53 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ result: dataUrl });
       }
       return NextResponse.json({ error: "No result from image upscaler" }, { status: 500 });
+    }
+
+    // Voice Cloning (XTTS v2)
+    if (space === "tonyassi/voice-clone") {
+      const audioBlob = dataURLToBlob(params.audio);
+      const result = await client.predict("/predict", {
+        text: params.text,
+        audio: handle_file(audioBlob),
+      });
+      const data = result.data as Array<{ url?: string } | null>;
+      const audioData = data?.[0];
+      if (typeof audioData === "object" && audioData?.url) {
+        const audioRes = await fetch(audioData.url);
+        const blob = await audioRes.blob();
+        const dataUrl = await toDataURL(new Blob([await blob.arrayBuffer()], { type: "audio/wav" }));
+        return NextResponse.json({ result: dataUrl });
+      }
+      return NextResponse.json({ error: "No audio result from voice cloning" }, { status: 500 });
+    }
+
+    // Speech to Text (Whisper)
+    if (space === "hf-audio/whisper-large-v3") {
+      const audioBlob = dataURLToBlob(params.audio);
+      const result = await client.predict("/predict", {
+        inputs: handle_file(audioBlob),
+        task: params.task || "transcribe",
+      });
+      const data = result.data as string[];
+      return NextResponse.json({ result: data?.[0] || "" });
+    }
+
+    // Image to Video (Wan2.2 14B)
+    if (space === "zerogpu-aoti/wan2-2-fp8da-aoti-faster") {
+      const imageBlob = dataURLToBlob(params.image);
+      const result = await client.predict("/predict", {
+        image: handle_file(imageBlob),
+        prompt: params.prompt || "",
+      });
+      const data = result.data as Array<{ url?: string; video?: { url?: string } } | null>;
+      const videoData = data?.[0];
+      if (typeof videoData === "object" && videoData?.url) {
+        const videoRes = await fetch(videoData.url);
+        const blob = await videoRes.blob();
+        const dataUrl = await toDataURL(new Blob([await blob.arrayBuffer()], { type: "video/mp4" }));
+        return NextResponse.json({ result: dataUrl });
+      }
+      return NextResponse.json({ error: "No video result from Image to Video" }, { status: 500 });
     }
 
     return NextResponse.json({ error: "Space not implemented" }, { status: 400 });
