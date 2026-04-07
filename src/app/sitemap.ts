@@ -38,6 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...toolPages,
     {
+      url: `${baseUrl}/ai-integration`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/pricing`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
