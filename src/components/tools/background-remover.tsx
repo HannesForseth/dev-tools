@@ -40,7 +40,7 @@ export function BackgroundRemover() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          space: "not-lain/background-removal",
+          space: "briaai/BRIA-RMBG-2.0",
           params: { image },
         }),
       });

@@ -6,10 +6,17 @@ export const maxDuration = 60;
 
 const ALLOWED_SPACES: Record<string, boolean> = {
   "not-lain/background-removal": true,
+  "briaai/BRIA-RMBG-2.0": true,
   "mcp-tools/DeepSeek-OCR-experimental": true,
   "evalstate/flux1_schnell": true,
   "ResembleAI/Chatterbox": true,
 };
+
+// Background removal spaces in priority order (fallback chain)
+const BG_REMOVAL_SPACES = [
+  "briaai/BRIA-RMBG-2.0",
+  "not-lain/background-removal",
+];
 
 // Convert base64 data URL to Blob
 function dataURLToBlob(dataURL: string): Blob {
@@ -54,22 +61,41 @@ export async function POST(req: NextRequest) {
 
     const client = await Client.connect(space);
 
-    // Background Removal
-    if (space === "not-lain/background-removal") {
+    // Background Removal (with fallback chain)
+    if (space === "not-lain/background-removal" || space === "briaai/BRIA-RMBG-2.0") {
       const imageBlob = dataURLToBlob(params.image);
-      const result = await client.predict("/predict", {
-        input_image: handle_file(imageBlob),
-      });
 
-      const data = result.data as Array<{ url?: string; path?: string }>;
-      if (data?.[0]?.url) {
-        // Fetch the result image from the HF Space URL
-        const imageRes = await fetch(data[0].url);
-        const blob = await imageRes.blob();
-        const dataUrl = await toDataURL(blob);
-        return NextResponse.json({ result: dataUrl });
+      // Try each space in the fallback chain
+      for (const bgSpace of BG_REMOVAL_SPACES) {
+        try {
+          console.log(`Trying background removal with ${bgSpace}...`);
+          const bgClient = await Client.connect(bgSpace);
+
+          let result;
+          if (bgSpace === "briaai/BRIA-RMBG-2.0") {
+            result = await bgClient.predict("/image", {
+              input_image: handle_file(imageBlob),
+            });
+          } else {
+            result = await bgClient.predict("/predict", {
+              input_image: handle_file(imageBlob),
+            });
+          }
+
+          const data = result.data as Array<{ url?: string; path?: string }>;
+          if (data?.[0]?.url) {
+            const imageRes = await fetch(data[0].url);
+            const blob = await imageRes.blob();
+            const dataUrl = await toDataURL(blob);
+            return NextResponse.json({ result: dataUrl });
+          }
+        } catch (bgError) {
+          console.error(`Background removal failed with ${bgSpace}:`, bgError);
+          // Continue to next space in fallback chain
+          continue;
+        }
       }
-      return NextResponse.json({ error: "No result from background removal" }, { status: 500 });
+      return NextResponse.json({ error: "All background removal models are currently unavailable. Please try again in a minute." }, { status: 503 });
     }
 
     // OCR
