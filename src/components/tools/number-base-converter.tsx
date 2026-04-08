@@ -91,7 +91,7 @@ export function NumberBaseConverter() {
         value
       );
 
-      if (decimal < 0n) {
+      if (decimal < BigInt(0)) {
         setError("Negative numbers are not supported");
         return;
       }
