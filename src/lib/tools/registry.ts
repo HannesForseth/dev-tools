@@ -624,6 +624,28 @@ export const tools: ToolDefinition[] = [
     ],
   },
   {
+    slug: "sql-formatter",
+    name: "SQL Formatter & Beautifier",
+    description: "Format, beautify, and minify SQL queries online. Supports SELECT, JOIN, subqueries, and all major SQL dialects.",
+    longDescription: "Paste any SQL query and instantly format it with proper indentation and line breaks. Supports SELECT, INSERT, UPDATE, DELETE, CREATE TABLE, ALTER, JOINs, subqueries, CTEs, and more. Uppercase keywords, configurable indentation, and one-click minification. Works with standard SQL, MySQL, and PostgreSQL. 100% client-side — your queries never leave your browser.",
+    category: "dev",
+    costTier: "free",
+    keywords: ["sql formatter", "sql beautifier", "format sql online", "sql formatter online", "sql pretty print", "sql minifier", "beautify sql", "sql format tool", "sql query formatter"],
+    icon: "Database",
+    isNew: true,
+    relatedSlugs: ["json-formatter", "css-minifier", "diff-checker", "regex-tester"],
+    faq: [
+      { question: "What SQL dialects are supported?", answer: "The formatter handles standard SQL, MySQL, and PostgreSQL syntax. It recognizes keywords and syntax from all three dialects, including MySQL backtick-quoted identifiers, PostgreSQL RETURNING clauses, and standard ANSI SQL." },
+      { question: "Does formatting change my query logic?", answer: "No. The formatter only modifies whitespace, line breaks, and optionally keyword casing. It never changes table names, column names, values, operators, or the logical structure of your query. The formatted output executes identically to the input." },
+      { question: "Is my SQL data safe?", answer: "Yes. All formatting happens entirely in your browser using JavaScript. Your SQL queries are never sent to any server, never stored, and never logged. This makes it safe to use with queries containing sensitive data or production credentials." },
+      { question: "Can I format multiple statements?", answer: "Yes. If your input contains multiple SQL statements separated by semicolons, the formatter handles each one. Each statement is formatted independently." },
+      { question: "What does the UPPERCASE keywords option do?", answer: "When enabled, all SQL keywords (SELECT, FROM, WHERE, JOIN, GROUP BY, etc.) are converted to uppercase while leaving your table names, column names, and aliases unchanged. This is a widely adopted SQL convention that improves readability." },
+      { question: "What does Minify do?", answer: "Minify compresses your SQL into a single line by removing all unnecessary whitespace, line breaks, and comments. This is useful for embedding SQL in application code, logging, or reducing payload size when transmitting queries over a network." },
+      { question: "Does it handle subqueries?", answer: "Yes. Subqueries inside parentheses receive increased indentation to clearly show the nesting level. This makes complex queries with multiple levels of subqueries much easier to read and understand." },
+      { question: "Can I customize indentation?", answer: "Yes. Choose between 2 spaces, 4 spaces, or tabs for indentation. The default is 2 spaces, which is the most common convention for SQL formatting." },
+    ],
+  },
+  {
     slug: "image-upscaler",
     name: "AI Image Upscaler",
     description: "Upscale and enhance images with AI. Increase resolution, sharpen details, and improve quality for free.",
@@ -936,6 +958,164 @@ export const tools: ToolDefinition[] = [
       { question: "Can I clone a celebrity or public figure's voice?", answer: "While technically possible if you have an audio sample, you should not clone anyone's voice without their explicit consent. Unauthorized use of someone's voice — especially for commercial purposes — may violate their right of publicity and other laws. Use this tool responsibly." },
       { question: "Why does generation take so long sometimes?", answer: "The AI model runs on GPU servers that go to sleep when not in use. The first request after a period of inactivity requires a 'cold start' that can take 30-60 seconds. Subsequent requests are much faster, typically 10 to 20 seconds." },
       { question: "What is the audio output quality?", answer: "The output is a 24kHz WAV file. WAV is an uncompressed format that preserves full audio quality. The files are larger than MP3, but there is no quality loss. You can convert to MP3 using any free audio converter if you need smaller files." }
+    ],
+  },
+  {
+    slug: "text-case-converter",
+    name: "Text Case Converter",
+    description: "Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case, and more.",
+    longDescription: "Instantly convert text between 10 different case formats: UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, and dot.case. Real-time conversion, one-click copy.",
+    category: "dev",
+    costTier: "free",
+    keywords: ["text case converter", "uppercase to lowercase", "lowercase to uppercase", "title case converter", "camelcase converter", "snake case converter", "text transformer", "case changer", "change text case online"],
+    icon: "CaseSensitive",
+    relatedSlugs: ["word-counter", "url-encoder", "html-entities", "css-minifier"],
+    detailedDescription: [
+      "Every developer, writer, and content creator hits the same problem: you have text in one format and need it in another. Maybe you copied a title in ALL CAPS and need it in Title Case. Maybe you are converting a JavaScript variable name from camelCase to snake_case for a Python project. Maybe you just need to fix someone's email that was typed in all caps. AllKit's Text Case Converter handles all of these transformations instantly.",
+      "This tool supports 10 different case formats, covering everything from everyday text transformations to developer-specific naming conventions. UPPERCASE and lowercase are self-explanatory. Title Case capitalizes the first letter of every word — perfect for headlines and titles. Sentence case capitalizes only the first letter of each sentence, which is ideal for body text and descriptions.",
+      "For developers, the real power is in the programming-specific formats. camelCase is the standard in JavaScript and Java. PascalCase (also called UpperCamelCase) is used for class names in most languages and component names in React. snake_case is the convention in Python, Ruby, and Rust. kebab-case is used in URLs, CSS class names, and HTML attributes. CONSTANT_CASE (also called SCREAMING_SNAKE_CASE) is for constants in virtually every language. And dot.case is used in configuration keys and property paths.",
+      "The conversion happens in real-time as you type or paste text. There is no button to press — just select the target case and start typing. The output updates instantly, and you can copy the result with a single click. Everything runs locally in your browser, so your text never leaves your device. Whether you are converting a single variable name or reformatting an entire document, this is the fastest way to change text case."
+    ],
+    howToUse: [
+      "Paste or type your text into the input area on the left side. You can paste anything — a single word, a variable name, a full paragraph, or even multiple lines of text.",
+      "Select the target case format from the buttons above the output. Choose from UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, or dot.case.",
+      "The converted text appears instantly in the output area on the right. The conversion updates in real-time as you type or change the selected case.",
+      "Click the Copy button next to the output to copy the converted text to your clipboard. You will see a brief confirmation when the text is copied.",
+      "To convert to a different case, simply click another case button. The output updates immediately without needing to re-paste the input.",
+      "Use the Clear button to reset both input and output fields and start fresh.",
+      "For programming case formats (camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, dot.case), the tool intelligently splits your text by spaces, hyphens, underscores, dots, and camelCase boundaries to produce accurate results."
+    ],
+    useCases: [
+      { title: "Variable Name Conversion", description: "Converting variable names between programming languages. For example, converting a JavaScript camelCase variable like 'getUserData' to Python's snake_case 'get_user_data', or to a CSS class in kebab-case 'get-user-data'." },
+      { title: "Headline and Title Formatting", description: "Converting blog post titles, article headlines, or document headers to proper Title Case. Paste your draft title and get a correctly capitalized version instantly." },
+      { title: "Database Column Naming", description: "Converting human-readable field names to database-friendly snake_case column names, or vice versa. 'First Name' becomes 'first_name', 'created_at' becomes 'Created At'." },
+      { title: "CSS Class Name Generation", description: "Converting component names or descriptions into kebab-case CSS class names. 'Primary Action Button' becomes 'primary-action-button', ready for your stylesheet." },
+      { title: "Constant Definition", description: "Converting descriptive names into CONSTANT_CASE for defining constants in your code. 'max retry count' becomes 'MAX_RETRY_COUNT', following universal coding conventions." },
+      { title: "API Response Formatting", description: "When working with APIs that use different naming conventions, quickly convert field names between camelCase (JavaScript), snake_case (Ruby/Python), and PascalCase (C#/.NET)." },
+      { title: "Fixing Accidental Caps Lock", description: "Quickly fix text that was accidentally typed with Caps Lock on. Paste the ALL CAPS text and convert it to sentence case or lowercase in one click." }
+    ],
+    technicalDetails: [
+      "The converter uses intelligent word boundary detection to split input text accurately. It recognizes spaces, hyphens, underscores, dots, and camelCase boundaries (transitions from lowercase to uppercase letters). This means 'getUserData', 'get-user-data', 'get_user_data', and 'get user data' all produce the same word list.",
+      "Title Case follows the standard English capitalization rules, capitalizing the first letter of every word. For more nuanced title casing (where articles and prepositions stay lowercase), you can manually adjust the output — but for most technical and web use cases, capitalizing every word is the expected behavior.",
+      "Programming case conversions (camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, dot.case) first normalize the input by splitting it into individual words, then rejoin them according to the target format's rules. This produces clean, consistent output regardless of the input format.",
+      "All processing happens entirely in your browser using JavaScript string operations. No data is sent to any server. The tool works offline and handles text of any length, though very long texts (over 100,000 characters) may take a moment to process due to the regex-based splitting."
+    ],
+    faq: [
+      { question: "What is text case conversion?", answer: "Text case conversion is the process of changing the capitalization format of text. Common examples include converting lowercase to UPPERCASE, formatting text as Title Case for headings, or converting between programming naming conventions like camelCase and snake_case." },
+      { question: "What case formats are supported?", answer: "The tool supports 10 formats: UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, and dot.case. These cover virtually all text formatting and programming naming conventions." },
+      { question: "What is camelCase?", answer: "camelCase is a naming convention where the first word is lowercase and subsequent words are capitalized with no separators: 'getUserName', 'totalItemCount'. It is the standard naming convention in JavaScript, Java, and TypeScript for variables and functions." },
+      { question: "What is the difference between camelCase and PascalCase?", answer: "In camelCase, the first letter is lowercase (getUserName). In PascalCase, the first letter is also capitalized (GetUserName). PascalCase is used for class names in most languages and component names in React." },
+      { question: "What is snake_case used for?", answer: "snake_case uses lowercase words separated by underscores: 'get_user_name'. It is the standard naming convention in Python, Ruby, Rust, and is commonly used for database column names and API fields in many backend frameworks." },
+      { question: "What is kebab-case used for?", answer: "kebab-case uses lowercase words separated by hyphens: 'get-user-name'. It is the standard for CSS class names, HTML attributes, URL slugs, and file names in many web projects." },
+      { question: "Does the tool handle multi-line text?", answer: "Yes. You can paste multiple lines and each line will be converted independently. This is useful for converting lists of variable names, column names, or any batch text transformation." },
+      { question: "Is my text stored or sent anywhere?", answer: "No. All conversion happens entirely in your browser using JavaScript. Your text never leaves your device, is never sent to any server, and is never stored. The tool works even when you are offline." },
+      { question: "Can I convert between programming naming conventions?", answer: "Absolutely — that is one of the primary use cases. The tool intelligently detects word boundaries in any format (camelCase, snake_case, kebab-case, spaces, dots) and can convert to any other format. Paste 'getUserData' and get 'get_user_data', 'get-user-data', 'GET_USER_DATA', or any other format instantly." },
+      { question: "What is CONSTANT_CASE?", answer: "CONSTANT_CASE (also called SCREAMING_SNAKE_CASE) uses uppercase words separated by underscores: 'MAX_RETRY_COUNT'. It is the universal convention for defining constants in virtually every programming language." }
+    ],
+  },
+  {
+    slug: "sql-formatter",
+    name: "SQL Formatter & Beautifier",
+    description: "Format, beautify, and minify SQL queries online. Supports SELECT, INSERT, JOINs, subqueries.",
+    longDescription: "Paste messy SQL and get beautifully formatted, readable queries instantly. Supports SELECT, INSERT, UPDATE, DELETE, JOINs, subqueries, and all major SQL syntax. Minify, uppercase keywords, and configure indentation.",
+    category: "dev",
+    costTier: "free",
+    keywords: ["sql formatter", "sql beautifier", "sql formatter online", "format sql", "sql pretty print", "sql minifier", "sql query formatter", "beautify sql"],
+    icon: "Database",
+    relatedSlugs: ["json-formatter", "css-minifier", "csv-json", "regex-tester"],
+    detailedDescription: [
+      "If you have ever stared at a 200-character single-line SQL query trying to figure out which table is being joined where, you know why SQL formatting matters. AllKit's SQL Formatter takes your messy, minified, or inconsistently formatted SQL and turns it into clean, properly indented, readable code in milliseconds. No signup, no installation, no limits.",
+      "The formatter handles all standard SQL operations: SELECT queries with complex column lists, multi-table JOINs (INNER, LEFT, RIGHT, FULL OUTER, CROSS), WHERE clauses with nested conditions, GROUP BY and HAVING clauses, ORDER BY, LIMIT/OFFSET, subqueries, CTEs (WITH clauses), INSERT statements, UPDATE with SET clauses, DELETE, CREATE TABLE, ALTER TABLE, and more. If your database engine understands it, this formatter can beautify it.",
+      "Beyond basic formatting, you get full control over the output style. Choose between 2-space, 4-space, or tab indentation. Toggle keyword uppercasing to enforce the UPPERCASE SELECT, FROM, WHERE convention that most SQL style guides recommend. Use the minify function to compress formatted SQL back into a single line for embedding in application code or ORM queries.",
+      "Everything runs locally in your browser — your SQL queries are never sent to any server, which matters when you are working with production queries that contain table names, column names, or business logic you would rather keep private. The formatter processes even complex multi-hundred-line queries in under a second, with no file size or query length limitations."
+    ],
+    howToUse: [
+      "Paste your SQL query into the input area on the left. You can paste a single query or multiple queries separated by semicolons.",
+      "Click the Format button (or the output updates automatically) to see the beautifully formatted result in the output area. SQL keywords are placed on new lines with proper indentation.",
+      "Use the Minify button to compress your SQL into a single line, removing all unnecessary whitespace. This is useful when embedding SQL in application code.",
+      "Toggle the Uppercase Keywords option to convert all SQL keywords (SELECT, FROM, WHERE, JOIN, etc.) to UPPERCASE while leaving your table and column names unchanged.",
+      "Select your preferred indentation style: 2 spaces, 4 spaces, or tabs. The formatter applies your choice consistently throughout the output.",
+      "Click Copy to clipboard to copy the formatted SQL. A confirmation appears when the text is successfully copied.",
+      "Use the Clear button to reset both input and output and start with a new query."
+    ],
+    useCases: [
+      { title: "Debugging Complex Queries", description: "When a long query is not returning expected results, formatting it reveals the structure — which tables are joined, what conditions are applied, and where the logic might be wrong. Readable SQL is debuggable SQL." },
+      { title: "Code Review", description: "Before reviewing SQL in a pull request, paste it into the formatter to see the clean version. Consistent formatting makes it much easier to spot logical errors, missing JOINs, or incorrect WHERE conditions." },
+      { title: "Documentation", description: "When adding SQL queries to documentation, wikis, or README files, formatted queries are significantly easier for readers to understand. Format your query before pasting it into your docs." },
+      { title: "Learning SQL", description: "If you are learning SQL and working with example queries from tutorials or StackOverflow, formatting them helps you understand the structure. Seeing each clause on its own line makes the query logic clear." },
+      { title: "Converting ORM Output", description: "ORMs like Hibernate, SQLAlchemy, and ActiveRecord often output SQL as a single compressed line in logs. Paste that log output here to see the actual query structure for debugging." },
+      { title: "Standardizing Team Style", description: "Enforce consistent SQL formatting across your team. Use the formatter before committing SQL migrations, stored procedures, or query files to ensure everyone follows the same style." }
+    ],
+    technicalDetails: [
+      "The formatter uses a token-based approach to parse SQL. It identifies SQL keywords, operators, string literals, identifiers, numbers, and punctuation, then applies formatting rules based on the token sequence. Major clause keywords (SELECT, FROM, WHERE, JOIN, GROUP BY, ORDER BY) start new lines, while sub-elements are indented under their parent clause.",
+      "Parenthesized expressions (subqueries, function calls, IN lists) are handled with increased indentation. The formatter tracks nesting depth and adjusts indentation accordingly, so deeply nested subqueries remain readable with clear visual hierarchy.",
+      "Keyword detection is case-insensitive — the formatter recognizes 'select', 'SELECT', and 'Select' as the same keyword. When uppercase mode is enabled, all recognized keywords are converted to UPPERCASE while preserving the original case of identifiers (table names, column names, aliases).",
+      "String literals (both single-quoted and double-quoted) are preserved exactly as-is, including their internal whitespace and special characters. The formatter never modifies content inside quotes, ensuring your data values and string comparisons remain intact."
+    ],
+    faq: [
+      { question: "What SQL dialects are supported?", answer: "The formatter works with standard SQL syntax that is common across all major databases: MySQL, PostgreSQL, SQLite, SQL Server, Oracle, MariaDB, and others. It handles the core SQL operations (SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP) and common clauses (JOIN, WHERE, GROUP BY, ORDER BY, HAVING, LIMIT, OFFSET, UNION) that are shared across dialects." },
+      { question: "Does it handle subqueries?", answer: "Yes. Subqueries in SELECT lists, FROM clauses, WHERE conditions, and EXISTS expressions are detected and formatted with increased indentation. Nested subqueries (subqueries within subqueries) are indented progressively." },
+      { question: "Can I format multiple queries at once?", answer: "Yes. Paste multiple queries separated by semicolons and each one will be formatted independently. This is useful for formatting migration files or stored procedures that contain multiple statements." },
+      { question: "What does the Minify option do?", answer: "Minify compresses your SQL into a single line by removing all unnecessary whitespace, newlines, and indentation. This is useful when you need to embed SQL in application code, pass it as a string, or reduce the size of SQL files." },
+      { question: "Does it modify my query logic?", answer: "No. The formatter only changes whitespace and optionally the case of SQL keywords. It never modifies your query logic, table names, column names, values, or operators. The formatted query is semantically identical to the original." },
+      { question: "Is my SQL data safe?", answer: "Yes. All formatting happens entirely in your browser using JavaScript. Your SQL queries are never sent to any server, never logged, and never stored. This is safe for production queries containing sensitive table structures or business logic." },
+      { question: "Why should I uppercase SQL keywords?", answer: "Uppercasing SQL keywords (SELECT, FROM, WHERE) is a widely adopted convention that improves readability by visually distinguishing SQL syntax from your table and column names. Most SQL style guides and database teams recommend this practice." },
+      { question: "Can it format CREATE TABLE statements?", answer: "Yes. CREATE TABLE, ALTER TABLE, CREATE INDEX, and other DDL (Data Definition Language) statements are formatted with proper indentation for column definitions, constraints, and options." },
+      { question: "Does it handle CTEs (Common Table Expressions)?", answer: "Yes. WITH clauses (CTEs) are recognized and formatted with the CTE name and its query properly indented. Multiple CTEs separated by commas are each given their own block." },
+      { question: "Can I use this via API?", answer: "Not yet, but a SQL formatting API endpoint is planned. Currently, AllKit offers API access for JSON formatting, Base64 encoding, CSV-JSON conversion, and other tools at /api-docs." }
+    ],
+  },
+  {
+    slug: "number-base-converter",
+    name: "Number Base Converter",
+    description: "Convert numbers between binary, octal, decimal, and hexadecimal instantly.",
+    longDescription: "Convert numbers between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16) in real-time. All fields update as you type. Digit grouping, prefix display, and common value reference included.",
+    category: "dev",
+    costTier: "free",
+    keywords: ["binary to decimal", "hex to decimal", "decimal to binary", "number base converter", "binary converter", "hex converter", "octal converter", "base converter online", "decimal to hex"],
+    icon: "Binary",
+    relatedSlugs: ["hash-generator", "base64", "uuid-generator", "unix-timestamp"],
+    detailedDescription: [
+      "If you work with low-level programming, networking, hardware, or any form of digital systems, you constantly need to convert numbers between bases. What is 0xFF in decimal? What is 192 in binary? What is the octal representation of file permission 755? AllKit's Number Base Converter gives you instant, real-time conversion between binary, octal, decimal, and hexadecimal — all four updating simultaneously as you type in any field.",
+      "Unlike other converters that make you select an input base and output base, then press a Convert button, this tool shows all four representations at once. Type a decimal number and immediately see the binary, octal, and hex equivalents. Type a hex value and see the decimal, binary, and octal instantly. There is no button to press, no form to submit — the conversion is truly real-time.",
+      "The tool includes quality-of-life features that developers actually need: digit grouping for readability (binary digits grouped in nibbles of 4, hex digits in pairs), optional base prefixes (0b, 0o, 0x) for copy-paste into code, input validation that only allows valid characters for each base, and a quick reference section showing common values like MAX_INT boundaries for 8-bit, 16-bit, 32-bit, and 64-bit integers.",
+      "Everything runs locally in your browser with zero dependencies. Whether you are debugging network protocols, setting Unix file permissions, working with color values, analyzing memory addresses, or just doing homework, this is the fastest number base converter you will find. No ads, no signup, no nonsense — just type and convert."
+    ],
+    howToUse: [
+      "Type a number in any of the four input fields: Binary, Octal, Decimal, or Hexadecimal. All other fields update instantly as you type.",
+      "For binary input, use only 0 and 1. For octal, use digits 0 through 7. For decimal, use digits 0 through 9. For hexadecimal, use digits 0 through 9 and letters A through F (case-insensitive).",
+      "Toggle the Prefix option to show or hide base prefixes (0b for binary, 0o for octal, 0x for hex) in the output. This is useful when copying values directly into source code.",
+      "Toggle Digit Grouping to add spaces between digit groups for improved readability. Binary digits are grouped in sets of 4 (nibbles), and hex digits are grouped in pairs (bytes).",
+      "Click the Copy button next to any field to copy that representation to your clipboard.",
+      "Use the common values reference at the bottom to quickly look up important boundaries like the maximum values for 8-bit (255), 16-bit (65535), and 32-bit (4294967295) integers.",
+      "To clear all fields and start over, delete the content from any input field or use the Clear button."
+    ],
+    useCases: [
+      { title: "Network and IP Address Analysis", description: "Convert IP address octets between decimal and binary to understand subnetting, netmasks, and CIDR notation. Seeing 255.255.255.0 as 11111111.11111111.11111111.00000000 makes subnet boundaries obvious." },
+      { title: "Unix File Permissions", description: "Understand and set Unix file permissions by converting between octal (755, 644) and binary representations. Binary shows exactly which read, write, and execute bits are set for owner, group, and others." },
+      { title: "Color Value Conversion", description: "Convert hex color codes to decimal RGB values and vice versa. If a designer gives you #FF8040, you can quickly see that is 255, 128, 64 in decimal RGB." },
+      { title: "Memory Address Debugging", description: "When debugging at the hardware or systems level, memory addresses are shown in hex. Convert them to decimal for arithmetic or to binary to see individual bit flags and alignment." },
+      { title: "Bitwise Operation Visualization", description: "When working with bitwise AND, OR, XOR, and shift operations, converting to binary makes the operations visually obvious. See exactly which bits are set, cleared, or flipped." },
+      { title: "Embedded Systems and IoT", description: "Working with registers, GPIO pins, and hardware interfaces often requires thinking in binary and hex simultaneously. This tool lets you see both representations at once." },
+      { title: "Computer Science Education", description: "Students learning number systems, binary arithmetic, or computer architecture use base conversion constantly. This tool provides instant feedback for practice and verification." }
+    ],
+    technicalDetails: [
+      "Conversion uses JavaScript's built-in parseInt() for input parsing and toString() for output formatting, both of which handle arbitrary-precision integers up to Number.MAX_SAFE_INTEGER (2^53 - 1 = 9007199254740991). For most practical use cases, this range is more than sufficient.",
+      "Input validation is applied per field in real-time. Binary fields only accept 0 and 1. Octal fields accept 0-7. Decimal fields accept 0-9. Hexadecimal fields accept 0-9 and A-F (case-insensitive). Invalid characters are silently rejected.",
+      "Digit grouping uses space separators for universal readability. Binary digits are grouped in nibbles (groups of 4), matching how hardware engineers and protocol specifications typically display binary values. Hex digits are grouped in pairs (bytes), matching the standard representation for memory dumps, MAC addresses, and byte sequences.",
+      "The tool handles leading zeros correctly — entering '007' in octal is interpreted as 7, not as an error. Base prefixes (0b, 0o, 0x) in the output are purely visual and match the conventions used in JavaScript, Python, C, and most modern programming languages."
+    ],
+    faq: [
+      { question: "What number bases are supported?", answer: "The tool supports four number bases: binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16). These are the four bases most commonly used in programming and computer science." },
+      { question: "What is binary (base 2)?", answer: "Binary uses only two digits: 0 and 1. It is the fundamental number system of all digital computers, where each digit (bit) represents an on/off state. Binary is used in low-level programming, hardware design, and network protocols." },
+      { question: "What is hexadecimal (base 16)?", answer: "Hexadecimal uses 16 digits: 0-9 and A-F (where A=10, B=11, C=12, D=13, E=14, F=15). It is a compact way to represent binary data — each hex digit represents exactly 4 binary digits (one nibble). Hex is used for color codes, memory addresses, and byte values." },
+      { question: "What is octal (base 8)?", answer: "Octal uses digits 0 through 7. While less common today, it is still widely used for Unix file permissions (chmod 755) and in some legacy systems. Each octal digit represents exactly 3 binary digits." },
+      { question: "What is the maximum number I can convert?", answer: "The tool accurately converts numbers up to JavaScript's MAX_SAFE_INTEGER: 9,007,199,254,740,991 (2^53 - 1). This is a 53-bit number, sufficient for virtually all practical use cases including 32-bit and most 64-bit values." },
+      { question: "Can I enter negative numbers?", answer: "The current version works with non-negative integers. For negative numbers in two's complement representation, you can manually calculate the complement or use the binary representation of the unsigned equivalent." },
+      { question: "What do the prefixes (0b, 0o, 0x) mean?", answer: "These are standard programming prefixes: 0b indicates binary (0b1010 = 10 in decimal), 0o indicates octal (0o12 = 10), and 0x indicates hexadecimal (0xA = 10). Most programming languages including JavaScript, Python, C, Java, and Rust recognize these prefixes." },
+      { question: "Is my data stored or sent anywhere?", answer: "No. All conversion happens in your browser using JavaScript. No data is transmitted to any server. The tool works completely offline." },
+      { question: "Why are binary digits grouped in fours?", answer: "Grouping binary digits in nibbles (groups of 4) aligns with hexadecimal digits — each nibble maps to exactly one hex digit. This makes it easy to mentally convert between binary and hex: 1010 0011 = A3 in hex." },
+      { question: "How do I convert IP addresses?", answer: "IP addresses use decimal octets (e.g., 192.168.1.1). Convert each octet individually: type 192 in the decimal field to see its binary (11000000) and hex (C0) equivalents. For subnet calculations, the binary representation is most useful." }
     ],
   },
 ];
