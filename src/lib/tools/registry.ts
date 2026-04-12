@@ -1155,6 +1155,116 @@ export const tools: ToolDefinition[] = [
       { question: "How do I convert IP addresses?", answer: "IP addresses use decimal octets (e.g., 192.168.1.1). Convert each octet individually: type 192 in the decimal field to see its binary (11000000) and hex (C0) equivalents. For subnet calculations, the binary representation is most useful." }
     ],
   },
+  {
+    slug: "image-format-converter",
+    name: "Image Format Converter",
+    description: "Convert images between PNG, JPG, and WebP formats instantly. Free, no upload, works offline.",
+    longDescription: "Convert images between PNG, JPEG, and WebP formats directly in your browser. Adjust quality settings, batch convert multiple images, and compare file sizes. No upload to servers — all processing happens locally.",
+    category: "media",
+    costTier: "free",
+    keywords: ["convert png to jpg", "png to jpg", "jpg to png", "webp to png", "webp to jpg", "image converter", "image format converter", "convert image format", "png to jpeg", "convert webp to png", "jpg to webp", "image converter online free", "photo converter"],
+    icon: "ImageDown",
+    relatedSlugs: ["image-compressor", "image-resizer", "background-remover", "image-upscaler"],
+    detailedDescription: [
+      "You have a PNG screenshot that needs to be a JPG for email. A WebP image from a website that your design tool cannot open. A JPEG photo you need as a transparent PNG. These format conversion needs come up constantly, and most online converters make you upload your images to their servers, wait for processing, deal with watermarks, and sit through ads. AllKit's Image Format Converter does it all instantly in your browser. No upload, no waiting, no nonsense.",
+      "The tool supports the three formats that matter for the modern web: JPEG (the universal photo format, smallest file size for photos), PNG (lossless quality with transparency support), and WebP (Google's modern format that combines the best of both). You can convert between any combination: PNG to JPG, JPG to PNG, WebP to PNG, WebP to JPG, PNG to WebP, JPG to WebP. Every conversion is instant because it uses your browser's built-in Canvas API.",
+      "For JPEG and WebP output, you get a quality slider that lets you find the perfect balance between file size and visual quality. Want a tiny file for a thumbnail? Slide it down to 60. Need maximum quality for a portfolio piece? Push it to 100. The tool shows you both the original and converted file sizes in real-time, with a percentage change indicator so you can see exactly how much space you are saving or gaining.",
+      "Batch conversion is supported — upload multiple images and convert them all to the same format at once. This is a huge time-saver when you need to convert an entire folder of screenshots from PNG to JPEG, or prepare a set of WebP images for a platform that does not support WebP yet. Each image shows its own before and after file size comparison.",
+      "Because everything runs locally in your browser using the Canvas API, your images never leave your device. There is no server upload, no cloud processing, no privacy risk. The tool works offline, handles images of any size, and processes conversions in milliseconds. It is the fastest, most private image converter you will find."
+    ],
+    howToUse: [
+      "Click the upload area or drag and drop one or more images onto the tool. Supported input formats include PNG, JPEG, WebP, BMP, and GIF.",
+      "Select the target output format from the format buttons: PNG, JPEG, or WebP. The conversion applies to all uploaded images.",
+      "For JPEG or WebP output, adjust the quality slider to control the trade-off between file size and visual quality. Higher quality means larger files. The default values (85 for JPEG, 80 for WebP) work well for most use cases.",
+      "The tool converts your images instantly and shows the result with file size comparison. You can see the original format and size alongside the converted format and size.",
+      "Click the Download button to save the converted image to your device. For batch uploads, each image has its own download button.",
+      "To convert more images, simply upload additional files. You can change the target format at any time and all images will be re-converted automatically.",
+      "Compare the visual quality of the converted image with the original. If the quality is too low, increase the quality slider and the conversion updates instantly."
+    ],
+    useCases: [
+      { title: "Converting Screenshots for Email and Documents", description: "Screenshots saved as PNG files are often unnecessarily large. Convert them to JPEG to reduce file size by 70-90% before attaching to emails, inserting into Word documents, or uploading to project management tools." },
+      { title: "Converting WebP Images for Compatibility", description: "Many websites now serve images in WebP format, but not all software and platforms support it. Convert WebP to PNG or JPEG when you need to use downloaded images in Photoshop, PowerPoint, older browsers, or social media platforms that reject WebP uploads." },
+      { title: "Preparing Images for Web Publishing", description: "Convert large PNG images to WebP or JPEG for faster website loading. WebP typically achieves 25-35% smaller file sizes than JPEG at equivalent quality, improving Core Web Vitals and SEO performance." },
+      { title: "Creating Transparent PNG from Other Formats", description: "When you need transparency support (logos, icons, overlays), convert to PNG. While JPEG does not support transparency, converting from a format that preserves alpha channels to PNG maintains the transparency data." },
+      { title: "Batch Converting Product Photos", description: "E-commerce sellers often receive product images in mixed formats from different suppliers. Batch convert them all to a consistent format (JPEG for photos, PNG for graphics with text) to maintain a uniform catalog." },
+      { title: "Reducing Image File Size for Storage", description: "Large PNG screenshots and BMP images can be converted to JPEG or WebP to dramatically reduce storage requirements. A 5MB PNG screenshot might become a 200KB JPEG with no visible quality loss." },
+      { title: "Format Requirements for Platforms", description: "Some platforms have strict format requirements. LinkedIn prefers JPG or PNG. Some print services require specific formats. Quick conversion ensures your images meet the requirements without installing software." }
+    ],
+    technicalDetails: [
+      "Image conversion uses the browser's native Canvas API. The uploaded image is drawn onto an HTML5 canvas element, then exported in the target format using canvas.toBlob() with the appropriate MIME type (image/png, image/jpeg, image/webp). This leverages the browser's built-in image codecs, which are implemented in C++ and extremely fast.",
+      "JPEG encoding uses lossy compression controlled by the quality parameter (0.0 to 1.0). At quality 0.85, JPEG files are typically 70-90% smaller than the equivalent PNG with minimal visible quality loss. JPEG does not support transparency — any transparent pixels are composited against a white background.",
+      "WebP encoding also uses lossy compression (when quality < 1.0) but achieves 25-35% smaller files than JPEG at equivalent visual quality. WebP supports transparency (alpha channel) even in lossy mode, making it the most versatile modern format. Browser support for WebP is now universal across Chrome, Firefox, Safari, and Edge.",
+      "PNG encoding is always lossless — the output is pixel-identical to the canvas content. PNG files are larger than JPEG or WebP for photographic content but smaller for images with large flat-color areas (screenshots, diagrams, logos). PNG supports full alpha transparency with 256 levels of opacity per pixel.",
+      "All processing happens in the browser's rendering engine. No image data is sent to any server. The tool works offline after the page loads and can handle images of any resolution, though very large images (over 50 megapixels) may cause temporary browser slowdowns due to canvas memory usage."
+    ],
+    faq: [
+      { question: "What image formats can I convert between?", answer: "You can upload PNG, JPEG, WebP, BMP, and GIF images and convert them to PNG, JPEG, or WebP. All six conversion directions between the three main output formats are supported (PNG→JPG, PNG→WebP, JPG→PNG, JPG→WebP, WebP→PNG, WebP→JPG)." },
+      { question: "Does converting to JPEG reduce quality?", answer: "JPEG uses lossy compression, so there is always some quality loss compared to the original. At the default quality setting (85), the difference is virtually invisible for photographs. Lower quality settings produce smaller files with more visible compression artifacts. For pixel-perfect quality, use PNG instead." },
+      { question: "Is WebP better than JPEG?", answer: "For most use cases, yes. WebP achieves 25-35% smaller file sizes than JPEG at equivalent visual quality, and it supports transparency (which JPEG does not). The only downside is that some older software and platforms do not support WebP, but all modern browsers do." },
+      { question: "What happens to transparency when converting to JPEG?", answer: "JPEG does not support transparency. When converting a PNG or WebP with transparent areas to JPEG, the transparent pixels are composited against a white background. If you need to preserve transparency, convert to PNG or WebP instead." },
+      { question: "Can I convert multiple images at once?", answer: "Yes. Upload multiple images and they will all be converted to the selected format. Each image shows its own file size comparison and has its own download button." },
+      { question: "Are my images uploaded to a server?", answer: "No. All conversion happens entirely in your browser using the Canvas API. Your images never leave your device, are never uploaded, and are never stored. The tool works even when you are offline." },
+      { question: "Why is my converted file larger than the original?", answer: "This can happen when converting from a compressed format (JPEG, WebP) to a lossless format (PNG). PNG preserves every pixel exactly, so photographic images produce large PNG files. It can also happen when converting a heavily compressed JPEG to a high-quality WebP." },
+      { question: "What is the best format for photos?", answer: "For web use, WebP offers the best quality-to-size ratio. For universal compatibility, JPEG is the safest choice. For archival or editing purposes where quality must be preserved exactly, use PNG. For photos that need transparency, use WebP or PNG." },
+      { question: "What is the best quality setting?", answer: "For JPEG, 85 is the sweet spot for most photos — good quality with significant file size reduction. For WebP, 80 achieves similar visual quality. Below 70, compression artifacts become noticeable. Above 95, file sizes increase dramatically with minimal visible improvement." },
+      { question: "Can I convert GIF animations?", answer: "The tool converts single-frame images. If you upload an animated GIF, only the first frame will be converted. For animated GIF conversion, you would need a specialized GIF processing tool." }
+    ],
+  },
+  {
+    slug: "image-to-pdf",
+    name: "Image to PDF Converter",
+    description: "Convert images to PDF online for free. Combine multiple images into one PDF. No upload, works offline.",
+    longDescription: "Convert JPG, PNG, and WebP images to PDF documents. Upload multiple images, reorder them, choose page size and orientation, then download a multi-page PDF. All processing happens in your browser — no upload needed.",
+    category: "media",
+    costTier: "free",
+    keywords: ["image to pdf", "jpg to pdf", "png to pdf", "convert image to pdf", "photo to pdf", "picture to pdf", "images to pdf converter", "jpg to pdf converter", "combine images to pdf", "multiple images to pdf"],
+    icon: "FileImage",
+    relatedSlugs: ["image-format-converter", "image-compressor", "image-resizer", "image-to-text"],
+    detailedDescription: [
+      "Need to turn a photo into a PDF? How about combining 20 scanned pages into one document? AllKit's Image to PDF converter handles both with zero friction. Upload your images, arrange them in the order you want, pick a page size, and download a perfect multi-page PDF. No signup, no upload to servers, no watermarks, and no page limits. Everything runs in your browser.",
+      "The tool works with any image format your browser can display: JPEG, PNG, WebP, BMP, and GIF. Upload a single image for a one-page PDF, or upload dozens of images to create a complete multi-page document. You can drag to reorder pages, remove individual images, and preview the layout before generating the PDF. The generated PDF is standard-compliant and opens in any PDF reader — Adobe Acrobat, Preview, Chrome, Edge, or any other.",
+      "Page layout options give you full control over the output. Choose from standard page sizes (A4, US Letter) or Original mode that matches each page to the image's exact dimensions. Set the orientation to Portrait, Landscape, or Auto (which automatically selects the best orientation for each image based on its aspect ratio). Adjust margins and image fitting to get the exact layout you need.",
+      "The image quality slider lets you balance between PDF file size and visual quality. For documents that will be viewed on screen, 80% quality is more than enough and keeps file sizes small. For high-quality prints, push it to 95-100%. The tool shows you the estimated file size before you generate the PDF, so you can adjust settings to meet any file size requirements.",
+      "Privacy is a core feature. Unlike other image-to-PDF tools that upload your files to remote servers for processing, AllKit does everything locally in your browser. Your images never leave your device. This makes it safe for converting sensitive documents like medical records, financial statements, ID photos, or confidential business documents. The tool even works offline once the page has loaded."
+    ],
+    howToUse: [
+      "Click the upload area or drag and drop your images onto the tool. You can select multiple images at once. Supported formats include JPEG, PNG, WebP, BMP, and GIF.",
+      "Once uploaded, your images appear as thumbnails in the order they will appear in the PDF. Use the up and down arrows (or drag) to reorder pages. Click the X button to remove any image you do not want.",
+      "Select the page size: A4 (standard international), Letter (US standard), or Original (each page matches the image dimensions exactly).",
+      "Choose the orientation: Portrait (vertical), Landscape (horizontal), or Auto (the tool picks the best orientation for each image based on whether it is wider or taller).",
+      "Adjust the quality slider to control the trade-off between PDF file size and image quality. The default of 85% works well for most use cases.",
+      "Click the 'Generate PDF' button. The tool processes all your images and creates a multi-page PDF document. This takes a few seconds depending on the number and size of images.",
+      "Once the PDF is ready, click 'Download PDF' to save it to your device. The file is a standard PDF that opens in any PDF reader."
+    ],
+    useCases: [
+      { title: "Scanning and Digitizing Documents", description: "After scanning paper documents with your phone camera, convert the photos to a clean multi-page PDF. Upload all your scanned pages, arrange them in order, and create a single PDF document that is easy to share, email, and archive." },
+      { title: "Creating Photo Albums and Portfolios", description: "Combine multiple photos into a single PDF for a digital photo album, photography portfolio, or visual project presentation. Each image gets its own page, and you control the quality and layout." },
+      { title: "Preparing Documents for Email", description: "Many workplaces and institutions require documents in PDF format. Convert your JPG photos of receipts, ID cards, certificates, or signed documents to PDF before emailing them to HR, insurance companies, or government agencies." },
+      { title: "Homework and Assignment Submission", description: "Students often photograph handwritten assignments. Convert those photos to a properly ordered multi-page PDF before submitting through online learning platforms that require PDF uploads." },
+      { title: "Real Estate and Insurance Documentation", description: "Agents and adjusters photograph properties and damage. Convert inspection photos to organized PDF reports with each image on its own page, ready for filing, sharing with clients, or submitting to insurance companies." },
+      { title: "Archiving Receipts and Financial Records", description: "Photograph paper receipts and financial documents, then convert them to PDF for long-term digital storage. PDFs are more portable and searchable than loose image files, and they maintain consistent formatting across devices." },
+      { title: "Creating Visual Instructions and Guides", description: "Combine step-by-step photos into a single PDF instruction manual or visual guide. Perfect for assembly instructions, cooking recipes with photos, or training materials that need to be distributed as a single file." }
+    ],
+    technicalDetails: [
+      "PDF generation happens entirely in the browser using JavaScript. The tool constructs a valid PDF document according to the PDF 1.4 specification. Each image is encoded as a JPEG stream (DCTDecode) and embedded as an XObject within the PDF. Page dimensions are calculated from the target page size and image aspect ratio.",
+      "Images are rendered to an HTML5 Canvas element at the appropriate resolution, then exported as JPEG data using canvas.toBlob(). This ensures consistent quality regardless of the input format. The JPEG quality parameter directly controls the compression level and resulting file size.",
+      "The PDF structure includes a document catalog, page tree, individual page objects with media box dimensions, and image XObjects with the encoded image data. Cross-reference tables and the PDF trailer provide the byte offsets needed for random-access reading by PDF viewers.",
+      "Page size calculations handle the relationship between image dimensions and target page size. In 'Fit' mode, the image is scaled to fill the page while maintaining aspect ratio. Margins are subtracted from the available area before scaling. The 'Auto' orientation mode compares the image width-to-height ratio to determine the optimal page orientation.",
+      "Since all processing happens in the browser, memory usage scales with the number and size of images. For very large batches (50+ high-resolution images), the tool processes images sequentially to avoid exceeding browser memory limits. The resulting PDF file is assembled as a Blob and offered for download via a generated URL."
+    ],
+    faq: [
+      { question: "What image formats can I convert to PDF?", answer: "You can convert JPEG, PNG, WebP, BMP, and GIF images to PDF. Any image format that your browser can display will work. Each image becomes one page in the PDF document." },
+      { question: "Can I combine multiple images into one PDF?", answer: "Yes. Upload as many images as you want and they will all be combined into a single multi-page PDF. You can reorder the pages before generating the document." },
+      { question: "Is there a limit on the number of images?", answer: "There is no hard limit. You can convert dozens or even hundreds of images into one PDF. Very large batches may take a few extra seconds to process, and the resulting file size will be larger." },
+      { question: "Are my images uploaded to a server?", answer: "No. All processing happens entirely in your browser. Your images never leave your device. This makes the tool safe for sensitive documents, personal photos, financial records, and confidential materials." },
+      { question: "What page sizes are available?", answer: "A4 (210×297mm, international standard), US Letter (8.5×11 inches, North American standard), and Original (each page matches the exact dimensions of the image). Choose Original when you want pixel-perfect output without any scaling." },
+      { question: "Can I control the image quality?", answer: "Yes. The quality slider (1-100%) controls JPEG compression. Higher quality means better image fidelity but larger file size. The default of 85% provides excellent quality with reasonable file size. For print-quality PDFs, use 95-100%." },
+      { question: "Will the PDF work on all devices?", answer: "Yes. The generated PDF follows the standard PDF 1.4 specification and opens correctly in Adobe Acrobat Reader, Apple Preview, Google Chrome, Microsoft Edge, and all other standard PDF readers on any operating system." },
+      { question: "Can I reorder the pages?", answer: "Yes. After uploading, use the arrow buttons to move images up or down in the page order. The final PDF will follow the order shown on screen." },
+      { question: "Does it work offline?", answer: "Yes. Once the page has loaded, all processing happens locally in your browser. You can disconnect from the internet and still convert images to PDF." },
+      { question: "How large will the PDF file be?", answer: "File size depends on the number of images, their resolution, and the quality setting. A single photo at 85% quality typically produces a 200-500KB PDF page. A 10-page document might be 2-5MB. Lower the quality slider for smaller files." }
+    ],
+  },
 ];
 
 export function getToolBySlug(slug: string): ToolDefinition | undefined {

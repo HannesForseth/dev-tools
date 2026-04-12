@@ -40,6 +40,8 @@ import { ImageToVideo } from "@/components/tools/image-to-video";
 import { SqlFormatter } from "@/components/tools/sql-formatter";
 import { TextCaseConverter } from "@/components/tools/text-case-converter";
 import { NumberBaseConverter } from "@/components/tools/number-base-converter";
+import { ImageFormatConverter } from "@/components/tools/image-format-converter";
+import { ImageToPdf } from "@/components/tools/image-to-pdf";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -78,6 +80,8 @@ const toolComponents: Record<string, React.ComponentType> = {
   "sql-formatter": SqlFormatter,
   "text-case-converter": TextCaseConverter,
   "number-base-converter": NumberBaseConverter,
+  "image-format-converter": ImageFormatConverter,
+  "image-to-pdf": ImageToPdf,
 };
 
 type PageProps = {

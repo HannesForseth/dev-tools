@@ -1,6 +1,6 @@
 # AllKit — Free Developer & AI Tools
 
-> AllKit (https://allkit.dev) provides 40 free online developer tools and AI-powered utilities. All tools work in the browser with no signup required. API access is available for programmatic use by LLMs, agents, and automation pipelines.
+> AllKit (https://allkit.dev) provides 42 free online developer tools and AI-powered utilities. All tools work in the browser with no signup required. API access is available for programmatic use by LLMs, agents, and automation pipelines.
 
 ## API
 
@@ -43,13 +43,13 @@ All AI endpoints accept POST with JSON body. Image/audio inputs should be base64
 - Cron Expression Generator: `POST /api/v1/ai/cron` — body: `{"description": "every Monday at 9am"}` — returns cron expression
 - Privacy Policy Generator: `POST /api/v1/ai/privacy-policy` — body: `{"appName": "MyApp", "dataCollected": ["email", "name"]}` — returns policy text
 
-## All Browser Tools (40 total)
+## All Browser Tools (42 total)
 
 ### Developer Tools
 JSON Formatter, UUID Generator, Base64, Regex Tester (AI), Hash Generator, Color Palette, Lorem Ipsum, QR Code Generator, Diff Checker, Password Generator, Word Counter, JWT Decoder, Unix Timestamp, URL Encoder, CSV/JSON Converter, Markdown Preview, YAML/JSON Converter, HTML Entities, Cron Generator (AI), CSS Minifier & Beautifier, Text Case Converter, SQL Formatter & Beautifier, Number Base Converter
 
 ### AI Media Tools
-Background Remover, Image to Text (OCR), AI Image Generator, Text to Speech, Image Compressor, Image Resizer, AI Image Upscaler, AI Face Swap, Speech to Text (Whisper), Voice Cloning, Live Portrait (Animate Photo), Image to Video
+Background Remover, Image to Text (OCR), AI Image Generator, Text to Speech, Image Compressor, Image Resizer, AI Image Upscaler, AI Face Swap, Speech to Text (Whisper), Voice Cloning, Live Portrait (Animate Photo), Image to Video, Image Format Converter (PNG/JPG/WebP), Image to PDF Converter
 
 ### AI Smart Tools
 Privacy Policy Generator
