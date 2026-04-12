@@ -225,17 +225,56 @@ export const tools: ToolDefinition[] = [
   {
     slug: "image-to-text",
     name: "Image to Text (OCR)",
-    description: "Extract text from images and screenshots using AI-powered OCR.",
-    longDescription: "Upload an image, screenshot, or photo and extract all text content using advanced AI OCR. Supports multiple languages, handwriting recognition, and outputs clean Markdown. Perfect for digitizing documents, receipts, and screenshots.",
+    description: "Extract text from images and screenshots using AI-powered OCR. Free, no signup, instant results.",
+    longDescription: "Upload an image, screenshot, or photo and extract all text content using advanced AI OCR. Supports multiple languages, handwriting, and outputs clean Markdown. Free, no signup required.",
     category: "media",
     costTier: "huggingface",
-    keywords: ["image to text", "ocr online", "image to text converter", "extract text from image", "screenshot to text"],
+    keywords: ["image to text", "ocr online", "image to text converter", "extract text from image", "screenshot to text", "ocr free online", "photo to text", "picture to text", "text extractor from image", "copy text from image", "image to text online free"],
     icon: "ScanText",
-    relatedSlugs: ["background-remover", "word-counter", "ai-image-generator"],
+    relatedSlugs: ["background-remover", "word-counter", "ai-image-generator", "speech-to-text"],
+    detailedDescription: [
+      "You have a screenshot with error messages you need to paste into a bug report. A photo of a whiteboard covered in meeting notes. A scanned receipt you need to expense. A PDF rendered as an image. A foreign-language sign you want to translate. In all these cases, you need to get the text out of the image and into a format you can actually work with. AllKit's Image to Text tool does exactly that — upload any image and the AI extracts every piece of text it can find, preserving structure and formatting.",
+      "This is not the primitive OCR from the early 2000s that could barely read printed text in a clean font. AllKit uses a modern AI vision model that understands context, layout, and structure. It recognizes printed text in any font, handwritten notes, text in photos (signs, labels, screens), mathematical formulas, code snippets, and tabular data. The output is clean Markdown that preserves headings, lists, tables, and paragraph structure from the original image.",
+      "The tool handles real-world images with impressive accuracy. Angled photos, poor lighting, low resolution, colored backgrounds, overlapping text, and mixed fonts — the AI handles them all. It supports multiple languages and scripts, including Latin, Cyrillic, Chinese, Japanese, Korean, Arabic, and more. You do not need to specify the language — the model detects it automatically.",
+      "Privacy is built in. Your images are processed through a secure AI model and the results are returned to your browser. Images are not stored, logged, or used for training. Once you close the page, your data is gone. This makes it safe for extracting text from sensitive documents like medical records, legal contracts, financial statements, and personal correspondence.",
+      "The extracted text appears instantly in a clean text area with one-click copy to clipboard. From there, paste it into your document editor, email, spreadsheet, code editor, or translator. No manual typing, no squinting at tiny text in screenshots, no switching between apps to transcribe what you see. Just upload, extract, and use."
+    ],
+    howToUse: [
+      "Click the upload area or drag and drop an image onto the tool. Supported formats include PNG, JPEG, WebP, BMP, and GIF. You can also paste a screenshot directly from your clipboard.",
+      "The AI processes the image and extracts all visible text. This typically takes 5-15 seconds depending on the amount of text and image complexity.",
+      "If the model needs to warm up (first use of the day), processing may take 30-60 seconds. A timer shows you the progress.",
+      "The extracted text appears in the output area formatted as clean Markdown. Headings, lists, tables, and paragraph breaks from the original image are preserved.",
+      "Click the Copy button to copy all extracted text to your clipboard, ready to paste into any application.",
+      "For best results, use clear, well-lit images where the text is legible. Higher resolution images produce more accurate results.",
+      "If the image contains text in multiple languages, the AI handles them simultaneously without any configuration."
+    ],
+    useCases: [
+      { title: "Extracting Text from Screenshots", description: "Copy error messages, code snippets, chat conversations, or UI text from screenshots without retyping. Essential for bug reports, documentation, and sharing technical information from applications that do not allow text selection." },
+      { title: "Digitizing Paper Documents", description: "Photograph paper documents, letters, forms, or printed materials and convert them to editable text. Useful for archiving old documents, converting printed manuals to digital format, or extracting data from paper forms." },
+      { title: "Extracting Data from Receipts", description: "Photograph receipts, invoices, and financial documents to extract amounts, dates, vendor names, and line items. Speeds up expense reporting, bookkeeping, and financial record-keeping." },
+      { title: "Converting Whiteboard Notes", description: "Take a photo of whiteboard brainstorming sessions, meeting notes, or classroom discussions and convert the handwritten text to digital format for sharing, archiving, or further editing." },
+      { title: "Translating Text in Photos", description: "Extract text from photos of foreign-language signs, menus, documents, or labels, then paste the extracted text into a translation tool. Much faster than typing foreign characters manually." },
+      { title: "Copying Text from PDFs and Images", description: "Some PDFs are actually scanned images where you cannot select text. Upload a screenshot of the page and the AI extracts the text, giving you a selectable, copyable version." },
+      { title: "Extracting Code from Screenshots", description: "Developers often share code as screenshots on social media, forums, or presentations. Extract the code text so you can actually run, edit, or search it instead of retyping from an image." }
+    ],
+    technicalDetails: [
+      "The OCR engine uses a modern AI vision model capable of understanding both the visual appearance and semantic context of text in images. Unlike traditional OCR that processes individual characters, this model understands words, sentences, and document structure holistically.",
+      "Text detection handles arbitrary orientations, curved text, and overlapping elements. The model identifies text regions, determines reading order, and groups text into logical blocks (paragraphs, headers, list items, table cells) before outputting structured Markdown.",
+      "Multi-language support is built into the model's training data, covering Latin scripts (English, Spanish, French, German, etc.), Cyrillic (Russian), CJK (Chinese, Japanese, Korean), Arabic, Devanagari, and many other scripts. Language detection is automatic.",
+      "Image preprocessing is handled by the AI model internally — it adjusts for rotation, perspective distortion, uneven lighting, and contrast issues. You do not need to pre-process images before uploading.",
+      "Processing happens on GPU-accelerated infrastructure via Hugging Face Spaces. The model loads into GPU memory on first use (cold start: 30-60s) and subsequent requests process in 5-15 seconds depending on image complexity and text density."
+    ],
     faq: [
-      { question: "What is OCR?", answer: "OCR (Optical Character Recognition) is a technology that reads text from images. Our AI-powered OCR goes beyond traditional methods — it understands layouts, tables, and even handwriting." },
-      { question: "Can it read handwriting?", answer: "Yes. The AI model can recognize handwritten text, though accuracy depends on legibility. Printed text gives the best results." },
-      { question: "What output format do I get?", answer: "The extracted text is returned as clean Markdown, preserving headings, lists, and table structures from the original image." },
+      { question: "What is OCR?", answer: "OCR (Optical Character Recognition) is a technology that reads text from images. AllKit's AI-powered OCR goes far beyond traditional methods — it understands layouts, tables, handwriting, multiple languages, and complex document structures." },
+      { question: "Can it read handwriting?", answer: "Yes. The AI model can recognize handwritten text, including cursive and mixed print-cursive styles. Accuracy depends on legibility — neat handwriting produces excellent results, while very messy handwriting may have lower accuracy." },
+      { question: "What output format do I get?", answer: "The extracted text is returned as clean Markdown, preserving headings, lists, tables, and paragraph structures from the original image. You can copy it as plain text or use the Markdown formatting." },
+      { question: "What languages are supported?", answer: "The AI supports dozens of languages and scripts including English, Spanish, French, German, Italian, Portuguese, Russian, Chinese, Japanese, Korean, Arabic, Hindi, and many more. You do not need to specify the language — detection is automatic." },
+      { question: "Can I extract text from screenshots?", answer: "Absolutely — this is one of the primary use cases. Upload screenshots from any application, website, or device and the AI extracts all visible text, preserving the layout structure." },
+      { question: "Are my images stored?", answer: "No. Your images are processed by the AI model and the results are returned to your browser. Images are never stored, logged, or used for training. The tool is safe for sensitive and confidential documents." },
+      { question: "How accurate is the text extraction?", answer: "For clear, printed text in good lighting, accuracy is typically 95-99%. Handwritten text, low-resolution images, and complex layouts may have lower accuracy. The AI handles most real-world images well, including angled photos and images with colored backgrounds." },
+      { question: "Can it extract text from PDFs?", answer: "If your PDF is a scanned image (text is not selectable), take a screenshot of the page and upload it. The AI will extract the text from the image. For PDFs with selectable text, you can copy directly from the PDF reader." },
+      { question: "What image formats are supported?", answer: "PNG, JPEG, WebP, BMP, and GIF. Any image format that your browser can display will work. For best results, use clear, high-resolution images where the text is legible." },
+      { question: "Why does the first request take longer?", answer: "The AI model runs on GPU servers that go to sleep when not in use. The first request requires a 'cold start' (30-60 seconds) to load the model into memory. Subsequent requests are much faster (5-15 seconds)." }
     ],
   },
   {
@@ -257,17 +296,56 @@ export const tools: ToolDefinition[] = [
   {
     slug: "ai-image-generator",
     name: "AI Image Generator",
-    description: "Generate images from text descriptions using AI. Free, no signup.",
-    longDescription: "Describe what you want to see and AI generates it. Create illustrations, concept art, product mockups, and more. Powered by state-of-the-art diffusion models. Multiple styles and aspect ratios supported.",
+    description: "Generate images from text descriptions using AI. Free, no signup, no watermark.",
+    longDescription: "Describe what you want to see and AI generates it. Create illustrations, concept art, product mockups, and more. Powered by FLUX.1 Schnell. Free, no signup, no watermark.",
     category: "media",
     costTier: "huggingface",
-    keywords: ["ai image generator", "ai image generator free", "text to image", "ai art generator", "image generator"],
+    keywords: ["ai image generator", "ai image generator free", "text to image", "ai art generator", "image generator", "ai image generator free no sign up", "ai picture generator", "text to image ai free", "ai image creator", "generate image from text"],
     icon: "Sparkles",
-    relatedSlugs: ["background-remover", "image-compressor", "text-to-speech"],
+    relatedSlugs: ["background-remover", "image-compressor", "image-upscaler", "image-format-converter"],
+    detailedDescription: [
+      "Imagine describing a scene in words and seeing it come to life as an image in seconds. A cosmic landscape with swirling nebulae. A cozy cabin in a snowy forest. A product mockup for your startup. A character concept for your game. AllKit's AI Image Generator turns your text descriptions into high-quality images using FLUX.1 Schnell, one of the fastest and most capable open-source diffusion models available today.",
+      "The technology behind this tool is called text-to-image diffusion. The AI model has been trained on billions of image-text pairs, learning the relationship between language and visual concepts. When you type a prompt, the model starts with random noise and gradually shapes it into an image that matches your description, refining details with each step. FLUX.1 Schnell is optimized for speed — it produces 1024×1024 images in just 4 inference steps, making it one of the fastest AI image generators available.",
+      "The quality of your results depends heavily on your prompt. Vague descriptions like 'a cat' produce generic results. Specific, detailed prompts produce stunning images. Try 'a tabby cat sleeping on a stack of old books in a sunlit library, warm golden light, dust particles in the air, photorealistic, 8K'. Adding style cues (watercolor, oil painting, cyberpunk, minimalist, Studio Ghibli), lighting descriptions, camera settings (wide angle, macro, bokeh), and mood indicators dramatically improves output quality.",
+      "AllKit's AI Image Generator is completely free with no watermarks, no signup, and no restrictions on what you can generate (within ethical guidelines). Free users get 3 AI generations per day, which resets every 24 hours. The generated images are yours to use — FLUX.1 Schnell is released under the Apache 2.0 license, which permits both personal and commercial use. Download your images as high-quality PNG files.",
+      "Unlike paid AI image generators that cost $10-30/month, AllKit gives you access to the same class of technology for free. The model runs on GPU-accelerated infrastructure and your prompts are processed in real-time. No queue, no credits to manage, no subscription to cancel. Just type what you want to see and watch it appear."
+    ],
+    howToUse: [
+      "Type a detailed description of the image you want to generate in the text input field. Be as specific as possible — include subjects, settings, lighting, style, colors, and mood.",
+      "Click the 'Generate' button to start the AI image generation. The model processes your prompt and creates the image.",
+      "Wait for the AI to generate your image. This typically takes 10-20 seconds. If the model needs to warm up (first use), it may take 30-60 seconds.",
+      "Once generated, the image appears on screen. Review it and decide if it matches your vision. If not, refine your prompt and generate again.",
+      "Download the generated image as a high-quality PNG file by clicking the Download button. The image has no watermarks or restrictions.",
+      "To improve results, try adding style cues to your prompt: 'photorealistic', 'oil painting', 'watercolor', 'digital art', 'anime style', '3D render', 'minimalist', 'cinematic lighting', etc.",
+      "Experiment with different prompts. AI image generation is an iterative process — your first attempt often leads to ideas for better prompts that produce exactly what you envision."
+    ],
+    useCases: [
+      { title: "Social Media Content", description: "Generate unique images for social media posts, stories, and thumbnails without stock photos. Create custom visuals that match your brand aesthetic and message instead of using the same generic stock images as everyone else." },
+      { title: "Blog and Article Illustrations", description: "Create custom header images and inline illustrations for blog posts and articles. Generate visuals that directly relate to your content instead of searching through stock photo libraries for something 'close enough'." },
+      { title: "Product and Concept Mockups", description: "Visualize product ideas, packaging concepts, and design directions before investing in professional photography or 3D rendering. Perfect for pitching ideas to clients, teams, or investors." },
+      { title: "Game and Character Design", description: "Generate concept art for game characters, environments, items, and scenes. Use AI-generated images as references and starting points for artists, or as placeholder art during development." },
+      { title: "Marketing and Advertising", description: "Create eye-catching visuals for ads, landing pages, email campaigns, and promotional materials. Generate multiple variations quickly to A/B test which imagery performs best." },
+      { title: "Education and Presentations", description: "Generate custom illustrations for presentations, lesson materials, and educational content. Create visuals that explain specific concepts instead of relying on generic clipart or diagrams." },
+      { title: "Personal Creative Projects", description: "Bring your creative visions to life — fantasy landscapes, sci-fi scenes, abstract art, portrait styles, architectural concepts, or any other visual idea. No artistic skill required, just the ability to describe what you see in your mind." }
+    ],
+    technicalDetails: [
+      "FLUX.1 Schnell is a flow-matching diffusion model developed by Black Forest Labs (founded by former Stability AI researchers). It uses a transformer-based architecture that processes text prompts through a language model and generates images through iterative denoising. The 'Schnell' variant is optimized for speed, producing high-quality results in just 4 inference steps (compared to 20-50 steps for many other models).",
+      "The model generates images at 1024×1024 pixels by default, providing enough resolution for most digital use cases. The output is a lossless PNG file with full color depth (24-bit RGB). For higher resolution needs, combine with AllKit's AI Image Upscaler to enlarge the generated image while preserving quality.",
+      "Text understanding uses a CLIP-based text encoder that converts your prompt into a semantic embedding — a mathematical representation of meaning. This embedding guides the image generation process, ensuring the output matches the conceptual content of your description. The model understands complex compositions, spatial relationships, styles, and abstract concepts.",
+      "Processing happens on GPU-accelerated infrastructure via Hugging Face Spaces. Cold starts (first request after inactivity) take 30-60 seconds as the model loads into GPU memory. Subsequent generations are much faster, typically 10-20 seconds per image.",
+      "FLUX.1 Schnell is released under the Apache 2.0 open-source license, which allows commercial use of generated images. The model weights are publicly available and the generation process is transparent — no proprietary black box."
+    ],
     faq: [
-      { question: "What AI model is used?", answer: "AllKit uses FLUX.1 Schnell, a fast diffusion model optimized for high-quality image generation. It generates 1024×1024 images in about 4 inference steps." },
-      { question: "Can I use generated images commercially?", answer: "FLUX.1 Schnell is released under the Apache 2.0 license, which permits commercial use. However, always check the latest license terms for your specific use case." },
-      { question: "How do I get better results?", answer: "Be specific in your prompts. Instead of 'a dog', try 'a golden retriever sitting in a sunlit meadow, professional photography, shallow depth of field'. Adding style cues and details improves output quality significantly." },
+      { question: "What AI model is used?", answer: "AllKit uses FLUX.1 Schnell by Black Forest Labs, one of the fastest and most capable open-source text-to-image diffusion models. It generates high-quality 1024×1024 images in approximately 4 inference steps." },
+      { question: "Can I use generated images commercially?", answer: "Yes. FLUX.1 Schnell is released under the Apache 2.0 license, which permits commercial use. You can use generated images for websites, products, marketing materials, social media, and other commercial purposes." },
+      { question: "How do I write better prompts?", answer: "Be specific and descriptive. Include: the main subject, setting/background, lighting, style (photorealistic, watercolor, anime, etc.), mood, and camera angle. Example: 'a medieval castle on a cliff overlooking a stormy sea, dramatic lightning, dark fantasy art style, cinematic composition'." },
+      { question: "Is the AI image generator free?", answer: "Yes, completely free with no watermarks. Free users get 3 AI image generations per day. Upgrade to Pro for unlimited generations." },
+      { question: "What image resolution are generated?", answer: "Images are generated at 1024×1024 pixels in PNG format. For higher resolution, generate an image here and then upscale it using AllKit's AI Image Upscaler." },
+      { question: "Are my prompts stored?", answer: "No. Your prompts are sent to the AI model, the image is generated, and the result is returned to your browser. Prompts are not logged, stored, or used for training." },
+      { question: "Why does generation sometimes fail?", answer: "The AI model runs on shared GPU infrastructure. If the service is under heavy load or the model is cold-starting, generation may fail. Wait a moment and try again. The model typically needs 30-60 seconds to warm up on first use." },
+      { question: "Can I generate images of real people?", answer: "The model can generate photorealistic faces, but generating images of specific real people (by name) raises ethical and legal concerns. We recommend using AI image generation for fictional characters, generic portraits, and creative concepts rather than attempting to replicate real individuals." },
+      { question: "How is this different from DALL-E or Midjourney?", answer: "DALL-E and Midjourney are paid services ($10-30/month) with proprietary models. AllKit uses FLUX.1 Schnell, an open-source model that produces comparable quality for free. The main trade-off is that paid services may offer more features like image editing and style presets." },
+      { question: "Can I generate multiple images from one prompt?", answer: "Currently, each generation produces one image. To get variations, run the same prompt multiple times — each generation uses different random seeds, so you will get different results each time." }
     ],
   },
   {
@@ -339,18 +417,57 @@ export const tools: ToolDefinition[] = [
   {
     slug: "text-to-speech",
     name: "Text to Speech",
-    description: "Convert text to natural-sounding speech using AI. Download as audio file.",
-    longDescription: "Type or paste any text and convert it to realistic speech using AI. Powered by ChatterboxTTS for expressive, natural-sounding audio. Adjust expressiveness and temperature. Download the result as a WAV file. Free, no signup required.",
+    description: "Convert text to natural-sounding speech using AI. Free, no signup, download as audio.",
+    longDescription: "Type or paste any text and convert it to realistic speech using AI. Powered by ChatterboxTTS for expressive, natural-sounding audio. Adjust expressiveness. Download as WAV. Free, no signup.",
     category: "media",
     costTier: "huggingface",
-    keywords: ["text to speech", "tts online", "text to speech online free", "ai voice generator", "text to audio"],
+    keywords: ["text to speech", "tts online", "text to speech online free", "ai voice generator", "text to audio", "text to speech free", "read text aloud", "convert text to audio", "tts free online", "text to voice"],
     icon: "Volume2",
     isNew: true,
-    relatedSlugs: ["ai-image-generator", "word-counter", "image-to-text"],
+    relatedSlugs: ["speech-to-text", "voice-clone", "ai-image-generator", "image-to-text"],
+    detailedDescription: [
+      "Need to turn written text into spoken audio? AllKit's Text to Speech tool converts any text into natural, expressive speech using ChatterboxTTS, a state-of-the-art AI model developed by Resemble AI. Type or paste your text, click generate, and download a high-quality audio file in seconds. No signup, no watermarks, no robotic voices — just natural-sounding speech that sounds like a real person talking.",
+      "What makes ChatterboxTTS different from the robotic text-to-speech you are used to from GPS devices and screen readers is the expressiveness. Traditional TTS systems read text in a flat, monotone cadence that is technically correct but obviously synthetic. ChatterboxTTS understands the emotional context of text and adjusts its delivery accordingly — pausing at commas, emphasizing key words, and varying pitch and rhythm like a natural speaker. The result is audio that sounds conversational, not computed.",
+      "You have control over the voice characteristics. The expressiveness slider adjusts how animated the speech sounds — lower values produce calm, neutral narration (ideal for audiobooks and documentation), while higher values produce dramatic, dynamic delivery (ideal for advertising and presentations). The temperature parameter controls how varied and creative the pronunciation is — higher values add more natural variation at the cost of occasional unexpected emphasis.",
+      "The tool works entirely in your browser. Type or paste your text (up to 500 characters per generation), adjust the voice settings, and click generate. The AI processes your text and returns a high-quality WAV audio file that you can preview in the browser and download to your device. No audio files are stored — once you close the page, your data is gone.",
+      "Whether you need voiceovers for videos, audio versions of blog posts, spoken instructions for presentations, narration for e-learning content, or just want to hear how your writing sounds when read aloud, this tool gets it done in seconds. Free, private, and with quality that rivals paid text-to-speech services charging $10-30 per month."
+    ],
+    howToUse: [
+      "Type or paste the text you want to convert to speech in the input area. The tool accepts up to 500 characters per generation.",
+      "Adjust the Expressiveness slider to control how animated the speech sounds. Low values (0.2-0.4) produce calm narration. High values (0.6-0.8) produce more dramatic, dynamic delivery.",
+      "Optionally adjust the Temperature slider to control pronunciation variation. Default (0.5) works well for most cases.",
+      "Click the 'Generate Speech' button. The AI processes your text and synthesizes the audio. This typically takes 10-20 seconds.",
+      "If the model is cold-starting (first use in a while), expect 30-60 seconds. A timer shows you the progress.",
+      "Once generated, preview the audio using the built-in player. Click 'Download WAV' to save the audio file to your device.",
+      "For longer texts, break them into multiple segments (under 500 characters each), generate each one, and combine them using any audio editor."
+    ],
+    useCases: [
+      { title: "Video Voiceovers", description: "Create professional-sounding voiceovers for YouTube videos, social media content, product demos, and explainer videos. Generate multiple takes with different expressiveness settings to find the perfect delivery." },
+      { title: "E-Learning and Training", description: "Convert training materials, tutorials, and course content into audio format. Students can listen to lessons while commuting, exercising, or doing other tasks. Audio learning improves retention for many learners." },
+      { title: "Accessibility", description: "Make written content accessible to visually impaired users or anyone who prefers listening to reading. Convert articles, instructions, and documentation to audio format." },
+      { title: "Proofreading by Ear", description: "Hearing your writing read aloud reveals errors and awkward phrasing that your eyes skip over. Generate audio of your blog posts, emails, or essays to catch mistakes before publishing." },
+      { title: "Podcast and Audio Content", description: "Create audio clips for podcasts, radio segments, or audio newsletters. Use as intro/outro narration, segment transitions, or to read listener questions and comments." },
+      { title: "Presentations and Slideshows", description: "Add voice narration to presentation slides, kiosk displays, or automated slideshows. Generate audio for each slide and sync with your presentation software." },
+      { title: "Prototyping Voice Interfaces", description: "Quickly generate audio samples to test voice user interfaces, IVR (phone menu) systems, smart home commands, or chatbot responses before investing in professional voice talent." }
+    ],
+    technicalDetails: [
+      "ChatterboxTTS by Resemble AI is a neural text-to-speech model that uses a transformer-based architecture to convert text into speech. It processes text phonetically and prosodically, understanding not just what words to say but how to say them with natural rhythm, emphasis, and intonation.",
+      "The model generates speech at high sample rates, producing clear, artifact-free audio. Output is delivered as a WAV file — an uncompressed audio format that preserves full quality. WAV files are compatible with virtually all audio players, editors, and production tools.",
+      "Expressiveness control works by adjusting the model's prosody prediction. Lower values constrain the model to more neutral, predictable patterns. Higher values allow the model more freedom in pitch variation, timing, and emphasis, producing more dynamic and engaging speech.",
+      "Processing happens on GPU-accelerated infrastructure via Hugging Face Spaces. The model runs inference on your text and returns the generated audio. Cold starts take 30-60 seconds; subsequent requests process in 10-20 seconds depending on text length.",
+      "No audio data is stored after generation. The text is processed, the audio is synthesized, and the result is returned to your browser. Neither the input text nor the generated audio is logged, cached, or used for model training."
+    ],
     faq: [
-      { question: "What AI model is used for TTS?", answer: "AllKit uses ChatterboxTTS by Resemble AI — a state-of-the-art model that produces natural, expressive speech with controllable tone and emotion." },
-      { question: "What audio format is the output?", answer: "The generated speech is downloaded as a WAV file, which is a high-quality uncompressed audio format compatible with virtually all audio players and editors." },
-      { question: "Can I adjust the voice style?", answer: "Yes. You can control expressiveness (how animated the speech sounds) and temperature (how creative/varied the pronunciation is). Lower values are more neutral, higher values more dramatic." },
+      { question: "What AI model is used for text to speech?", answer: "AllKit uses ChatterboxTTS by Resemble AI — a state-of-the-art neural text-to-speech model that produces natural, expressive speech with controllable tone and emotion. It sounds significantly more natural than traditional TTS systems." },
+      { question: "What audio format is the output?", answer: "The generated speech is downloaded as a WAV file — a high-quality uncompressed audio format compatible with virtually all audio players, editors, and production software. If you need a smaller file, convert the WAV to MP3 using any free audio converter." },
+      { question: "Can I adjust the voice style?", answer: "Yes. The Expressiveness slider controls how animated the speech sounds — from calm, neutral narration to dramatic, dynamic delivery. The Temperature parameter controls pronunciation variation. Together, these give you significant control over the final output." },
+      { question: "Is text to speech free?", answer: "Yes, completely free. No watermarks on the audio, no signup required. Free users get 3 AI generations per day. Upgrade to Pro for unlimited text-to-speech." },
+      { question: "What is the maximum text length?", answer: "The tool accepts up to 500 characters per generation. For longer texts, break them into segments, generate each one separately, and combine them using an audio editor." },
+      { question: "Can I choose different voices?", answer: "The current model uses a single high-quality default voice. For different voices, try AllKit's Voice Cloning tool, which lets you upload a voice sample and generate speech in that voice." },
+      { question: "Is my text stored?", answer: "No. Your text is sent to the AI model for processing, the audio is generated, and the result is returned to your browser. Neither the input text nor the generated audio is stored, logged, or used for training." },
+      { question: "Can I use the generated audio commercially?", answer: "The generated audio can be used for personal and commercial purposes including videos, podcasts, presentations, e-learning, and marketing materials." },
+      { question: "Why does it take so long sometimes?", answer: "The AI model runs on GPU servers that go to sleep when not in use. The first request after a period of inactivity requires a cold start (30-60 seconds). Subsequent requests are much faster (10-20 seconds)." },
+      { question: "How does this compare to Google TTS or Amazon Polly?", answer: "Google TTS and Amazon Polly offer more voices and language options but require API setup and charge per character. AllKit's TTS is free, runs in your browser with no setup, and produces comparably natural-sounding output with ChatterboxTTS." }
     ],
   },
   {
@@ -459,31 +576,101 @@ export const tools: ToolDefinition[] = [
   {
     slug: "image-compressor",
     name: "Image Compressor",
-    description: "Compress and resize images in your browser. Supports JPEG, PNG, and WebP.",
-    longDescription: "Upload images and compress them instantly without uploading to any server. Adjust quality, resize dimensions, and convert between JPEG, PNG, and WebP formats. See before/after file size comparison with percentage saved. Batch compress multiple images at once. 100% client-side — your images never leave your device.",
+    description: "Compress images online for free. Reduce JPEG, PNG, and WebP file sizes by up to 90%. No upload to servers.",
+    longDescription: "Upload images and compress them instantly in your browser. Adjust quality, convert between JPEG, PNG, and WebP. See before/after file size comparison. 100% client-side — images never leave your device.",
     category: "media",
     costTier: "free",
-    keywords: ["image compressor", "compress image online", "image compressor online", "reduce image size", "compress jpg online"],
+    keywords: ["image compressor", "compress image online", "image compressor online", "reduce image size", "compress jpg online", "compress png", "reduce image file size", "image compression tool", "compress photo online free", "image size reducer"],
     icon: "ImageDown",
     isNew: true,
-    relatedSlugs: ["background-remover", "ai-image-generator", "image-resizer", "qr-code-generator"],
+    relatedSlugs: ["image-resizer", "image-format-converter", "image-upscaler", "background-remover"],
+    detailedDescription: [
+      "A 5MB photo from your phone. A 12MB PNG screenshot. A batch of product images that make your website crawl. Large image files slow down websites, clog email inboxes, eat storage space, and frustrate users on slow connections. AllKit's Image Compressor fixes this in seconds — upload your images, set a quality level, and download compressed versions that are 60-90% smaller with virtually no visible quality loss.",
+      "The tool uses your browser's built-in image encoding capabilities to compress images through lossy (JPEG, WebP) or lossless (PNG) methods. For photos, JPEG at 80% quality typically reduces file size by 70-80% while looking identical to the original on screen. WebP achieves even better results — 25-35% smaller than JPEG at equivalent quality. For screenshots and graphics with flat colors, PNG optimization removes unnecessary metadata and applies efficient compression.",
+      "What makes this compressor different from others is that it runs entirely in your browser. Your images are never uploaded to any server. Most online compressors upload your files, process them on their servers, and send the results back — which takes longer, raises privacy concerns, and may impose file size limits. AllKit processes everything locally using the HTML5 Canvas API, which means instant results, no privacy risk, and no file size restrictions.",
+      "The before/after comparison shows you exactly how much space you saved — original file size, compressed file size, and percentage reduction. This feedback loop lets you find the perfect quality-to-size ratio for your specific needs. Need to get under a 1MB email attachment limit? Keep lowering the quality until you hit your target. Need the absolute best quality that still saves space? Start at 90% and work down.",
+      "Batch compression lets you process multiple images at once. Upload an entire folder of photos from a vacation, product shoot, or event, set your quality preferences, and compress them all simultaneously. Each image shows its own size comparison, and you can download each one individually."
+    ],
+    howToUse: [
+      "Click the upload area or drag and drop one or more images onto the tool. Supported formats include JPEG, PNG, and WebP, up to 50MB per image.",
+      "Select the output format: JPEG (best for photos, smallest files), PNG (lossless, preserves transparency), or WebP (best quality-to-size ratio for modern browsers).",
+      "Adjust the quality slider to control the compression level. Higher quality means larger files but better visual fidelity. For most photos, 75-85% is the sweet spot.",
+      "The tool compresses your images instantly and shows the results. You will see the original file size, compressed file size, and percentage saved for each image.",
+      "Compare the visual quality between original and compressed versions. If the quality is too low, increase the slider.",
+      "Click Download to save each compressed image, or download all at once for batch uploads.",
+      "For the best results, start at quality 80% and only lower it if you need to hit a specific file size target. Most people cannot tell the difference between 80% and 100% quality."
+    ],
+    useCases: [
+      { title: "Website Performance Optimization", description: "Large images are the #1 cause of slow websites. Compress your product photos, hero images, and thumbnails to improve page load speed, Core Web Vitals scores, and SEO rankings. Google explicitly uses page speed as a ranking factor." },
+      { title: "Email Attachments", description: "Email services limit attachment sizes (typically 25MB for Gmail, 20MB for Outlook). Compress images before attaching to ensure they go through. A batch of 10 photos can often be compressed from 50MB to 5MB." },
+      { title: "Social Media Uploads", description: "Social media platforms re-compress uploaded images, often aggressively. By pre-compressing to a reasonable quality (85-90%), you maintain more control over the final visual quality than letting the platform do it." },
+      { title: "Cloud Storage Savings", description: "If you store thousands of photos in Google Drive, Dropbox, or iCloud, compressing them can free up significant storage space. A library of 10,000 photos compressed from 5MB to 1MB each saves 40GB." },
+      { title: "E-commerce Product Images", description: "Online stores need fast-loading product images. Compress product photos to under 200KB each while maintaining quality. Faster loading times directly increase conversion rates and reduce bounce rates." },
+      { title: "Blog and Content Publishing", description: "Blog images should be under 200KB for optimal loading speed. Compress header images, inline photos, and thumbnails before uploading to WordPress, Medium, Ghost, or any CMS." }
+    ],
+    technicalDetails: [
+      "Image compression uses the browser's native Canvas API and image encoding capabilities. The uploaded image is drawn onto an HTML5 canvas element, then re-encoded in the target format using canvas.toBlob() with the specified quality parameter. This leverages the browser's built-in C++ image codecs for maximum performance.",
+      "JPEG compression is lossy — it reduces file size by discarding visual information that is less perceptible to the human eye. The quality parameter (0-100%) controls how aggressively information is discarded. At 80%, most photos show no visible difference from the original while achieving 70-80% file size reduction.",
+      "WebP compression achieves better results than JPEG at equivalent visual quality — typically 25-35% smaller files. WebP supports both lossy and lossless modes, as well as transparency (alpha channel), making it the most versatile modern image format.",
+      "PNG compression is lossless — the output is pixel-identical to the input. File size reduction comes from optimizing the encoding (filtering, deflate compression) and stripping unnecessary metadata (EXIF, ICC profiles). PNG reduction is typically modest (10-30%) compared to lossy formats.",
+      "All processing happens in the browser's rendering thread. For very large images or large batches, processing may cause brief UI pauses. The tool handles this gracefully by processing images sequentially and showing progress indicators."
+    ],
     faq: [
-      { question: "Will compressing reduce image quality?", answer: "Slightly, but often imperceptibly. At 80% quality, JPEG images look virtually identical to the original while being 60-80% smaller. WebP format achieves even better compression at the same quality level." },
-      { question: "Which format should I use?", answer: "WebP offers the best size-to-quality ratio and is supported by all modern browsers. Use JPEG for photos if you need maximum compatibility. Use PNG only when you need transparency." },
-      { question: "Are my images uploaded anywhere?", answer: "No. All compression happens in your browser using the HTML5 Canvas API. Your images never leave your device — you can even use this tool offline." },
+      { question: "Will compressing reduce image quality?", answer: "With lossy compression (JPEG, WebP), there is a slight quality reduction, but at 80% quality it is virtually imperceptible to the human eye. The trade-off is significant: 70-80% smaller file sizes. At 60% quality, artifacts become slightly visible on close inspection. PNG compression is lossless — quality is preserved exactly." },
+      { question: "Which format should I use for compression?", answer: "WebP offers the best quality-to-size ratio and is supported by all modern browsers. Use JPEG for maximum compatibility (email, older systems). Use PNG only when you need transparency or pixel-perfect lossless quality." },
+      { question: "Are my images uploaded anywhere?", answer: "No. All compression happens entirely in your browser using the HTML5 Canvas API. Your images never leave your device — no server upload, no cloud processing. The tool works offline after the page loads." },
+      { question: "How much can I reduce image file size?", answer: "Typical reductions: JPEG at 80% quality reduces photos by 70-80%. WebP achieves 75-85% reduction. Converting PNG screenshots to JPEG can reduce by 90%+. Results depend on the image content and original compression level." },
+      { question: "What is the maximum file size I can upload?", answer: "Each image can be up to 50MB. There is no limit on the number of images. Since processing happens in your browser, the only constraint is your device's available memory." },
+      { question: "Can I compress multiple images at once?", answer: "Yes. Upload multiple images and they will all be compressed with the same quality settings. Each image shows its own before/after file size comparison." },
+      { question: "What quality setting should I use?", answer: "For web use: 75-80% (excellent quality, maximum savings). For social media: 85% (very good quality). For print or archival: 90-95% (minimal compression). Below 60% is only recommended when file size is critical and quality is secondary." },
+      { question: "Does compression remove EXIF data?", answer: "Yes. When the image is re-encoded through the Canvas API, EXIF metadata (camera settings, GPS location, date taken) is stripped. This is actually a privacy benefit — your photos won't contain hidden location data." },
+      { question: "Can I undo compression?", answer: "No. Lossy compression permanently removes data. Always keep your original files and compress copies. The tool does not modify your original files — it creates new compressed versions for download." },
+      { question: "Why is my compressed PNG larger than the original JPEG?", answer: "PNG is a lossless format that preserves every pixel. Converting a compressed JPEG to PNG typically increases file size because PNG encoding is less efficient for photographic content. For photos, stick with JPEG or WebP output." }
     ],
   },
   {
     slug: "image-resizer",
     name: "Image Resizer",
-    description: "Resize images online for free. Set exact dimensions, use social media presets, and download as PNG or JPEG — all in your browser.",
-    longDescription: "Resize any image to exact pixel dimensions instantly and for free. Upload a photo, set your target width and height (with optional aspect ratio lock), or pick from ready-made presets for Instagram, Twitter, Facebook, LinkedIn, YouTube thumbnails, and common screen resolutions. Choose output format (PNG or JPEG with adjustable quality), preview the result in real-time, and download — all processing happens client-side using the Canvas API so your images never leave your device. Supports batch resizing of multiple images at once.",
+    description: "Resize images online for free. Set exact dimensions, social media presets. No upload, works offline.",
+    longDescription: "Resize any image to exact pixel dimensions instantly. Upload a photo, set width and height, or use presets for Instagram, Twitter, YouTube, and more. All processing happens in your browser.",
     category: "media",
     costTier: "free",
-    keywords: ["image resizer", "resize image online", "photo resizer", "resize image", "image resizer online free", "resize photo online", "picture resizer"],
+    keywords: ["image resizer", "resize image online", "photo resizer", "resize image", "image resizer online free", "resize photo online", "picture resizer", "resize image to specific size", "image size changer", "photo size reducer"],
     icon: "Scaling",
     isNew: true,
-    relatedSlugs: ["image-compressor", "background-remover", "ai-image-generator"],
+    relatedSlugs: ["image-compressor", "image-format-converter", "image-upscaler", "background-remover"],
+    detailedDescription: [
+      "You need an image that is exactly 1080x1080 pixels for Instagram. A 1280x720 thumbnail for YouTube. A 150x150 avatar for your profile. A 1920x1080 wallpaper from a 4000x3000 photo. Every platform, every use case, every design project has specific dimension requirements — and your images are never the right size. AllKit's Image Resizer lets you set exact pixel dimensions and download the perfectly sized result in seconds.",
+      "The tool goes beyond simple resize. Social media presets let you pick from pre-configured sizes for Instagram posts (1080x1080), Instagram stories (1080x1920), Twitter posts (1200x675), Facebook covers (820x312), LinkedIn posts (1200x627), YouTube thumbnails (1280x720), and common screen resolutions (1920x1080, 2560x1440). One click and the dimensions are set — no memorizing pixel values.",
+      "Aspect ratio lock keeps your images from getting stretched or squished. When enabled, changing the width automatically adjusts the height proportionally, and vice versa. Need exact non-proportional dimensions? Toggle the lock off and set both values independently. Real-time preview shows you exactly how the resized image will look before downloading.",
+      "Batch resizing handles multiple images at once. Upload an entire collection and resize them all to the same target dimensions. Perfect for preparing product photos for an e-commerce store, creating consistently-sized thumbnails for a gallery, or reformatting images for a social media campaign.",
+      "Everything runs locally in your browser using the Canvas API. Your images are never uploaded to any server — no privacy concerns, no file size limits, no waiting for server-side processing. The tool works offline once the page has loaded, making it perfect for quick resizes even when you don't have an internet connection."
+    ],
+    howToUse: [
+      "Upload one or more images by clicking the upload area or dragging files onto the tool. Supported formats include JPEG, PNG, and WebP, up to 50MB each.",
+      "Set the target dimensions: enter exact pixel values for width and height, or click a preset button for common sizes (Instagram, Twitter, YouTube, etc.).",
+      "The aspect ratio lock is enabled by default — changing one dimension automatically adjusts the other. Toggle it off if you need exact non-proportional dimensions.",
+      "Choose the output format: PNG (lossless, supports transparency) or JPEG (smaller file size, adjustable quality). For JPEG, use the quality slider to balance between file size and visual quality.",
+      "Preview the resized result in real-time. The tool shows you the original and target dimensions so you can verify the resize before downloading.",
+      "Click 'Resize All' to process all uploaded images. Then download each one individually or download all at once.",
+      "For the best visual quality when downsizing, the tool uses the browser's default high-quality interpolation algorithm, which produces smooth, clean results."
+    ],
+    useCases: [
+      { title: "Social Media Image Preparation", description: "Each social media platform has specific image size requirements. Use the built-in presets to resize photos for Instagram posts (1080x1080), stories (1080x1920), Twitter (1200x675), Facebook (1200x630), LinkedIn (1200x627), and YouTube thumbnails (1280x720) with one click." },
+      { title: "E-commerce Product Photos", description: "Online marketplaces require specific image dimensions. Amazon requires at least 1000x1000 pixels, eBay recommends 1600x1600, and Shopify themes have their own requirements. Batch resize all your product photos to meet platform requirements." },
+      { title: "Website and Blog Images", description: "Oversized images slow down websites. Resize photos to the exact dimensions your layout needs — hero images, thumbnails, sidebar images, and inline content images. Smaller dimensions mean faster page loads and better SEO." },
+      { title: "Profile Pictures and Avatars", description: "Most platforms want square profile pictures in specific sizes: 400x400 for Twitter, 180x180 for Facebook, 110x110 for Instagram. Resize your photo to the exact pixel dimensions required." },
+      { title: "Email Marketing", description: "Email clients render images inconsistently if they are too large. Resize header images to 600px width (the standard email width), banner images to specific campaign dimensions, and product thumbnails to uniform sizes." },
+      { title: "Print Preparation", description: "Resize images to specific dimensions for printing: 4x6 at 300 DPI (1200x1800 pixels), 5x7 at 300 DPI (1500x2100), or poster sizes. The tool shows you exact pixel dimensions so you can calculate DPI requirements." },
+      { title: "Presentation and Document Images", description: "Resize screenshots, photos, and graphics to fit cleanly into PowerPoint slides, Word documents, or Google Docs without distortion or excessive file size." }
+    ],
+    technicalDetails: [
+      "Image resizing uses the browser's native Canvas API with the drawImage() method. The source image is drawn onto a canvas element at the target dimensions, and the canvas is then exported as the chosen format. The browser's rendering engine handles interpolation (pixel resampling) automatically.",
+      "For downsizing, modern browsers use high-quality Lanczos-like resampling that produces smooth, sharp results without visible aliasing or moiré patterns. For upsizing (enlarging), the browser interpolates between existing pixels, which produces softer results — for AI-powered enlargement, use AllKit's Image Upscaler instead.",
+      "Aspect ratio calculations maintain the original proportions when the lock is enabled. The tool calculates the scaling factor from the changed dimension and applies it to the other dimension, rounding to the nearest pixel.",
+      "Output options include PNG (lossless, pixel-identical output, larger files) and JPEG (lossy, much smaller files, quality adjustable from 0.1 to 1.0). PNG preserves transparency (alpha channel), while JPEG composites transparent areas against a white background.",
+      "All processing happens in the browser's main thread using standard Web APIs. No server communication occurs — the tool works completely offline after the page loads. Processing time scales with image pixel count; most resizes complete in under 100 milliseconds."
+    ],
     faq: [
       { question: "How do I resize an image online?", answer: "Upload your image by dragging it into the tool or clicking to browse. Enter your desired width and height in pixels, or choose a preset size (like 1080x1080 for Instagram). Click 'Resize All' and then download the result. The entire process takes seconds and happens in your browser." },
       { question: "Will resizing reduce image quality?", answer: "Resizing to smaller dimensions generally preserves quality well. When enlarging images (upscaling), some softness may appear because the browser interpolates new pixels. For JPEG output, you can control quality with the slider — 85-95% is recommended for a good balance of quality and file size." },
