@@ -85,9 +85,11 @@ export default function Home() {
         </p>
         <h3>AI Media Tools</h3>
         <p>
-          Remove image backgrounds, extract text from images with OCR, generate AI images from text prompts,
-          convert text to natural speech, and compress images — all powered by open-source AI models
-          running on Hugging Face.
+          Remove image backgrounds, <Link href="/tools/media/face-swap">swap faces between photos</Link>, extract text from images with OCR,
+          <Link href="/tools/media/ai-image-generator">generate AI images from text prompts</Link>,
+          <Link href="/tools/media/text-to-speech">convert text to natural speech</Link>,
+          <Link href="/tools/media/image-upscaler">upscale images with AI</Link>,
+          and compress images — all powered by open-source AI models running on Hugging Face.
         </p>
         <h3>REST API</h3>
         <p>

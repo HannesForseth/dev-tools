@@ -16,9 +16,10 @@ export function Footer() {
           <div>
             <h4 className="font-medium text-foreground mb-3">Popular</h4>
             <div className="flex flex-col gap-2 text-muted-foreground">
-              <Link href="/tools/dev/json-formatter" className="hover:text-foreground transition-colors">JSON Formatter</Link>
-              <Link href="/tools/dev/base64" className="hover:text-foreground transition-colors">Base64 Decode</Link>
+              <Link href="/tools/media/face-swap" className="hover:text-foreground transition-colors">AI Face Swap</Link>
+              <Link href="/tools/media/image-upscaler" className="hover:text-foreground transition-colors">Image Upscaler</Link>
               <Link href="/tools/media/background-remover" className="hover:text-foreground transition-colors">Background Remover</Link>
+              <Link href="/tools/dev/json-formatter" className="hover:text-foreground transition-colors">JSON Formatter</Link>
             </div>
           </div>
           <div>

@@ -78,6 +78,13 @@ export function FaceSwap() {
     a.click();
   };
 
+  const swapInputs = () => {
+    const t = target;
+    setTarget(source);
+    setSource(t);
+    setResult(null);
+  };
+
   const reset = () => {
     setTarget(null);
     setSource(null);
@@ -202,7 +209,7 @@ export function FaceSwap() {
   return (
     <div className="space-y-6">
       {/* Upload areas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
         <UploadZone
           label="Target Photo"
           description="The photo where the face will be replaced"
@@ -212,6 +219,16 @@ export function FaceSwap() {
           inputRef={targetRef}
           onFile={(f) => handleFile(f, setTarget)}
         />
+        {/* Swap button between zones */}
+        {target && source && (
+          <button
+            onClick={swapInputs}
+            title="Swap target and source"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 rounded-full border border-border bg-background p-2 shadow-md hover:bg-muted transition-colors hidden md:flex items-center justify-center"
+          >
+            <Repeat className="h-4 w-4" />
+          </button>
+        )}
         <UploadZone
           label="Source Face"
           description="The face that will be placed on the target"
@@ -222,6 +239,16 @@ export function FaceSwap() {
           onFile={(f) => handleFile(f, setSource)}
         />
       </div>
+      {/* Mobile swap button */}
+      {target && source && (
+        <button
+          onClick={swapInputs}
+          className="md:hidden inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium hover:bg-muted transition-colors"
+        >
+          <Repeat className="h-3 w-3" />
+          Swap target & source
+        </button>
+      )}
 
       {/* Controls */}
       <div className="flex items-center gap-2">
@@ -250,22 +277,44 @@ export function FaceSwap() {
         </button>
       </div>
 
-      {loading && loadingTime > 5 && (
-        <p className="text-xs text-muted-foreground animate-pulse">
-          AI model is warming up — this can take up to 60 seconds on first use.
-        </p>
+      {/* Loading progress */}
+      {loading && (
+        <div className="rounded-lg border border-border bg-muted/20 p-4 space-y-3">
+          <div className="flex items-center gap-3">
+            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+            <div>
+              <p className="text-sm font-medium">
+                {loadingTime < 5 ? "Detecting faces..." : loadingTime < 15 ? "Mapping facial features..." : loadingTime < 25 ? "Blending and compositing..." : "AI model warming up..."}
+              </p>
+              <p className="text-xs text-muted-foreground">{loadingTime}s elapsed{loadingTime > 10 ? " — first use can take up to 60s" : ""}</p>
+            </div>
+          </div>
+          <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+            <div
+              className="h-full rounded-full bg-primary transition-all duration-1000"
+              style={{ width: `${Math.min(loadingTime * (loadingTime < 30 ? 2 : 1.2), 95)}%` }}
+            />
+          </div>
+        </div>
       )}
 
-      {/* Result */}
-      {(result || loading) && (
-        <div>
-          <label className="block text-sm font-medium mb-2 text-muted-foreground">Result</label>
-          <div className="rounded-lg border border-border bg-muted/50 p-2 flex items-center justify-center min-h-[300px]">
-            {result ? (
-              <img src={result} alt="Face swap result" className="max-w-full max-h-[500px] rounded" />
-            ) : (
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            )}
+      {/* Before/After Result */}
+      {result && (
+        <div className="space-y-3">
+          <label className="block text-sm font-medium text-muted-foreground">Result — Before & After</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="rounded-lg border border-border bg-muted/50 p-2">
+              <p className="text-xs text-muted-foreground mb-2 text-center">Original</p>
+              <div className="flex items-center justify-center min-h-[200px]">
+                <img src={target!} alt="Original target" className="max-w-full max-h-[350px] rounded" />
+              </div>
+            </div>
+            <div className="rounded-lg border border-primary/30 bg-primary/5 p-2">
+              <p className="text-xs text-primary mb-2 text-center font-medium">Face Swapped</p>
+              <div className="flex items-center justify-center min-h-[200px]">
+                <img src={result} alt="Face swap result" className="max-w-full max-h-[350px] rounded" />
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -178,7 +178,7 @@ export const tools: ToolDefinition[] = [
     costTier: "huggingface",
     keywords: ["remove background", "background remover", "remove background from image free", "transparent background", "bg remover"],
     icon: "ImageMinus",
-    relatedSlugs: ["image-compressor", "ai-image-generator", "image-to-text"],
+    relatedSlugs: ["face-swap", "image-compressor", "ai-image-generator", "image-to-text"],
     detailedDescription: [
       "Removing backgrounds from images used to require expensive software like Adobe Photoshop and hours of tedious manual work with the pen tool or magic wand. AllKit's free background remover changes that completely. You upload an image, and within seconds, AI analyzes every pixel to separate the foreground subject from the background. The result is a clean, transparent PNG that you can drop into any design, website, or presentation.",
       "The AI model behind this tool is trained on millions of images, so it handles tricky situations that would stump simpler tools. Think: flyaway hair strands, semi-transparent objects like wine glasses, complex patterns like chain-link fences, and subjects that blend into similar-colored backgrounds. It doesn't just draw a rough outline — it creates a precise, anti-aliased edge that looks natural when placed on any new background.",
@@ -302,7 +302,7 @@ export const tools: ToolDefinition[] = [
     costTier: "huggingface",
     keywords: ["ai image generator", "ai image generator free", "text to image", "ai art generator", "image generator", "ai image generator free no sign up", "ai picture generator", "text to image ai free", "ai image creator", "generate image from text"],
     icon: "Sparkles",
-    relatedSlugs: ["background-remover", "image-compressor", "image-upscaler", "image-format-converter"],
+    relatedSlugs: ["face-swap", "background-remover", "image-upscaler", "image-format-converter"],
     detailedDescription: [
       "Imagine describing a scene in words and seeing it come to life as an image in seconds. A cosmic landscape with swirling nebulae. A cozy cabin in a snowy forest. A product mockup for your startup. A character concept for your game. AllKit's AI Image Generator turns your text descriptions into high-quality images using FLUX.1 Schnell, one of the fastest and most capable open-source diffusion models available today.",
       "The technology behind this tool is called text-to-image diffusion. The AI model has been trained on billions of image-text pairs, learning the relationship between language and visual concepts. When you type a prompt, the model starts with random noise and gradually shapes it into an image that matches your description, refining details with each step. FLUX.1 Schnell is optimized for speed — it produces 1024×1024 images in just 4 inference steps, making it one of the fastest AI image generators available.",
@@ -841,7 +841,7 @@ export const tools: ToolDefinition[] = [
     costTier: "huggingface",
     keywords: ["upscale image", "ai image enhancer", "increase image resolution", "image upscaler", "ai upscaler", "enhance image quality", "photo enhancer", "upscale image online free", "ai image upscaler free"],
     icon: "ImageUpscale",
-    relatedSlugs: ["image-compressor", "image-resizer", "background-remover"],
+    relatedSlugs: ["face-swap", "image-compressor", "image-resizer", "background-remover"],
     detailedDescription: [
       "We have all been there: you find the perfect image for a project, but it is too small. You try to scale it up in an image editor and it turns into a blurry mess. That is because traditional upscaling just stretches existing pixels, inventing nothing new. AllKit's AI Image Upscaler is fundamentally different. It uses a deep learning model trained on millions of image pairs to actually reconstruct the missing detail when increasing resolution. Hair strands, fabric textures, text on signs, skin pores — the AI hallucinates plausible high-frequency detail that was never in the original file.",
       "The technology behind this tool is called neural super-resolution. Instead of interpolating between pixels (like bicubic or Lanczos scaling), the model analyzes what is in the image — faces, landscapes, text, patterns — and generates new pixels that are consistent with the content. The result is an image that looks like it was captured at a higher resolution, not one that was artificially enlarged. It is the same class of technology used by professional post-production studios, made accessible to everyone for free.",
