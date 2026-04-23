@@ -390,7 +390,8 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 | mcp-tools/Qwen-Image | Image gen (good at text in images) | Not yet built |
 | mcp-tools/FLUX.1-Krea-dev | Photorealistic image gen | Not yet built |
 | prithivMLmods/SAM3-Image-Segmentation | Object detection/segmentation | Not yet built |
-| zerogpu-aoti/wan2-2-fp8da-aoti-faster | Video generation from image | Not yet built |
+| zerogpu-aoti/wan2-2-fp8da-aoti-faster | Video generation from image | LIVE — Image to Video |
+| nvidia/Kimodo | Text to 3D motion (BVH output, commercial-use OK) | LIVE — Text to 3D Motion |
 | Fabrice-TIERCELIN/RealESRGAN | Image upscaling | Not yet built |
 | hf-audio/whisper-large-v3 | Speech-to-text transcription | Not yet built |
 | Oysiyl/AI-QR-code-generator | AI-enhanced QR codes | Not yet built |
@@ -398,4 +399,28 @@ The dynamic route `[category]/[slug]` generates static pages via `generateStatic
 
 ---
 
-*Last updated: 2026-04-05, Session 8*
+*Last updated: 2026-04-23, Session 9*
+
+---
+
+## Session 9 — 2026-04-23: NVIDIA Kimodo Text-to-3D-Motion
+
+**What shipped:** New AI Media tool `text-to-3d-motion` at `/tools/media/text-to-3d-motion`. Powered by NVIDIA Kimodo (kinematic motion diffusion model, 282M params, NVIDIA Open Model License — commercial use OK). User types a motion description, gets back a preview MP4 + downloadable BVH file for Blender/Unreal/Unity/Maya.
+
+**Why it matters:** Unique angle nobody else on the tool-site market is covering. Current AI motion tools are all paid SaaS (DeepMotion, Rokoko, Cascadeur). We're the only free gateway to NVIDIA's Kimodo. High-intent audience (indie game devs, VFX artists, animators) willing to pay $9/mo for unlimited generations. Low-competition SEO keywords: "text to 3d motion", "text to bvh", "ai animation from text", "free motion capture ai", "nvidia kimodo".
+
+**Implementation notes:**
+- Added `nvidia/Kimodo` to ALLOWED_SPACES in `/api/ai/huggingface/route.ts`.
+- The Kimodo endpoint signature is unverified from sandbox — code tries `/predict`, `/generate`, then index `0` as fallbacks. Logs result shape on each call for iteration.
+- Output parsing is defensive: detects `.bvh`/`.npz`/`.fbx`/`.csv` for motion file, `.mp4`/`.webm`/`.gif` for preview video.
+- UI is simple: text prompt + duration slider (2-10s), preview video, download BVH + MP4 buttons.
+- Cross-linked from image-to-video, live-portrait, and ai-image-generator via `relatedSlugs`.
+- Registered `Bone` and `FileImage` icons in both iconMap locations.
+- Updated `public/llms.txt` to document the new tool for LLM discoverability.
+
+**Known unknowns:** The exact Gradio endpoint parameter names for `nvidia/Kimodo` weren't verifiable from this sandbox. If the tool fails on Vercel preview, the Vercel logs will show the raw `result.data` shape (via `console.log("Kimodo result shape: ...")`), making iteration trivial. Adjust the `predict` call and output parser in `route.ts` based on what the Space actually returns.
+
+**Next steps if this traffic-tests well:**
+- Add inline 3D BVH viewer (three.js) so users see a proper skeleton playback, not just the preview MP4.
+- Pro-gated FBX export (convert BVH → FBX server-side for retargeting-friendly output).
+- Add `/api/v1/ai/text-to-3d-motion` public REST endpoint for LLM/agent consumption.

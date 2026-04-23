@@ -37,6 +37,7 @@ import { VoiceClone } from "@/components/tools/voice-clone";
 import { SpeechToText } from "@/components/tools/speech-to-text";
 import { LivePortrait } from "@/components/tools/live-portrait";
 import { ImageToVideo } from "@/components/tools/image-to-video";
+import { TextTo3dMotion } from "@/components/tools/text-to-3d-motion";
 import { SqlFormatter } from "@/components/tools/sql-formatter";
 import { TextCaseConverter } from "@/components/tools/text-case-converter";
 import { NumberBaseConverter } from "@/components/tools/number-base-converter";
@@ -77,6 +78,7 @@ const toolComponents: Record<string, React.ComponentType> = {
   "speech-to-text": SpeechToText,
   "live-portrait": LivePortrait,
   "image-to-video": ImageToVideo,
+  "text-to-3d-motion": TextTo3dMotion,
   "sql-formatter": SqlFormatter,
   "text-case-converter": TextCaseConverter,
   "number-base-converter": NumberBaseConverter,

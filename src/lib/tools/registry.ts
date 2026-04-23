@@ -302,7 +302,7 @@ export const tools: ToolDefinition[] = [
     costTier: "huggingface",
     keywords: ["ai image generator", "ai image generator free", "text to image", "ai art generator", "image generator", "ai image generator free no sign up", "ai picture generator", "text to image ai free", "ai image creator", "generate image from text"],
     icon: "Sparkles",
-    relatedSlugs: ["face-swap", "background-remover", "image-upscaler", "image-format-converter"],
+    relatedSlugs: ["face-swap", "background-remover", "image-upscaler", "text-to-3d-motion"],
     detailedDescription: [
       "Imagine describing a scene in words and seeing it come to life as an image in seconds. A cosmic landscape with swirling nebulae. A cozy cabin in a snowy forest. A product mockup for your startup. A character concept for your game. AllKit's AI Image Generator turns your text descriptions into high-quality images using FLUX.1 Schnell, one of the fastest and most capable open-source diffusion models available today.",
       "The technology behind this tool is called text-to-image diffusion. The AI model has been trained on billions of image-text pairs, learning the relationship between language and visual concepts. When you type a prompt, the model starts with random noise and gradually shapes it into an image that matches your description, refining details with each step. FLUX.1 Schnell is optimized for speed — it produces 1024×1024 images in just 4 inference steps, making it one of the fastest AI image generators available.",
@@ -1030,7 +1030,7 @@ export const tools: ToolDefinition[] = [
     keywords: ["live portrait", "animate photo", "photo to video ai", "animate face", "live photo ai", "animate picture", "ai portrait animation", "talking photo", "animate still image", "ai face animation"],
     icon: "Video",
     isNew: true,
-    relatedSlugs: ["face-swap", "ai-image-generator"],
+    relatedSlugs: ["face-swap", "ai-image-generator", "image-to-video", "text-to-3d-motion"],
     detailedDescription: [
       "Have you ever wished you could make a still photograph move? Maybe you have a treasured family portrait, a professional headshot, or a historical photo and you want to see the person blink, smile, nod, or turn their head as if they were alive in front of you. That is exactly what AllKit's AI Live Portrait tool does. It takes a single static image of a face and animates it using motion transferred from a short driving video, creating a fluid, realistic video of the person in your photo performing the movements from the driving clip.",
       "The technology behind this tool is called motion-transfer animation, pioneered by the LivePortrait model from Kling AI. Unlike simple morph effects or basic lip-sync tools, LivePortrait uses a deep neural network to understand the three-dimensional structure of a face from a single photo. It builds an implicit 3D model of the face, then applies the motion keypoints extracted from the driving video — head rotation, eye movement, mouth opening, eyebrow raises, and subtle micro-expressions — to animate the portrait in a photorealistic way. The result looks remarkably natural, not like a distorted puppet or a wobbly deepfake.",
@@ -1086,7 +1086,7 @@ export const tools: ToolDefinition[] = [
     keywords: ["image to video", "image to video ai", "animate image", "ai video generator", "photo to video", "image to video converter", "ai image animation", "turn photo into video", "still image to video ai", "animate photo online free"],
     icon: "Film",
     isNew: true,
-    relatedSlugs: ["ai-image-generator", "live-portrait", "background-remover"],
+    relatedSlugs: ["ai-image-generator", "live-portrait", "text-to-3d-motion", "background-remover"],
     detailedDescription: [
       "Turning a still photograph into a moving video used to require professional animation software, hours of manual keyframing, and deep expertise in motion graphics. With AllKit's AI Image to Video generator, you upload a photo, type a short description of the motion you want, and a state-of-the-art neural network produces a realistic video clip in under two minutes. The underlying model is Wan2.2 14B, one of the most advanced open-source image-to-video models available, capable of understanding both the visual content of your image and the semantic meaning of your text prompt to produce natural, coherent motion.",
       "The tool works with any type of image: landscape photographs, portraits, product shots, illustrations, AI-generated art, or screenshots. The AI analyzes the composition — sky, water, hair, fabric, foliage, fire — and synthesizes plausible motion for each element based on your prompt. Ask for wind in a field of wheat and the stalks will sway realistically. Ask for waves on a lake and the reflections will ripple accordingly. The model preserves the original colors, lighting, and style of your image while adding temporally consistent motion that looks natural rather than warped or distorted.",
@@ -1450,6 +1450,104 @@ export const tools: ToolDefinition[] = [
       { question: "Can I reorder the pages?", answer: "Yes. After uploading, use the arrow buttons to move images up or down in the page order. The final PDF will follow the order shown on screen." },
       { question: "Does it work offline?", answer: "Yes. Once the page has loaded, all processing happens locally in your browser. You can disconnect from the internet and still convert images to PDF." },
       { question: "How large will the PDF file be?", answer: "File size depends on the number of images, their resolution, and the quality setting. A single photo at 85% quality typically produces a 200-500KB PDF page. A 10-page document might be 2-5MB. Lower the quality slider for smaller files." }
+    ],
+  },
+  {
+    slug: "text-to-3d-motion",
+    name: "AI Text to 3D Motion Generator",
+    description: "Generate 3D character animations from text prompts for free. Powered by NVIDIA Kimodo. Download BVH files for Blender, Unreal, Unity, and Maya.",
+    longDescription: "Type a description like 'a person doing a backflip' and generate a full 3D character animation in seconds. Powered by NVIDIA's Kimodo motion diffusion model. Download the motion as a BVH file for use in Blender, Unreal Engine, Unity, Maya, or any 3D animation software. No signup, no watermarks, commercial use allowed.",
+    category: "media",
+    costTier: "huggingface",
+    keywords: [
+      "text to 3d motion",
+      "text to motion ai",
+      "ai animation from text",
+      "text to animation",
+      "ai motion generator",
+      "free 3d animation generator",
+      "nvidia kimodo",
+      "text to bvh",
+      "ai character animation",
+      "free motion capture ai",
+      "generate 3d animation online",
+      "text to fbx animation",
+      "ai mocap generator",
+      "free animation generator for blender",
+      "text to animation unity",
+      "text to animation unreal"
+    ],
+    icon: "Bone",
+    isNew: true,
+    relatedSlugs: ["ai-image-generator", "image-to-video", "live-portrait", "face-swap"],
+    detailedDescription: [
+      "Generating a realistic 3D character animation used to require either an expensive motion capture studio (think $50,000+ in equipment, optical cameras, and mocap suits), paid online services charging $10-30 per animation, or hours of manual keyframing in Blender or Maya by an experienced animator. AllKit's AI Text to 3D Motion generator changes that equation. You type a short description of the motion you want — 'a person doing a backflip', 'a character walking confidently forward', 'someone dancing salsa' — and in seconds, you get back a fully rigged 3D animation, ready to download and drop into your game, film, research project, or VR experience.",
+      "The model behind this tool is NVIDIA Kimodo, a kinematic motion diffusion model released by NVIDIA Research in 2026. Kimodo was trained on over 700 hours of professional optical motion capture data (the Bones Rigplay dataset), making it the largest-scale controllable motion diffusion model available today. It has 282 million parameters worth of carefully learned motion priors, which means the generated animations don't just move — they move like a trained human actor would, with proper weight shifts, anticipation, follow-through, and ground contact.",
+      "Unlike closed commercial services that charge per generation, Kimodo is released under the NVIDIA Open Model License. That means you can use the motions generated by this tool commercially — in games, films, advertisements, research papers, training material, and personal projects — without paying royalties or attribution fees. The only thing AllKit asks is that you use the tool responsibly and don't attempt to attribute motions to real individuals without their consent. Free users get 3 AI generations per day; Pro users get unlimited generations plus priority GPU access.",
+      "The generated output is a standard BVH file — the de facto industry format for character animation data. BVH (Biovision Hierarchy) files contain a complete skeleton definition followed by per-frame joint rotations, which can be imported directly into Blender, Autodesk Maya, MotionBuilder, Cascadeur, Unreal Engine, Unity, and virtually every other 3D animation tool. The preview video lets you verify the motion quality before downloading, and the skeleton uses a standard root + humanoid joint layout that matches common retargeting workflows like Mixamo's Control Rig.",
+      "Use cases span game development, indie filmmaking, animated shorts, VR and AR experiences, biomechanics research, physiotherapy visualization, sports analytics, dance notation, and rapid prototyping for animation pipelines. Indie game developers who can't afford a mocap studio use it to generate walk cycles, idle animations, combat moves, and cutscene motions on demand. Filmmakers use it for previsualization. VFX artists use it as a starting point for hand-polished animation, saving hours of blocking work. Researchers use it to generate diverse training data for computer vision models. The applications keep expanding as more people realize how much friction has just been removed from motion creation.",
+      "Processing happens on NVIDIA GPU-accelerated infrastructure via Hugging Face Spaces. Your text prompt is sent to the Kimodo model, which runs a diffusion process conditioned on the text, iteratively denoising a random motion sequence into a coherent, plausible animation that matches your description. On a warm GPU, this typically takes 5-30 seconds. First-time requests may take 60-90 seconds for cold-start (the model loading into GPU memory). Neither your prompt nor the resulting motion data is stored or logged by AllKit — the motion is streamed back to your browser and exists only in your browser's memory until you download it or close the page."
+    ],
+    howToUse: [
+      "Write a short, concrete description of the motion you want in the prompt field. The clearer and more specific the prompt, the better the result. Good: 'a person doing a forward roll and standing up'. Less effective: 'make something cool happen'.",
+      "Optionally click one of the example prompt pills below the input to try a pre-tested prompt. These are great starting points to get a feel for how the model responds to different styles of description.",
+      "Use the duration slider to choose how long the animation should be, from 2 to 10 seconds. Shorter durations (2-4 seconds) tend to produce tighter, more focused motions. Longer durations (6-10 seconds) work well for sequences with multiple phases, like 'walk forward, turn around, and sit down'.",
+      "Click 'Generate Motion' to send your prompt to the AI. A timer shows elapsed time while the model runs. Expect 5-30 seconds on a warm GPU, or up to 90 seconds on a cold start.",
+      "When generation completes, you'll see a preview video of the animation played on a stick-figure or skeleton rig. Watch it loop a few times to evaluate whether the motion matches your intent.",
+      "Click 'Download Preview MP4' to save the preview video (useful for sharing on social media or embedding in a pitch deck). Click 'Download BVH Motion File' to save the actual animation data for use in 3D software.",
+      "To regenerate with a different interpretation, change the prompt and generate again — the model is probabilistic, so you'll often get noticeably different results even with small prompt changes. Each generation counts toward your daily free limit."
+    ],
+    useCases: [
+      {
+        title: "Indie Game Development",
+        description: "Generate walk cycles, idle animations, attack combos, and cutscene motions for your indie game without hiring an animator or buying expensive mocap equipment. Drop the BVH files into Unreal Engine's Animation Blueprint or Unity's Mecanim and retarget them onto your character rig using standard tools."
+      },
+      {
+        title: "Film and Animation Previsualization",
+        description: "Previs artists can generate quick motion references for action sequences, stunts, and choreography without scheduling a mocap session. Use the output as a reference layer in Blender or Maya, then hand-polish the key frames for final quality. Saves hours of blocking work on every shot."
+      },
+      {
+        title: "VR and AR Character Animation",
+        description: "Populate VR experiences with NPCs that move naturally. Generate a library of background character motions (sitting, waiting, walking in a hallway, gesturing during conversation) for AR apps and VR training simulations without a motion capture budget."
+      },
+      {
+        title: "Dance, Sports, and Movement Research",
+        description: "Biomechanics researchers, physiotherapists, and sports scientists can generate reference motions for comparison, training data, or visualization. The BVH output integrates with OpenSim, Vicon, and other biomechanics analysis pipelines."
+      },
+      {
+        title: "3D Art Portfolios and Concept Work",
+        description: "3D artists can add motion demos to portfolio pieces, show character designs in action, and create animated turntables. Even if you're not primarily an animator, adding movement to your sculpts and rigs dramatically increases engagement on ArtStation and social media."
+      },
+      {
+        title: "Educational and Training Content",
+        description: "Create character animations for e-learning modules, safety training videos, medical visualizations, and instructional content. Generate specific postures, ergonomic demonstrations, or workflow motions without needing a live performer."
+      },
+      {
+        title: "Rapid Prototyping for Animation Pipelines",
+        description: "Animation studios and freelance animators use AI-generated motions as starting points for client presentations, style exploration, and iteration. A 5-second prototype that used to take half a day now takes 30 seconds, freeing human animators to focus on the final polish that AI can't match."
+      }
+    ],
+    technicalDetails: [
+      "Kimodo is built on a novel two-stage transformer diffusion architecture with 282 million parameters. It accepts text prompts, duration, and optional pose/kinematic constraints as inputs, and outputs a sequence of joint rotations representing a full humanoid skeleton's motion over time.",
+      "The model was trained on the Bones Rigplay dataset — over 700 hours of professional optical motion capture data spanning locomotion, sports, combat, dance, gestures, and interactions. This is the largest scale of controllable motion diffusion training performed to date, which is why the model generalizes so well to novel prompts.",
+      "Output is a standard plain-text BVH file with a Root joint using ZYX rotation order. Joint offsets and root motion are scaled to centimeters, matching the SEED dataset release conventions. The skeleton uses a standard humanoid joint layout compatible with retargeting to any standard biped rig.",
+      "Inference runs on NVIDIA GPUs via Hugging Face Spaces (ZeroGPU). Warm inference takes 2-5 seconds of pure compute; total round-trip including queueing and file transfer is typically 5-30 seconds. Cold starts (model loading into GPU memory) add 30-60 seconds on the first request.",
+      "Classifier-free guidance is applied internally to balance adherence to the text prompt against motion plausibility learned from the training data. The model supports configurable guidance weights, though AllKit's default settings are tuned for best general-purpose quality.",
+      "All motion generation happens server-side on Hugging Face infrastructure. Your prompt and the resulting motion data are not stored, logged, or used for training by AllKit. The BVH file is streamed back to your browser as a base64-encoded data URL and exists only in your browser's memory until downloaded or the page is closed."
+    ],
+    faq: [
+      { question: "What is Kimodo?", answer: "Kimodo is an open-source kinematic motion diffusion model released by NVIDIA Research in 2026. It generates high-quality 3D humanoid motions from text prompts and optional kinematic constraints. It's the largest-scale controllable motion diffusion model available today, trained on over 700 hours of professional motion capture data." },
+      { question: "What file format is the output?", answer: "The motion is delivered as a BVH (Biovision Hierarchy) file — the standard format for character animation data. BVH files contain a skeleton definition followed by per-frame joint rotations and can be imported into Blender, Maya, MotionBuilder, Cascadeur, Unreal Engine, Unity, and every other major 3D animation tool." },
+      { question: "Can I use the generated motions commercially?", answer: "Yes. Kimodo is released under the NVIDIA Open Model License, which permits commercial use. You can use the generated animations in games, films, ads, training materials, and personal projects without royalties or attribution requirements. AllKit does not add any additional restrictions to the output." },
+      { question: "How do I import a BVH file into Blender?", answer: "In Blender, go to File → Import → Motion Capture (.bvh), select your downloaded file, and Blender will create an armature with the animation applied. For character retargeting, use add-ons like Rokoko Studio Live or Auto-Rig Pro to map the BVH skeleton onto your custom character rig." },
+      { question: "How do I use this motion in Unreal Engine or Unity?", answer: "Import the BVH into Blender first, retarget it onto a Mixamo-compatible skeleton, then export as FBX. Drop the FBX into Unreal's content browser (it'll be recognized as an Animation Sequence) or Unity's Assets folder (works with Mecanim's Humanoid rig). Alternatively, use Cascadeur or iClone to handle the BVH-to-FBX conversion directly." },
+      { question: "Why does the motion look weird sometimes?", answer: "AI motion generation is probabilistic and still has failure modes, especially for highly specific or unusual requests. Try rephrasing your prompt to be more concrete ('a person doing a spin kick' works better than 'a cool kick'). Short, physical descriptions work better than abstract ones. If the first result isn't right, regenerate — you'll often get a noticeably different take." },
+      { question: "What kind of motions work best?", answer: "Kimodo excels at human locomotion (walking, running, jumping), sports moves (kicks, punches, flips), dance, everyday actions (sitting, picking up objects, gesturing), and combat. It struggles more with precise object interaction (like writing on a whiteboard) because it generates character motion only, not the objects being interacted with." },
+      { question: "How long can the generated motion be?", answer: "You can request 2 to 10 seconds per generation. For longer sequences, generate multiple segments and blend them in your animation software. Kimodo produces coherent single-action motions best — complex multi-phase sequences sometimes produce smoother results as separate short generations." },
+      { question: "How long does generation take?", answer: "Typically 5-30 seconds on a warm GPU. The first request of the day may take 60-90 seconds as the model loads into GPU memory (cold start). Subsequent requests in the same session are faster." },
+      { question: "Is there a free limit?", answer: "Yes. Free users can generate up to 3 motions per day across all AI tools on AllKit. Pro users get unlimited generations and priority GPU access. Upgrade in the pricing page." },
+      { question: "Can Kimodo generate animations for non-human characters?", answer: "Kimodo is trained on human motion with a standard humanoid skeleton. You can retarget the humanoid motion onto non-human bipeds (robots, aliens, fantasy creatures with humanoid form) but quadrupeds and non-standard body plans will need additional processing. The Kimodo-G1 variant specifically targets the Unitree G1 humanoid robot." },
+      { question: "Is my data stored or used for training?", answer: "No. Your prompt is sent to the Kimodo model for processing and the resulting BVH file is streamed back to your browser. Nothing is stored, logged, or used for training by AllKit. Your data is processed and immediately discarded. The output is yours." }
     ],
   },
 ];

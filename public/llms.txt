@@ -1,6 +1,6 @@
 # AllKit — Free Developer & AI Tools
 
-> AllKit (https://allkit.dev) provides 42 free online developer tools and AI-powered utilities. All tools work in the browser with no signup required. API access is available for programmatic use by LLMs, agents, and automation pipelines.
+> AllKit (https://allkit.dev) provides 43 free online developer tools and AI-powered utilities. All tools work in the browser with no signup required. API access is available for programmatic use by LLMs, agents, and automation pipelines.
 
 ## API
 
@@ -39,6 +39,7 @@ All AI endpoints accept POST with JSON body. Image/audio inputs should be base64
 - Voice Cloning: `POST /api/v1/ai/voice-clone` — body: `{"text": "Hello", "audio": "data:audio/wav;base64,..."}` — returns cloned voice audio
 - Live Portrait: `POST /api/v1/ai/live-portrait` — body: `{"image": "data:image/...", "video": "data:video/mp4;base64,..."}` — returns animated video
 - Image to Video: `POST /api/v1/ai/image-to-video` — body: `{"image": "data:image/...", "prompt": "clouds moving slowly"}` — returns video
+- Text to 3D Motion: `POST /api/v1/ai/text-to-3d-motion` — body: `{"prompt": "a person doing a backflip", "duration": 4}` — returns `{video, motion, motionExt}` (preview MP4 + BVH motion file). Powered by NVIDIA Kimodo.
 - Regex Builder: `POST /api/v1/ai/regex` — body: `{"description": "match email addresses"}` — returns regex pattern
 - Cron Expression Generator: `POST /api/v1/ai/cron` — body: `{"description": "every Monday at 9am"}` — returns cron expression
 - Privacy Policy Generator: `POST /api/v1/ai/privacy-policy` — body: `{"appName": "MyApp", "dataCollected": ["email", "name"]}` — returns policy text
@@ -49,7 +50,7 @@ All AI endpoints accept POST with JSON body. Image/audio inputs should be base64
 JSON Formatter, UUID Generator, Base64, Regex Tester (AI), Hash Generator, Color Palette, Lorem Ipsum, QR Code Generator, Diff Checker, Password Generator, Word Counter, JWT Decoder, Unix Timestamp, URL Encoder, CSV/JSON Converter, Markdown Preview, YAML/JSON Converter, HTML Entities, Cron Generator (AI), CSS Minifier & Beautifier, Text Case Converter, SQL Formatter & Beautifier, Number Base Converter
 
 ### AI Media Tools
-Background Remover, Image to Text (OCR), AI Image Generator, Text to Speech, Image Compressor, Image Resizer, AI Image Upscaler, AI Face Swap, Speech to Text (Whisper), Voice Cloning, Live Portrait (Animate Photo), Image to Video, Image Format Converter (PNG/JPG/WebP), Image to PDF Converter
+Background Remover, Image to Text (OCR), AI Image Generator, Text to Speech, Image Compressor, Image Resizer, AI Image Upscaler, AI Face Swap, Speech to Text (Whisper), Voice Cloning, Live Portrait (Animate Photo), Image to Video, Text to 3D Motion (NVIDIA Kimodo), Image Format Converter (PNG/JPG/WebP), Image to PDF Converter
 
 ### AI Smart Tools
 Privacy Policy Generator

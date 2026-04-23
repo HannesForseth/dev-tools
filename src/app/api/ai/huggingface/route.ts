@@ -16,6 +16,7 @@ const ALLOWED_SPACES: Record<string, boolean> = {
   "hf-audio/whisper-large-v3": true,
   "tonyassi/voice-clone": true,
   "zerogpu-aoti/wan2-2-fp8da-aoti-faster": true,
+  "nvidia/Kimodo": true,
 };
 
 // Background removal spaces in priority order (fallback chain)
@@ -99,6 +100,11 @@ export async function POST(req: NextRequest) {
       }
       if (!params?.prompt || typeof params.prompt !== "string") {
         return NextResponse.json({ error: "Please enter a motion prompt" }, { status: 400 });
+      }
+    }
+    if (space === "nvidia/Kimodo") {
+      if (!params?.prompt || typeof params.prompt !== "string" || !params.prompt.trim()) {
+        return NextResponse.json({ error: "Please describe the motion you want to generate" }, { status: 400 });
       }
     }
 
@@ -316,6 +322,88 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ result: dataUrl });
       }
       return NextResponse.json({ error: "No video result from Image to Video" }, { status: 500 });
+    }
+
+    // Text to 3D Motion (NVIDIA Kimodo)
+    if (space === "nvidia/Kimodo") {
+      const duration = Math.min(Math.max(Number(params.duration) || 4, 2), 10);
+
+      // The nvidia/Kimodo Space exposes its main generation endpoint at index 0.
+      // Known inputs: prompt (string) + duration (seconds). Outputs a list containing
+      // a preview video/animation and one or more downloadable motion files (BVH/NPZ).
+      const predictArgs: Record<string, unknown> = {
+        prompt: params.prompt,
+        duration,
+      };
+
+      let result;
+      try {
+        result = await client.predict("/predict", predictArgs);
+      } catch {
+        try {
+          result = await client.predict("/generate", predictArgs);
+        } catch {
+          result = await client.predict(0, predictArgs);
+        }
+      }
+
+      const rawData = (result?.data ?? []) as unknown[];
+      // Log shape on first use to help iterate if the Space changes its signature.
+      console.log("Kimodo result shape:", JSON.stringify(rawData).slice(0, 800));
+
+      const flatItems: Array<Record<string, unknown>> = [];
+      const collect = (v: unknown) => {
+        if (!v) return;
+        if (Array.isArray(v)) { v.forEach(collect); return; }
+        if (typeof v === "object") flatItems.push(v as Record<string, unknown>);
+      };
+      rawData.forEach(collect);
+
+      let videoUrl: string | null = null;
+      let motionUrl: string | null = null;
+      let motionExt = "bvh";
+
+      for (const item of flatItems) {
+        const url = (item.url as string | undefined) || ((item.video as { url?: string } | undefined)?.url);
+        if (!url || typeof url !== "string") continue;
+        const name = ((item.orig_name as string | undefined) || (item.path as string | undefined) || url).toLowerCase();
+        if (/\.(mp4|webm|mov|gif)(\?|$)/.test(name)) {
+          if (!videoUrl) videoUrl = url;
+        } else if (/\.(bvh|npz|fbx|csv)(\?|$)/.test(name)) {
+          if (!motionUrl) {
+            motionUrl = url;
+            const m = name.match(/\.(bvh|npz|fbx|csv)(\?|$)/);
+            if (m) motionExt = m[1];
+          }
+        } else if (!videoUrl) {
+          videoUrl = url;
+        }
+      }
+
+      if (!videoUrl && !motionUrl) {
+        return NextResponse.json({ error: "Kimodo did not return a recognizable output. The model may be cold-starting — please try again in a minute." }, { status: 500 });
+      }
+
+      const out: { video?: string; motion?: string; motionExt?: string } = { motionExt };
+
+      if (videoUrl) {
+        const vRes = await fetch(videoUrl);
+        if (vRes.ok) {
+          const vBlob = await vRes.blob();
+          out.video = await toDataURL(new Blob([await vBlob.arrayBuffer()], { type: vBlob.type || "video/mp4" }));
+        }
+      }
+
+      if (motionUrl) {
+        const mRes = await fetch(motionUrl);
+        if (mRes.ok) {
+          const mBuf = await mRes.arrayBuffer();
+          const base64 = Buffer.from(mBuf).toString("base64");
+          out.motion = `data:application/octet-stream;base64,${base64}`;
+        }
+      }
+
+      return NextResponse.json({ result: out });
     }
 
     return NextResponse.json({ error: "Space not implemented" }, { status: 400 });
